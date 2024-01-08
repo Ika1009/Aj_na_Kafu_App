@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     double width80Percent = MediaQuery.of(context).size.width * 0.8;
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 247, 112, 49),
+      backgroundColor: Theme.of(context).colorScheme.secondary,
       appBar: AppBar(
         title: Padding(
           padding: EdgeInsets.only(top: 50),  // Adjust as needed
@@ -30,14 +30,14 @@ class _LoginPageState extends State<LoginPage> {
             ],
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 247, 112, 49),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
         toolbarHeight: 200,
         elevation: 0,
         automaticallyImplyLeading: false,
       ),
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,  // Assuming a white background
+          color: Theme.of(context).colorScheme.primary,  // Assuming a white background
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(50.0),
             topRight: Radius.circular(50.0),
@@ -48,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Colors.white,  // Ensure the Container has a background color
+                color: Theme.of(context).colorScheme.secondary,  // Ensure the Container has a background color
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -65,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Email or Phone number',
-                      hintStyle: TextStyle(color: Colors.grey),
+                      hintStyle: TextStyle(color: Colors.white),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 15),
                     ),
@@ -75,7 +75,7 @@ class _LoginPageState extends State<LoginPage> {
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.grey),
+                      hintStyle: TextStyle(color: Colors.white),
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 15),
                     ),
@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 30),
             Text(
               "Forgot Password?",
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 30),  // Gap between the two input fields
             ElevatedButton(
@@ -94,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Login",
                 style: TextStyle(
                   fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
               onPressed: () {
@@ -104,13 +105,13 @@ class _LoginPageState extends State<LoginPage> {
                   borderRadius: BorderRadius.circular(25),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 80, vertical: 20),
-                backgroundColor: Color.fromARGB(255, 247, 112, 49),
+                backgroundColor: Theme.of(context).colorScheme.secondary,
               ),
             ),
             SizedBox(height: 50),
             Text(
               "Continue with social media",
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.white),
             ),
             SizedBox(height: 30),
             Row(
@@ -120,7 +121,10 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     // Handle first button press
                   },
-                  child: Icon(Icons.facebook_outlined),
+                  child: Icon(
+                    Icons.facebook_outlined, 
+                    color: Colors.white,
+                  ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     shape: RoundedRectangleBorder(
@@ -134,7 +138,10 @@ class _LoginPageState extends State<LoginPage> {
                   onPressed: () {
                     // Handle second button press
                   },
-                  child: Icon(Icons.apple),
+                  child: Icon(
+                    Icons.apple, 
+                    color: Colors.white, 
+                  ),
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(25),
