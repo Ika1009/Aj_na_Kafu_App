@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project/pages/home.dart';
 import 'package:project/pages/login.dart';
 import 'package:project/pages/todo.dart';
+import 'package:project/assets/colors.dart'
 
 void main() {
   runApp(MyApp());
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Poppins',
         primarySwatch: Colors.deepPurple,
+        colorScheme: ColorScheme,
       ),
       routes: {
         '/login': (context) => LoginPage(),
