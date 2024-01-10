@@ -96,7 +96,7 @@ flutter:
 
   assets:
     - assets/images/room.jpg
-    - assets/images/profile1.jpg
-    - assets/images/profile2.jpg
-    - assets/images/profile3.jpg
-    - assets/images/profile4.jpg
+    - assets/images/profile1.png
+    - assets/images/profile2.png
+    - assets/images/profile3.png
+    - assets/images/profile4.png
