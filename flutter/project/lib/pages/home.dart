@@ -50,6 +50,14 @@ class _HomePageState extends State<HomePage> {
                 Navigator.pushNamed(context, '/todo');
               },
             ),
+            ListTile(
+              leading: Icon(Icons.data_object),
+              title: Text("Object"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/object');
+              },
+            ),
           ],
         ),
       ),

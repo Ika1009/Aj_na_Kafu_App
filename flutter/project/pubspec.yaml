@@ -93,3 +93,6 @@ flutter:
     - family: Poppins
       fonts: 
         - asset: fonts/Poppins-Light.ttf
+
+  assets:
+    - assets/images/room.jpg
