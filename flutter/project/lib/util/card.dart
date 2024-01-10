@@ -36,7 +36,7 @@ class CustomCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: 100),
+                      SizedBox(height: 150),
                       Container(
                         height: MediaQuery.of(context).size.height,
                         width: double.infinity,
@@ -67,6 +67,14 @@ class CustomCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.maybePop(context);
                   },
+                ),
+              ),
+              Positioned(
+                top: 240, 
+                left: 38, 
+                child: Text(
+                  "Miami St Hotel",
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
                 ),
               ),
               Positioned(
@@ -130,11 +138,68 @@ class CustomCard extends StatelessWidget {
                 ),
               ),
               Positioned(
-                top: 240, 
-                left: 38, 
+                top: 330,
+                left: 38,
+                child: Image.asset(
+                  'assets/images/profile1.png',
+                  width: 30, 
+                  height: 30,
+                ),
+              ),
+              Positioned(
+                top: 330,
+                left: 64,
+                child: Image.asset(
+                  'assets/images/profile2.png',
+                  width: 30, 
+                  height: 30,
+                ),
+              ),
+              Positioned(
+                top: 330,
+                left: 90,
+                child: Image.asset(
+                  'assets/images/profile3.png',
+                  width: 30, 
+                  height: 30,
+                ),
+              ),
+              Positioned(
+                top: 330,
+                left: 116,
+                child: Image.asset(
+                  'assets/images/profile4.png',
+                  width: 30, 
+                  height: 30,
+                ),
+              ),
+              Positioned(
+                top: 285,
+                left: 260,
+                child: SizedBox(
+                  width: 70, 
+                  height: 30, 
+                  child: TextButton(
+                    onPressed: null, 
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Color(0xFFFFBA00)), 
+                      foregroundColor: MaterialStateProperty.all(Color(0xFF0C3B2E)), 
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0), 
+                        ),
+                      ),
+                    ),
+                    child: Text("4 Star"),
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 340, 
+                left: 250, 
                 child: Text(
-                  "Miami St Hotel",
-                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
+                  "39 reviewes",
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ],
