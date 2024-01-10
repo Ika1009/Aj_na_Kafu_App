@@ -25,7 +25,7 @@ class CustomCard extends StatelessWidget {
                 left: 0,
                 right: 0,
                 child: Container(
-                  padding: EdgeInsets.only(top: 40), 
+                  padding: EdgeInsets.only(top: 20), 
                   decoration: BoxDecoration(
                     color: Color(0xFF0C3B2E),
                     borderRadius: BorderRadius.only(
@@ -36,6 +36,7 @@ class CustomCard extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      SizedBox(height: 100),
                       Container(
                         height: MediaQuery.of(context).size.height,
                         width: double.infinity,
@@ -66,6 +67,74 @@ class CustomCard extends StatelessWidget {
                   onPressed: () {
                     Navigator.maybePop(context);
                   },
+                ),
+              ),
+              Positioned(
+                top: 280, 
+                left: 26, 
+                child: IconButton(
+                  icon: Icon(Icons.star_rounded),
+                  iconSize: 20, 
+                  color: Color(0xFFFFBA00),
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: 280, 
+                left: 44, 
+                child: IconButton(
+                  icon: Icon(Icons.star_rounded),
+                  iconSize: 20, 
+                  color: Color(0xFFFFBA00),
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: 280, 
+                left: 62, 
+                child: IconButton(
+                  icon: Icon(Icons.star_rounded),
+                  iconSize: 20, 
+                  color: Color(0xFFFFBA00),
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: 280, 
+                left: 80, 
+                child: IconButton(
+                  icon: Icon(Icons.star_rounded),
+                  iconSize: 20, 
+                  color: Color(0xFFFFBA00),
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: 280, 
+                left: 98, 
+                child: IconButton(
+                  icon: Icon(Icons.star_rounded),
+                  iconSize: 20, 
+                  color: Colors.grey,
+                  onPressed: () {
+                    Navigator.maybePop(context);
+                  },
+                ),
+              ),
+              Positioned(
+                top: 240, 
+                left: 38, 
+                child: Text(
+                  "Miami St Hotel",
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
                 ),
               ),
             ],
