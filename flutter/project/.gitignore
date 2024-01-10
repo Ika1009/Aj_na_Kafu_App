@@ -1,3 +1,6 @@
+# ENV file
+.env
+
 # Miscellaneous
 *.class
 *.log
