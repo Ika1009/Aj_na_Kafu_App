@@ -202,6 +202,18 @@ class CustomCard extends StatelessWidget {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
+              Positioned(
+                top: 435, 
+                left: 38, 
+                child: Text(
+                  "Read more",
+                  style: TextStyle(
+                    color: Colors.grey, 
+                    fontWeight: FontWeight.bold,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
             ],
           ),
         ],
