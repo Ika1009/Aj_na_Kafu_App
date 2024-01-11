@@ -1,11 +1,19 @@
 <?php
-// Include database connection
+// CORS Headers
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
 require_once 'db_conn.php';
 
-// Check if the request is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = isset($_POST['email']) ? $_POST['email'] : null;
-    $password = isset($_POST['password']) ? $_POST['password'] : null;
+    $data = json_decode(file_get_contents('php://input'), true);
+    $email = $data['email'] ?? null;
+    $password = $data['password'] ?? null;
 
     if (empty($email) || empty($password)) {
         echo json_encode(['status' => 'error', 'message' => 'Missing required fields']);
@@ -23,16 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($stmt->rowCount() == 1) {
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if (password_verify($password, $user['PasswordHash'])) {
-                // Password is correct
-                // Here, you can set session variables, generate tokens, etc., as per your application requirement
                 echo json_encode(['status' => 'success', 'message' => 'Login successful', 'userId' => $user['UserID']]);
             } else {
-                // Password is incorrect
-                echo json_encode(['status' => 'error', 'message' => 'Incorrect password']);
+                echo json_encode(['status' => 'error', 'message' => 'Pogrešan imejl ili lozinka']);
             }
         } else {
-            // User not found
-            echo json_encode(['status' => 'error', 'message' => 'User not found']);
+            echo json_encode(['status' => 'error', 'message' => 'Pogrešan imejl ili lozinka']);
         }
     } catch(PDOException $e) {
         echo json_encode(['status' => 'error', 'message' => $e->getMessage()]);

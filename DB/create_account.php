@@ -1,4 +1,14 @@
 <?php
+// CORS Headers
+header("Access-Control-Allow-Origin: *"); // Allows all origins
+header("Access-Control-Allow-Headers: Content-Type");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+
+// Handle preflight request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    exit(0);
+}
+
 // Include database connection
 require_once 'db_conn.php';
 
