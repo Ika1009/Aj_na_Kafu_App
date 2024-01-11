@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, prefer_const_literals_to_create_immutables, sort_child_properties_last
-
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -11,6 +12,8 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   TextEditingController myController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,7 +73,7 @@ class _LoginPageState extends State<LoginPage> {
                       contentPadding: EdgeInsets.only(left: 15),
                     ),
 
-                    controller: myController,
+                    controller: emailController,
                   ),
                   TextField(
                     decoration: InputDecoration(
@@ -79,6 +82,8 @@ class _LoginPageState extends State<LoginPage> {
                       border: InputBorder.none,
                       contentPadding: EdgeInsets.only(left: 15),
                     ),
+
+                    controller: passwordController,
                   ),
                 ],
               ),
@@ -97,9 +102,49 @@ class _LoginPageState extends State<LoginPage> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () {
-                // here goes function for login
-              },
+              onPressed: () async {
+                    // Store a reference to ScaffoldMessenger before the async gap
+                    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
+                    try {
+                      print("STARTED");
+                      var response = await http.post(
+                        Uri.parse('https://bonanza.mycpanel.rs/ajnakafu/login.php'),
+                        headers: <String, String>{
+                          'Content-Type': 'application/json; charset=UTF-8',
+                        },
+                        body: jsonEncode(<String, String>{
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                        }),
+                      );
+                      print("Response status: ${response.statusCode}");
+                      print("Response body: ${response.body}");
+
+                      if (response.statusCode == 200) {
+                        final responseData = json.decode(response.body);
+                        if (responseData['status'] == 'success') {
+                          scaffoldMessenger.showSnackBar(
+                            SnackBar(content: Text('Login Successful')),
+                          );
+                          // Navigate to another screen if needed
+                        } else {
+                          scaffoldMessenger.showSnackBar(
+                            SnackBar(content: Text('Login Failed: ${responseData['message']}')),
+                          );
+                        }
+                      } else {
+                        scaffoldMessenger.showSnackBar(
+                          SnackBar(content: Text('Server error: ${response.statusCode}')),
+                        );
+                      }
+                    } catch (e) {
+                      print(e.toString());
+                      scaffoldMessenger.showSnackBar(
+                        SnackBar(content: Text('An error occurred')),
+                      );
+                    }
+                  },
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -119,24 +164,7 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 ElevatedButton(
                   onPressed: () {
-                    // Handle first button press
-                  },
-                  child: Icon(
-                    Icons.facebook_outlined, 
-                    color: Colors.white,
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-                  ),
-                ),
-                SizedBox(width: 30),  // Gap between the two buttons
-                ElevatedButton(
-                  onPressed: () {
-                    // Handle second button press
+
                   },
                   child: Icon(
                     Icons.apple, 
@@ -150,6 +178,8 @@ class _LoginPageState extends State<LoginPage> {
                     backgroundColor: Colors.black,
                   ),
                 ),
+
+
               ],
             ),
           ],
