@@ -43,6 +43,14 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
+              leading: Icon(Icons.data_object),
+              title: Text("Signup"),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.pushNamed(context, '/signup');
+              },
+            ),
+            ListTile(
               leading: Icon(Icons.workspace_premium),
               title: Text("To do"),
               onTap: () {

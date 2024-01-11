@@ -1,31 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:project/util/colors.dart';
-import 'package:project/pages/home.dart';
-import 'package:project/pages/login.dart';
-import 'package:project/pages/todo.dart';
-import 'package:project/pages/object.dart';
+import 'package:project/Screens/Welcome/welcome_screen.dart';
+import 'package:project/constants.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({Key? key}) : super(key: key);
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      title: 'Flutter Auth',
       theme: ThemeData(
-        fontFamily: 'Poppins',
-        colorScheme: colorScheme,
-      ),
-      routes: {
-        '/login': (context) => LoginPage(),
-        '/todo': (context) => ToDoPage(),
-        '/object': (context) => ObjectPage(),
-      },
+          primaryColor: kPrimaryColor,
+          scaffoldBackgroundColor: Colors.white,
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+              foregroundColor: Colors.white,
+              backgroundColor: kPrimaryColor,
+              shape: const StadiumBorder(),
+              maximumSize: const Size(double.infinity, 56),
+              minimumSize: const Size(double.infinity, 56),
+            ),
+          ),
+          inputDecorationTheme: const InputDecorationTheme(
+            filled: true,
+            fillColor: kPrimaryLightColor,
+            iconColor: kPrimaryColor,
+            prefixIconColor: kPrimaryColor,
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: defaultPadding, vertical: defaultPadding),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(30)),
+              borderSide: BorderSide.none,
+            ),
+          )),
+      home: const WelcomeScreen(),
     );
   }
 }
