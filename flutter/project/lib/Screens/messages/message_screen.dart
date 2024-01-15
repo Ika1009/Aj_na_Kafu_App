@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'components/body.dart';
 
 class MessagesScreen extends StatelessWidget {
+  static String routeName = "/messages";
   const MessagesScreen({Key? key}) : super(key: key);
 
   @override
