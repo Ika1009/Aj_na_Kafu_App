@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/Screens/Welcome/welcome_screen.dart';
+import 'package:project/Screens/chats/chats_screen.dart';
 import 'package:project/constants.dart';
 
 void main() => runApp(const MyApp());
@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
               borderSide: BorderSide.none,
             ),
           )),
-      home: const WelcomeScreen(),
+      home: const ChatsScreen(),
     );
   }
 }
