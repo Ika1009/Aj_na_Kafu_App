@@ -67,7 +67,7 @@ class _LoginFormState extends State<LoginForm> {
             controller: emailController,
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
-            cursorColor: kPrimaryColor,
+            cursorColor: primaryColor,
             decoration: const InputDecoration(
               hintText: "Your email",
               prefixIcon: Padding(
@@ -82,7 +82,7 @@ class _LoginFormState extends State<LoginForm> {
               controller: passwordController,
               textInputAction: TextInputAction.done,
               obscureText: true,
-              cursorColor: kPrimaryColor,
+              cursorColor: primaryColor,
               decoration: const InputDecoration(
                 hintText: "Your password",
                 prefixIcon: Padding(

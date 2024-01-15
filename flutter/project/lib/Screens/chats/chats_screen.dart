@@ -20,7 +20,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
       body: const Body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: kPrimaryColor,
+        backgroundColor: primaryColor,
         child: const Icon(
           Icons.person_add_alt_1,
           color: Colors.white,
@@ -56,7 +56,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
   AppBar buildAppBar() {
     return AppBar(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: primaryColor,
       automaticallyImplyLeading: false,
       title: const Text("Chats"),
       actions: [

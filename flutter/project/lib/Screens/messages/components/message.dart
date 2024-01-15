@@ -2,7 +2,6 @@ import 'package:project/models/ChatMessage.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
-import '../../../colors.dart';
 import 'audio_message.dart';
 import 'text_message.dart';
 import 'video_message.dart';
@@ -64,7 +63,7 @@ class MessageStatusDot extends StatelessWidget {
         case MessageStatus.not_view:
           return Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.1);
         case MessageStatus.viewed:
-          return kPrimaryColor;
+          return primaryColor;
         default:
           return Colors.transparent;
       }
