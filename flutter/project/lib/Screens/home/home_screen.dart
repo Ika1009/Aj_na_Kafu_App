@@ -26,11 +26,13 @@ class _HomePageState extends State<HomeScreen> {
     ProfileScreen(),
   ];
 
+  static const List<String> _titles = ["Chats", "Profile"];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chats"),
+        title: Text(_titles[_selectedIndex]),
       ),
       drawer: Drawer(
         child: Column(
