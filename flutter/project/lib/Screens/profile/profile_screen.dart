@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'components/profile_menu.dart';
 import 'components/profile_pic.dart';
+import '../../constants.dart';
 
 class ProfileScreen extends StatelessWidget {
   static String routeName = "/profile";
@@ -10,10 +11,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white
-      ),
+      backgroundColor: backgroundColor,
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(vertical: 20),
         child: Column(
@@ -22,27 +20,27 @@ class ProfileScreen extends StatelessWidget {
             const SizedBox(height: 20),
             ProfileMenu(
               text: "My Account",
-              icon: "assets/icons/User Icon.svg",
+              icon: "assets/icons/user.svg",
               press: () => {},
             ),
             ProfileMenu(
               text: "Notifications",
-              icon: "assets/icons/Bell.svg",
+              icon: "assets/icons/bell.svg",
               press: () {},
             ),
             ProfileMenu(
               text: "Settings",
-              icon: "assets/icons/Settings.svg",
+              icon: "assets/icons/settings.svg",
               press: () {},
             ),
             ProfileMenu(
               text: "Help Center",
-              icon: "assets/icons/Question mark.svg",
+              icon: "assets/icons/question.svg",
               press: () {},
             ),
             ProfileMenu(
               text: "Log Out",
-              icon: "assets/icons/Log out.svg",
+              icon: "assets/icons/logout.svg",
               press: () {},
             ),
           ],
