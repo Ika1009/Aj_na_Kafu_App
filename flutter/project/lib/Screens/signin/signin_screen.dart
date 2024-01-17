@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:project/responsive.dart';
 
-import '../../components/background.dart';
-import 'components/login_form.dart';
-import 'components/login_screen_top_image.dart';
+import '../../components/background_signin.dart';
+import 'components/signin_form.dart';
+import 'components/signin_screen_top_image.dart';
 
-class LoginScreen extends StatelessWidget {
+class SignInScreen extends StatelessWidget {
   static String routeName = "/login";
-  const LoginScreen({Key? key}) : super(key: key);
+  const SignInScreen  ({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return const Background(
       child: SingleChildScrollView(
         child: Responsive(
-          mobile: MobileLoginScreen(),
+          mobile: MobileSignInScreen(),
           desktop: Row(
             children: [
               Expanded(
@@ -39,8 +39,8 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class MobileLoginScreen extends StatelessWidget {
-  const MobileLoginScreen({
+class MobileSignInScreen extends StatelessWidget {
+  const MobileSignInScreen({
     Key? key,
   }) : super(key: key);
 
