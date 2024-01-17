@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project/screens/home/home_screen.dart';
+import 'package:project/screens/launch/launch_screen.dart';
 import 'dart:async';
 
 class OnBoardScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   void initState() {
     super.initState();
     Timer(Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+      Navigator.pushReplacementNamed(context, LaunchScreen.routeName);
     });
   }
 

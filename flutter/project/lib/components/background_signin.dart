@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/constants.dart';
 
-class Background extends StatelessWidget {
+class SignInBackground extends StatelessWidget {
   final Widget child;
-  const Background({
+  const SignInBackground({
     Key? key,
     required this.child,
     this.topImage1 = "assets/icons/vector4.svg",

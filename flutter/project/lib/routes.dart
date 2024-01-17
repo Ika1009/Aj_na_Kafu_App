@@ -6,6 +6,7 @@ import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/home/home_screen.dart';
 import 'package:project/screens/signup/signup_screen.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
+import 'package:project/screens/launch/launch_screen.dart';
 
 // We use name route
 // All our routes will be available here
@@ -17,4 +18,5 @@ final Map<String, WidgetBuilder> routes = {
   ChatsScreen.routeName: (context) => const ChatsScreen(),
   MessagesScreen.routeName: (context) => const MessagesScreen(),
   OnBoardScreen.routeName: (context) => const OnBoardScreen(),
+  LaunchScreen.routeName: (context) => const LaunchScreen(),
 };
