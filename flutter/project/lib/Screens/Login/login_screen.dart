@@ -3,6 +3,7 @@ import 'package:project/responsive.dart';
 
 import '../../components/background.dart';
 import 'components/login_form.dart';
+import 'components/login_screen_top_image.dart';
 
 class LoginScreen extends StatelessWidget {
   static String routeName = "/login";
@@ -16,6 +17,9 @@ class LoginScreen extends StatelessWidget {
           mobile: MobileLoginScreen(),
           desktop: Row(
             children: [
+              Expanded(
+                child: LoginScreenTopImage(),
+              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -45,6 +49,7 @@ class MobileLoginScreen extends StatelessWidget {
     return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        LoginScreenTopImage(),
         Row(
           children: [
             Spacer(),

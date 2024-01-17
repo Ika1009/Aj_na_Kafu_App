@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:project/constants.dart';
 
 class Background extends StatelessWidget {
   final Widget child;
@@ -74,9 +75,28 @@ class Background extends StatelessWidget {
                 width: 112.5,
               ),
             ),
+            Column(
+              children: [
+                SizedBox(height: defaultPadding * 2),
+                SvgPicture.asset(
+                  'assets/icons/logo.svg',
+                  height: 50,
+                  width: 50,
+                ),
+                SizedBox(height: defaultPadding / 3),
+                Text(
+                  'Aj Na Kafu',
+                  style: TextStyle(
+                    color: Color(0xFF0C3B2E),
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
             SafeArea(child: child),
           ],
-        ),
+        ),  
       ),
     );
   }

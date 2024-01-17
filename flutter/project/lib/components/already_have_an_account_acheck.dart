@@ -15,17 +15,26 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Text(
-          login ? "Don’t have an Account ? " : "Already have an Account ? ",
-          style: const TextStyle(color: primaryColor),
+        Text.rich(
+          TextSpan(
+            text: login ? "Don’t have an account? " : "Already have an account? ",
+            style: TextStyle(
+              color: Color(0xFF757575), // dzektor da doda boju
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
         GestureDetector(
           onTap: press as void Function()?,
-          child: Text(
-            login ? "Sign Up" : "Sign In",
-            style: const TextStyle(
-              color: primaryColor,
-              fontWeight: FontWeight.bold,
+          child: Text.rich(
+            TextSpan(
+              text: login ? "Sign Up" : "Sign In",
+              style: const TextStyle(
+                color: accentColor,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
+              ),
             ),
           ),
         )
