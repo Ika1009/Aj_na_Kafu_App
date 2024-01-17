@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/constants.dart';
 import 'package:project/responsive.dart';
-import '../../components/background.dart';
+import '../../components/background2.dart';
 import 'components/sign_up_top_image.dart';
 import 'components/signup_form.dart';
 
@@ -11,7 +11,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Background(
+    return const Background2(
       child: SingleChildScrollView(
         child: Responsive(
           mobile: MobileSignupScreen(),
