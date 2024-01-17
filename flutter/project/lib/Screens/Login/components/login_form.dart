@@ -69,7 +69,13 @@ class _LoginFormState extends State<LoginForm> {
             textInputAction: TextInputAction.next,
             cursorColor: primaryColor,
             decoration: const InputDecoration(
-              hintText: "Your email",
+              filled: true,
+              fillColor: Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+              hintText: "Enter your email...",
+              hintStyle: TextStyle(
+                color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                fontWeight: FontWeight.bold,
+              ),
               prefixIcon: Padding(
                 padding: EdgeInsets.all(defaultPadding),
                 child: Icon(Icons.person),
@@ -84,7 +90,13 @@ class _LoginFormState extends State<LoginForm> {
               obscureText: true,
               cursorColor: primaryColor,
               decoration: const InputDecoration(
-                hintText: "Your password",
+                filled: true,
+                fillColor: Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                hintText: "Enter you password...",
+                hintStyle: TextStyle(
+                  color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                  fontWeight: FontWeight.bold,
+                ),
                 prefixIcon: Padding(
                   padding: EdgeInsets.all(defaultPadding),
                   child: Icon(Icons.lock),
@@ -94,11 +106,13 @@ class _LoginFormState extends State<LoginForm> {
           ),
           const SizedBox(height: defaultPadding),
           ElevatedButton(
+            style: ButtonStyle(backgroundColor: MaterialStateProperty.all(accentColor)),
             onPressed: () async {
               await login();
             },
             child: Text(
-              "Login".toUpperCase(),
+              "Sign in",
+              style: TextStyle(color: backgroundColor),
             ),
           ),
           const SizedBox(height: defaultPadding),
