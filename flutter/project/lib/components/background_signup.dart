@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/constants.dart';
 
+import 'already_have_an_account_acheck.dart';
+import '../screens/signin/signin_screen.dart';
+
 class SignUpBackground extends StatelessWidget {
   final Widget child;
   const SignUpBackground({
@@ -93,6 +96,22 @@ class SignUpBackground extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+            Positioned(
+              bottom: 50,
+              child: AlreadyHaveAnAccountCheck(
+                login: false,
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return const SignInScreen();
+                      },
+                    ),
+                  );
+                },
+              ),
             ),
             SafeArea(child: child),
           ],

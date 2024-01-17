@@ -15,7 +15,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 1), () {
       Navigator.pushReplacementNamed(context, LaunchScreen.routeName);
     });
   }
