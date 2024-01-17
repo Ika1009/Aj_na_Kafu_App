@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/screens/home/home_screen.dart';
+import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/theme.dart';
 import 'package:project/routes.dart';
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Aj Na Kafu',
       theme: AppTheme.lightTheme(context),
-      initialRoute: HomeScreen.routeName,
+      initialRoute: OnBoardScreen.routeName,
       routes: routes,
     );
   }
