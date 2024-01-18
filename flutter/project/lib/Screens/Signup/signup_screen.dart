@@ -11,7 +11,7 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SignUpBackground(
+    return SignUpBackground(
       child: SingleChildScrollView(
         child: Responsive(
           mobile: MobileSignupScreen(),
@@ -48,7 +48,7 @@ class MobileSignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         SignUpScreenTopImage(),
