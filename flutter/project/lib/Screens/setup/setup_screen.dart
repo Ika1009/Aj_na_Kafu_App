@@ -61,15 +61,15 @@ class SetupScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextFormField(
-                  keyboardType: TextInputType.emailAddress,
+                  keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   cursorColor: primaryColor,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                    hintText: "Enter your email...",
+                    fillColor: backgroundColor,
+                    hintText: "Choose a nickname...",
                     hintStyle: const TextStyle(
-                      color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                      color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                       fontWeight: FontWeight.w600,
                     ),
                     border: OutlineInputBorder(

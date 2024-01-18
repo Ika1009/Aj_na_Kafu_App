@@ -29,9 +29,9 @@ class ChatInputField extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                child: Row(
+                child: const Row(
                   children: [
-                    const Expanded(
+                    Expanded(
                       child: TextField(
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
@@ -40,7 +40,7 @@ class ChatInputField extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: kDefaultPadding / 2),
+                    SizedBox(width: kDefaultPadding / 2),
                     Icon(Icons.arrow_forward, color: primaryColor),
                   ],
                 ),

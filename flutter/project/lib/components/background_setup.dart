@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../constants.dart';
+
 class SetupBackground extends StatelessWidget {
   final Widget child;
   const SetupBackground({
@@ -15,6 +17,7 @@ class SetupBackground extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: MediaQuery.of(context).size.width > 435 ? const Color(0xFFE9FAEF): backgroundColor, // dzektor da doda boju
       resizeToAvoidBottomInset: false,
       body: SizedBox(
         width: double.infinity,

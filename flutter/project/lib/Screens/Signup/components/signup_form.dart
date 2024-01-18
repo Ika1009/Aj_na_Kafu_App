@@ -14,7 +14,7 @@ class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> signUp() async {
-    final String apiUrl = 'https://bonanza.mycpanel.rs/ajnakafu/create_account.php'; // Replace with your actual API endpoint URL
+    const String apiUrl = 'https://bonanza.mycpanel.rs/ajnakafu/create_account.php'; // Replace with your actual API endpoint URL
 
     final response = await http.post(
       Uri.parse(apiUrl),
@@ -48,7 +48,7 @@ class _SignUpFormState extends State<SignUpForm> {
     } else {
       // Handle HTTP error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text('Failed to sign up. Please try again later.'),
           backgroundColor: Colors.red,
         ),
@@ -67,7 +67,25 @@ class _SignUpFormState extends State<SignUpForm> {
             textInputAction: TextInputAction.next,
             cursorColor: primaryColor,
             decoration: InputDecoration(
-              // Your email TextFormField configuration
+              filled: true,
+              fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+              hintText: "Enter your email...",
+              hintStyle: const TextStyle(
+                color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                fontWeight: FontWeight.w600,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
             ),
           ),
           const SizedBox(height: defaultPadding / 2),
@@ -79,7 +97,25 @@ class _SignUpFormState extends State<SignUpForm> {
               obscureText: true,
               cursorColor: primaryColor,
               decoration: InputDecoration(
-                // Your password TextFormField configuration
+                filled: true,
+                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                hintText: "Enter you password...",
+                hintStyle: const TextStyle(
+                  color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                  fontWeight: FontWeight.w600,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
               ),
             ),
           ),
@@ -87,7 +123,7 @@ class _SignUpFormState extends State<SignUpForm> {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(accentColor),
-              minimumSize: MaterialStateProperty.all(Size(double.infinity, 62)),
+              minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25),
@@ -95,7 +131,7 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             onPressed: signUp, // Call the signUp function when the button is pressed
-            child: Text(
+            child: const Text(
               "Sign Up",
               style: TextStyle(
                 color: backgroundColor,
