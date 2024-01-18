@@ -4,9 +4,39 @@ import 'package:flutter_svg/svg.dart';
 import '../../components/background_setup.dart';
 import '../../constants.dart';
 
-class SetupScreen extends StatelessWidget {
+class SetupScreen extends StatefulWidget {
   static String routeName = "/setup";
   const SetupScreen({super.key});
+
+  @override
+  State<SetupScreen> createState() => _SetupScreenState();
+}
+
+class _SetupScreenState extends State<SetupScreen> {
+  TextEditingController usernameController = TextEditingController();
+  bool showButton = false;
+
+  @override
+  void initState() {
+    super.initState();
+    usernameController.addListener(() {
+      if (usernameController.text.isNotEmpty && !showButton) {
+        setState(() {
+          showButton = true;
+        });
+      } else if (usernameController.text.isEmpty && showButton) {
+        setState(() {
+          showButton = false;
+        });
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,6 +91,7 @@ class SetupScreen extends StatelessWidget {
               SizedBox(
                 width: MediaQuery.of(context).size.width * 0.8,
                 child: TextFormField(
+                  controller: usernameController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   cursorColor: primaryColor,
@@ -72,6 +103,22 @@ class SetupScreen extends StatelessWidget {
                       color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                       fontWeight: FontWeight.w600,
                     ),
+                    suffixIcon: showButton ? Container(
+                      margin: const EdgeInsets.all(8), 
+                      decoration: BoxDecoration(
+                        color: accentColor, 
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_downward,
+                          color: backgroundColor,
+                        ),
+                        onPressed: () {
+                          // nastavlja account setup
+                        },
+                      ),
+                    ): const SizedBox.shrink(),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(25), 
                       borderSide: BorderSide.none, 
