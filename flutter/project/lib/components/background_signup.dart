@@ -80,14 +80,14 @@ class SignUpBackground extends StatelessWidget {
             ),
             Column(
               children: [
-                SizedBox(height: defaultPadding * 2),
+                const SizedBox(height: defaultPadding * 2),
                 SvgPicture.asset(
                   'assets/icons/logo.svg',
                   height: 50,
                   width: 50,
                 ),
-                SizedBox(height: defaultPadding / 3),
-                Text(
+                const SizedBox(height: defaultPadding / 3),
+                const Text(
                   'Aj Na Kafu',
                   style: TextStyle(
                     color: Color(0xFF0C3B2E),

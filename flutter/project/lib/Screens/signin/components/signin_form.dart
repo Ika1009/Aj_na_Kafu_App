@@ -35,7 +35,7 @@ class _LoginFormState extends State<LoginForm> {
         final responseData = json.decode(response.body);
         if (responseData['status'] == 'success') {
           scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text('Login Successful')),
+            const SnackBar(content: Text('Login Successful')),
           );
           // Navigate to another screen if needed
         } else {
@@ -68,9 +68,9 @@ class _LoginFormState extends State<LoginForm> {
             cursorColor: primaryColor,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+              fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
               hintText: "Enter your email...",
-              hintStyle: TextStyle(
+              hintStyle: const TextStyle(
                 color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
                 fontWeight: FontWeight.w600,
               ),
@@ -98,9 +98,9 @@ class _LoginFormState extends State<LoginForm> {
               cursorColor: primaryColor,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
                 hintText: "Enter you password...",
-                hintStyle: TextStyle(
+                hintStyle: const TextStyle(
                   color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,
                 ),
@@ -123,7 +123,7 @@ class _LoginFormState extends State<LoginForm> {
           ElevatedButton(
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(accentColor),
-              minimumSize: MaterialStateProperty.all(Size(double.infinity, 62)),
+              minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(25), 
@@ -133,7 +133,7 @@ class _LoginFormState extends State<LoginForm> {
             onPressed: () async {
               await login();
             },
-            child: Text(
+            child: const Text(
               "Sign In",
               style: TextStyle(
                 color: backgroundColor,

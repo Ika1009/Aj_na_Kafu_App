@@ -14,7 +14,7 @@ const Color accentFgColor = Color(0xFF050316);
 const Color errorColor = Color(0xffF2B8B5);
 const Color errorFgColor = Color(0xff601410);
 
-final ColorScheme colorScheme = ColorScheme(
+const ColorScheme colorScheme = ColorScheme(
   brightness: Brightness.light,
   background: backgroundColor,
   onBackground: textColor,

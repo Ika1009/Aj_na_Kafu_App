@@ -9,12 +9,12 @@ class LoginScreenTopImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
-        const SizedBox(height: defaultPadding * 2),
+        SizedBox(height: defaultPadding * 2),
         Row(
           children: [
-            const Spacer(),
+            Spacer(),
             Expanded(
               flex: 8,
               child: Column(
@@ -42,10 +42,10 @@ class LoginScreenTopImage extends StatelessWidget {
                 ],
               ),
             ),
-            const Spacer(),
+            Spacer(),
           ],
         ),
-        const SizedBox(height: defaultPadding * 2),
+        SizedBox(height: defaultPadding * 2),
       ],
     );
   }

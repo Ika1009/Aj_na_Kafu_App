@@ -22,8 +22,8 @@ class _HomePageState extends State<HomeScreen> {
   }
 
   final List _pages = [
-    ChatsScreen(),
-    ProfileScreen(),
+    const ChatsScreen(),
+    const ProfileScreen(),
   ];
 
   static const List<String> _titles = ["Chats", "Profile"];
@@ -38,8 +38,8 @@ class _HomePageState extends State<HomeScreen> {
         child: Column(
           children: [
             ListTile(
-              leading: Icon(Icons.login),
-              title: Text("Login"),
+              leading: const Icon(Icons.login),
+              title: const Text("Login"),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/login');
@@ -47,8 +47,8 @@ class _HomePageState extends State<HomeScreen> {
             ),
 
             ListTile(
-              leading: Icon(Icons.logout),
-              title: Text("Sign up"),
+              leading: const Icon(Icons.logout),
+              title: const Text("Sign up"),
               onTap: () {
                 Navigator.pop(context);
                 Navigator.pushNamed(context, '/signup');
@@ -62,12 +62,12 @@ class _HomePageState extends State<HomeScreen> {
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chats',
           ),
 
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

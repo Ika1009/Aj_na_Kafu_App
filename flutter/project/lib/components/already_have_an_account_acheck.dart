@@ -18,7 +18,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
         Text.rich(
           TextSpan(
             text: login ? "Don’t have an account? " : "Already have an account? ",
-            style: TextStyle(
+            style: const TextStyle(
               color: Color(0xFF757575), // dzektor da doda boju
               fontSize: 16,
               fontWeight: FontWeight.w600,

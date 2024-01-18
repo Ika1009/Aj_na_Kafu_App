@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:project/components/background.dart';
 import 'package:project/constants.dart';
-import 'package:project/screens/signin/signin_screen.dart';
+import 'package:project/screens/setup/setup_screen.dart';
 
 class CustomFabLocation extends FloatingActionButtonLocation {
   final FloatingActionButtonLocation location;
@@ -30,7 +30,7 @@ class LaunchScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SvgPicture.asset('assets/icons/logo.svg'),
-              Text(
+              const Text(
                 'Aj Na Kafu',
                 style: TextStyle(
                   color: primaryColor,
@@ -39,7 +39,7 @@ class LaunchScreen extends StatelessWidget {
                   letterSpacing: -0.80,
                 ),
               ),
-              Text(
+              const Text(
                 'Kod Vas ili kod nas?',
                 style: TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju
@@ -54,12 +54,12 @@ class LaunchScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, SignInScreen.routeName);
+          Navigator.pushNamed(context, SetupScreen.routeName);
         },
-        child: Icon(Icons.arrow_downward), 
         backgroundColor: accentColor, 
+        child: const Icon(Icons.arrow_downward), 
       ),
-      floatingActionButtonLocation: CustomFabLocation(
+      floatingActionButtonLocation: const CustomFabLocation(
         FloatingActionButtonLocation.centerFloat, 
         80,
       ),
