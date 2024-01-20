@@ -71,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
               fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
               hintText: "Enter your email...",
               hintStyle: const TextStyle(
-                color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                 fontWeight: FontWeight.w600,
               ),
               border: OutlineInputBorder(
@@ -101,7 +101,7 @@ class _LoginFormState extends State<LoginForm> {
                 fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
                 hintText: "Enter you password...",
                 hintStyle: const TextStyle(
-                  color: Color(0xFF709E76), // dzektor da doda boju i da se zameni
+                  color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,
                 ),
                 border: OutlineInputBorder(

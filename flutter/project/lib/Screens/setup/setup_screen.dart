@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project/screens/setup/setup_screen_2.dart';
 
 import '../../components/background_setup.dart';
 import '../../constants.dart';
@@ -98,7 +99,7 @@ class _SetupScreenState extends State<SetupScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: backgroundColor,
-                    hintText: "Choose a nickname...",
+                    hintText: "Choose a nickname",
                     hintStyle: const TextStyle(
                       color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                       fontWeight: FontWeight.w600,
@@ -115,7 +116,11 @@ class _SetupScreenState extends State<SetupScreen> {
                           color: backgroundColor,
                         ),
                         onPressed: () {
-                          // nastavlja account setup
+                          Navigator.pushNamed(
+                            context,
+                            AccountSetupScreen.routeName,
+                            arguments: usernameController.text,
+                          );
                         },
                       ),
                     ): const SizedBox.shrink(),
