@@ -13,6 +13,8 @@ class AccountSetupScreen extends StatelessWidget {
     final String username = args is String ? args : 'User';
     return Scaffold(
       body: AccountSetupBackground(
+        progressText: '1/3',
+        progressValue: 1/3,
         child: Container(
           alignment: Alignment.centerLeft,
           padding: const EdgeInsets.symmetric(horizontal: 40.0),

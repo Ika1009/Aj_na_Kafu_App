@@ -4,9 +4,13 @@ import 'package:project/constants.dart';
 
 class AccountSetupBackground extends StatelessWidget {
   final Widget child;
+  final String progressText;
+  final double progressValue;
   const AccountSetupBackground({
     Key? key,
     required this.child,
+    required this.progressText,
+    required this.progressValue,
     this.topImage = "assets/icons/vector15.svg",
     this.bottomImage = "assets/icons/vector14.svg",
   }) : super(key: key);
@@ -37,19 +41,19 @@ class AccountSetupBackground extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
                 child: LinearProgressIndicator(
-                  value: 1/3,
+                  value: progressValue,
                   backgroundColor: MediaQuery.of(context).size.width < 435 ? backgroundColor : Colors.grey[300],
                   valueColor: const AlwaysStoppedAnimation<Color>(Color(0xFF90B697)),
                   minHeight: 8.0,
                 ),
               ),
             ),
-            const Positioned(
+            Positioned(
               top: 37,
               right: 50,
               child: Text(
-                '1/3',
-                style: TextStyle(
+                progressText,
+                style: const TextStyle(
                   color: secondaryColor,
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
