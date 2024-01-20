@@ -1,6 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+
 
 import '../../../constants.dart';
 
@@ -16,44 +16,17 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> login() async {
-    final scaffoldMessenger = ScaffoldMessenger.of(context);
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: emailController.text.trim(), // trim da bi se formatirao tekst 
+      password: passwordController.text.trim(),
+    );
+  }
 
-    try {
-      var response = await http.post(
-        Uri.parse('https://bonanza.mycpanel.rs/ajnakafu/login.php'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          'email': emailController.text,
-          'password': passwordController.text,
-        }),
-      );
-      print("Response body: ${response.body}");
-
-      if (response.statusCode == 200) {
-        final responseData = json.decode(response.body);
-        if (responseData['status'] == 'success') {
-          scaffoldMessenger.showSnackBar(
-            const SnackBar(content: Text('Login Successful')),
-          );
-          // Navigate to another screen if needed
-        } else {
-          scaffoldMessenger.showSnackBar(
-            SnackBar(content: Text('Login Failed: ${responseData['message']}')),
-          );
-        }
-      } else {
-        scaffoldMessenger.showSnackBar(
-          SnackBar(content: Text('Server error: ${response.statusCode}')),
-        );
-      }
-    } catch (e) {
-      scaffoldMessenger.showSnackBar(
-        SnackBar(content: Text('An error occurred: $e')),
-      );
-      print("Network Error: $e");
-    }
+  @override
+  void dispose() { // resi se za memory managment
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
   }
 
   @override
