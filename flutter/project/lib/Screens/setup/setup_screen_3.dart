@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:project/components/background_setup_2.dart';
+import 'package:project/backgrounds/background_setup_2.dart';
 
 import '../../constants.dart';
 

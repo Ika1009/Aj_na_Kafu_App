@@ -1,10 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/Screens/home/home_screen.dart';
-import 'signin_screen.dart';
+import '../screens/signin/signin_screen.dart';
 
-class SigninCheck extends StatelessWidget {
-  const SigninCheck({Key? key}) : super(key: key);
+class SignInCheck extends StatelessWidget {
+  const SignInCheck({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,9 @@ class SigninCheck extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomeScreen();
+            return const HomeScreen();
           } else {
-            return SignInScreen();
+            return const SignInScreen();
           }
         },
       ),

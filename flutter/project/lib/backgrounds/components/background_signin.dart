@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:project/components/already_have_an_account_acheck.dart';
 import 'package:project/constants.dart';
 
-import 'already_have_an_account_acheck.dart';
-import '../screens/signup/signup_screen.dart';
+import '../../screens/signup/signup_screen.dart';
 
 class SignInBackground extends StatelessWidget {
   final Widget child;

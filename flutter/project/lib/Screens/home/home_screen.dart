@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/chats/chats_screen.dart';
+import 'package:project/screens/signin/signin_screen.dart';
+import 'package:project/screens/signup/signup_screen.dart';
 
 import '../../constants.dart';
 
@@ -39,10 +41,10 @@ class _HomePageState extends State<HomeScreen> {
           children: [
             ListTile(
               leading: const Icon(Icons.login),
-              title: const Text("Login"),
+              title: const Text("Sign In"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/login');
+                Navigator.pushNamed(context, SignInScreen.routeName);
               },
             ),
 
@@ -51,7 +53,7 @@ class _HomePageState extends State<HomeScreen> {
               title: const Text("Sign up"),
               onTap: () {
                 Navigator.pop(context);
-                Navigator.pushNamed(context, '/signup');
+                Navigator.pushNamed(context, SignUpScreen.routeName);
               },
             ),
           ],
@@ -61,13 +63,13 @@ class _HomePageState extends State<HomeScreen> {
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
-        items: [
-          const BottomNavigationBarItem(
+        items: const [
+          BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chats',
           ),
 
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.person),
             label: 'Profile',
           ),

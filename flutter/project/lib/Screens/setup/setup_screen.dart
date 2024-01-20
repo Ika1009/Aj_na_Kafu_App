@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/screens/setup/setup_screen_2.dart';
 
-import '../../components/background_setup.dart';
+import '../../backgrounds/background_setup.dart';
 import '../../constants.dart';
 
 class SetupScreen extends StatefulWidget {
