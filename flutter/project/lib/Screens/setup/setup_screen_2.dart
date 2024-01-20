@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:project/components/background_setup_2.dart';
 
 import '../../constants.dart';
+import 'setup_screen_3.dart';
 
 class AccountSetupScreen extends StatelessWidget {
   static String routeName = "/account_setup";
@@ -136,7 +137,11 @@ class AccountSetupScreen extends StatelessWidget {
                   ),
                 ),
                 onPressed: ()  {
-                  // nastavlja account setup
+                  Navigator.pushNamed(
+                    context,
+                    AccountSetupScreen2.routeName,
+                    arguments: username,
+                  );
                 },
                 child: const Text(
                   "Continue",
