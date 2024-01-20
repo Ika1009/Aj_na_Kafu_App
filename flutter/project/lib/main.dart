@@ -1,5 +1,4 @@
-import 'dart:io';
-
+//import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:project/Screens/signin/signin_check.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
@@ -52,7 +51,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: SigninCheck(),
+      home: const SigninCheck(),
       debugShowCheckedModeBanner: false,
       title: 'Aj Na Kafu',
       theme: AppTheme.lightTheme(context),
