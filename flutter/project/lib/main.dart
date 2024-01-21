@@ -1,9 +1,11 @@
 //import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:project/models/auth_service.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/theme.dart';
 import 'package:project/routes.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +41,12 @@ void main() async {
   // Initialize Firebase with the platform-specific options
   await Firebase.initializeApp(options: firebaseOptions);
 
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AuthService(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 
