@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1002141291798",
+    "project_id": "ajnakafu-330fa",
+    "storage_bucket": "ajnakafu-330fa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1002141291798:android:11be0028fed83f483e6c37",
+        "android_client_info": {
+          "package_name": "com.example.project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJ5dgytUJXtZo4qXm4Knc6j2Q_9yRvhYo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
