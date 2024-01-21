@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:project/Screens/chats/chats_screen.dart';
+import 'package:project/screens/setup/setup_screen_2.dart';
 import 'package:project/screens/signin/signin_screen.dart';
 import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/screens/profile/profile_screen.dart';
@@ -8,8 +9,6 @@ import 'package:project/screens/signup/signup_screen.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/screens/launch/launch_screen.dart';
 import 'package:project/screens/setup/setup_screen.dart';
-import 'package:project/screens/setup/setup_screen_2.dart';
-import 'package:project/screens/setup/setup_screen_3.dart';
 
 final Map<String, WidgetBuilder> routes = {
   SignInScreen.routeName: (context) => const SignInScreen(),
@@ -21,6 +20,5 @@ final Map<String, WidgetBuilder> routes = {
   OnBoardScreen.routeName: (context) => const OnBoardScreen(),
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),
-  AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),
-  AccountSetupScreen2.routeName: (context) => const AccountSetupScreen2(),
+  AccountSetupScreen.routeName: (context) => AccountSetupScreen(),
 };

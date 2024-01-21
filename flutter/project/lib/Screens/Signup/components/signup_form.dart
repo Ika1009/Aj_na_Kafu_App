@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/screens/setup/setup_screen.dart';
 import 'dart:convert';
 
 import '../../../constants.dart';
 
 class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
+
   @override
   _SignUpFormState createState() => _SignUpFormState();
 }
@@ -130,7 +133,12 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ),
             ),
-            onPressed: signUp, // Call the signUp function when the button is pressed
+            onPressed: () {
+              Navigator.pushNamed(
+                context,
+                SetupScreen.routeName,
+              );
+            },
             child: const Text(
               "Sign Up",
               style: TextStyle(

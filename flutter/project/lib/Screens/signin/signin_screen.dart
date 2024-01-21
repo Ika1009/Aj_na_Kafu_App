@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/responsive.dart';
 
-import '../../components/background_signin.dart';
+import '../../backgrounds/background_signin.dart';
 import 'components/signin_form.dart';
 import 'components/signin_screen_top_image.dart';
 
