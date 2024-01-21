@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/constants.dart';
 import 'package:project/responsive.dart';
-import '../../components/background_signup.dart';
+import '../../backgrounds/background_signup.dart';
 import 'components/sign_up_top_image.dart';
 import 'components/signup_form.dart';
 
@@ -11,13 +11,13 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SignUpBackground(
+    return const SignUpBackground(
       child: SingleChildScrollView(
         child: Responsive(
-          mobile: const MobileSignupScreen(),
+          mobile: MobileSignupScreen(),
           desktop: Row(
             children: [
-              const Expanded(
+              Expanded(
                 child: SignUpScreenTopImage(),
               ),
               Expanded(
@@ -28,7 +28,7 @@ class SignUpScreen extends StatelessWidget {
                       width: 450,
                       child: SignUpForm(),
                     ),
-                    const SizedBox(height: defaultPadding / 2),
+                    SizedBox(height: defaultPadding / 2),
                   ],
                 ),
               )
@@ -47,18 +47,18 @@ class MobileSignupScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return const Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        const SignUpScreenTopImage(),
+        SignUpScreenTopImage(),
         Row(
           children: [
-            const Spacer(),
+            Spacer(),
             Expanded(
               flex: 8,
               child: SignUpForm(),
             ),
-            const Spacer(),
+            Spacer(),
           ],
         ),
       ],

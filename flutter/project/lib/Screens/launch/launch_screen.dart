@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:project/components/background.dart';
+import 'package:project/backgrounds/background.dart';
 import 'package:project/constants.dart';
-import 'package:project/screens/setup/setup_screen.dart';
+import 'package:project/components/signin_check.dart';
 
 class CustomFabLocation extends FloatingActionButtonLocation {
   final FloatingActionButtonLocation location;
@@ -54,7 +54,10 @@ class LaunchScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, SetupScreen.routeName);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SignInCheck()),
+          );
         },
         backgroundColor: accentColor, 
         child: const Icon(Icons.arrow_downward), 

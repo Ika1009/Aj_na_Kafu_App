@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:project/components/background_setup_2.dart';
+import 'package:project/backgrounds/background_setup_2.dart';
+import 'package:project/screens/setup/components/setup_component_3.dart';
 
-import '../../constants.dart';
+import '../../../constants.dart';
 
-class AccountSetupScreen2 extends StatelessWidget {
-  static String routeName = "/complete_setup";
-  const AccountSetupScreen2({super.key});
+class AccountSetup2 extends StatelessWidget {
+  const AccountSetup2({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +198,10 @@ class AccountSetupScreen2 extends StatelessWidget {
                   ),
                 ),
                 onPressed: ()  {
-                  // nastavlja account setup
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const AccountSetup3()),
+                  );
                 },
                 child: const Text(
                   "Continue",
