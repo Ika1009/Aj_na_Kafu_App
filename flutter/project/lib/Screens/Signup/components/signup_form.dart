@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen.dart';
 import 'dart:convert';
 
@@ -134,9 +135,15 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             onPressed: () {
+              UserData userData = UserData(
+                email: emailController.text,
+                password: passwordController.text,
+              );
+              
               Navigator.pushNamed(
                 context,
                 SetupScreen.routeName,
+                arguments: userData,
               );
             },
             child: const Text(

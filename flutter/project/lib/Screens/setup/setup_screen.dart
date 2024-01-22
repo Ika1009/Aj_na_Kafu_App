@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen_2.dart';
 
 import '../../backgrounds/background_setup.dart';
@@ -41,6 +42,7 @@ class _SetupScreenState extends State<SetupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
     return Scaffold(
       body: SetupBackground(
         child: Center(
@@ -116,10 +118,16 @@ class _SetupScreenState extends State<SetupScreen> {
                           color: backgroundColor,
                         ),
                         onPressed: () {
+                          UserData userData = UserData(
+                            email: data.email,
+                            password: data.password,
+                            userName: usernameController.text,
+                          );
+
                           Navigator.pushNamed(
                             context,
                             AccountSetupScreen.routeName,
-                            arguments: usernameController.text,
+                            arguments: userData,
                           );
                         },
                       ),

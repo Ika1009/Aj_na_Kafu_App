@@ -1,20 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
 
-class AccountSetup2 extends StatelessWidget {
-  static String routeName = "/setupcomponent2";
-  final VoidCallback onNextPage;
-  const AccountSetup2({Key? key, required this.onNextPage}) : super(key: key);
+class AccountSetup2 extends StatefulWidget {
+  final Function(UserData) onNextPage;
+  final UserData userData;
+  const AccountSetup2({Key? key, required this.onNextPage, required this.userData}) : super(key: key);
+
+  @override
+  State<AccountSetup2> createState() => _AccountSetup2State();
+}
+
+class _AccountSetup2State extends State<AccountSetup2> {
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    phoneNumberController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final userData = ModalRoute.of(context)?.settings.arguments as Map<String, String>? ?? {};
-    final String firstName = userData['firstName'] ?? 'First Name';
-    final String lastName = userData['lastName'] ?? 'Last Name';
-    final String dateOfBirth = userData['dateOfBirth'] ?? 'Date of Birth';
-    final String username = args is String ? args : 'User';
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -23,7 +34,7 @@ class AccountSetup2 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, $firstName!',
+            'Hello, ${data.userName}!',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
@@ -41,6 +52,7 @@ class AccountSetup2 extends StatelessWidget {
           ),
           const SizedBox(height: defaultPadding * 4),
           TextFormField(
+            controller: phoneNumberController,
             keyboardType: TextInputType.phone,
             textInputAction: TextInputAction.done,
             cursorColor: primaryColor,
@@ -70,6 +82,7 @@ class AccountSetup2 extends StatelessWidget {
           SizedBox(
             height: 120,
             child: TextFormField(
+              controller: descriptionController,
               maxLines: null,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
@@ -111,7 +124,9 @@ class AccountSetup2 extends StatelessWidget {
               ),
             ),
             onPressed: ()  {
-              onNextPage();
+              widget.userData.phoneNumber = phoneNumberController.text;
+              widget.userData.description = descriptionController.text;
+              widget.onNextPage(widget.userData);
             },
             child: const Text(
               "Continue",

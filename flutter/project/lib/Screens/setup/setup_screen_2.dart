@@ -1,8 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:project/backgrounds/background_setup_2.dart';
+import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/components/setup_component.dart';
 import 'package:project/screens/setup/components/setup_component_2.dart';
 import 'package:project/screens/setup/components/setup_component_3.dart';
+
+class NoScrollPhysics extends ScrollPhysics {
+  const NoScrollPhysics({ ScrollPhysics? parent }) : super(parent: parent);
+
+  @override
+  NoScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return NoScrollPhysics(parent: buildParent(ancestor));
+  }
+
+  @override
+  bool shouldAcceptUserOffset(ScrollMetrics position) {
+    return false;
+  }
+}
 
 class AccountSetupScreen extends StatefulWidget {
   static String routeName = "/account_setup";
@@ -15,10 +30,22 @@ class AccountSetupScreen extends StatefulWidget {
 class _AccountSetupScreenState extends State<AccountSetupScreen> {
   final _controller = PageController();
   int _currentPage = 0;
+  UserData? _userData;
 
   @override
   void initState() {
     super.initState();
+    _userData = UserData(
+      email: 'Email',
+      password: 'Password',
+      userName: 'User Name',
+      firstName: 'First Name',
+      lastName: 'Last Name',
+      dateOfBirth: 'Date of Birth',
+      phoneNumber: 'Phone Number',
+      description: 'Description',
+    );
+
     _controller.addListener(() {
       int currentPage = _controller.page!.round();
       if (currentPage != _currentPage) {
@@ -35,7 +62,11 @@ class _AccountSetupScreenState extends State<AccountSetupScreen> {
     super.dispose();
   }
 
-  void _goToNextPage() {
+  void _goToNextPage(UserData userData) {
+    setState(() {
+      _userData = userData;
+    });
+
     if (_controller.hasClients) {
       _controller.animateToPage(
         _controller.page!.toInt() + 1,
@@ -55,18 +86,11 @@ class _AccountSetupScreenState extends State<AccountSetupScreen> {
       progressValue: progressValue,
       child: PageView(
         controller: _controller,
+        physics: const NoScrollPhysics(),
         children: [
-          AccountSetup(
-            onNextPage: (userData) {
-              Navigator.pushNamed(
-                context,
-                '/setupcomponent',
-                arguments: userData,
-              );
-            },
-          ),
-          AccountSetup2(onNextPage: _goToNextPage),
-          const AccountSetup3(),
+          AccountSetup(onNextPage: _goToNextPage, userData: _userData!),
+          AccountSetup2(onNextPage: _goToNextPage, userData: _userData!),
+          AccountSetup3(userData: _userData!),
         ],
       ),
     );

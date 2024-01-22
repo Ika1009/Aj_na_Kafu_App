@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
 
 class AccountSetup extends StatefulWidget {
-  final Function(Map<String, String>) onNextPage;
-
-  const AccountSetup({Key? key, required this.onNextPage}) : super(key: key);
+  final Function(UserData) onNextPage;
+  final UserData userData;
+  const AccountSetup({Key? key, required this.onNextPage, required this.userData}) : super(key: key);
 
   @override
   State<AccountSetup> createState() => _AccountSetupState();
@@ -32,8 +33,7 @@ class _AccountSetupState extends State<AccountSetup> {
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final String username = args is String ? args : 'User';
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -42,7 +42,7 @@ class _AccountSetupState extends State<AccountSetup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, $username!',
+            'Hello, ${data.userName}!',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
@@ -193,15 +193,10 @@ class _AccountSetupState extends State<AccountSetup> {
               ),
             ),
             onPressed: ()  {
-              String dateOfBirth = "$selectedDay-$selectedMonth-$selectedYear";
-
-              final userData = {
-                'firstName': firstNameController.text,
-                'lastName': lastNameController.text,
-                'dateOfBirth': dateOfBirth,
-              };
-
-              widget.onNextPage(userData);
+              widget.userData.firstName = firstNameController.text;
+              widget.userData.lastName = lastNameController.text;
+              widget.userData.dateOfBirth = "$selectedDay-$selectedMonth-$selectedYear";
+              widget.onNextPage(widget.userData);
             },
             child: const Text(
               "Continue",

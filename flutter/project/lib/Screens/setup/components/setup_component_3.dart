@@ -1,14 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
 
 class AccountSetup3 extends StatelessWidget {
-  const AccountSetup3({super.key});
+  final UserData userData;
+  const AccountSetup3({Key? key, required this.userData}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final String username = args is String ? args : 'User';
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
+    // za iliju doncica ovde ti se nalaze sve varijable i dole ti je dugme finish gde ce ti se zavrsi registracija
+    print(data.email);
+    print(data.password);
+    print(data.userName);
+    print(userData.firstName);
+    print(userData.lastName);
+    print(userData.dateOfBirth);
+    print(userData.phoneNumber);
+    print(userData.description);
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -17,7 +27,7 @@ class AccountSetup3 extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, $username!',
+            'Hello, ${data.userName}',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
