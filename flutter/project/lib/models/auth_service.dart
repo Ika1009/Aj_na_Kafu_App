@@ -45,7 +45,7 @@ class AuthService extends ChangeNotifier {
     String password,
     String firstName,
     String lastName,
-    DateTime dateOfBirth,
+    String  dateOfBirth,
     String phoneNumber,
     String description
   ) async {

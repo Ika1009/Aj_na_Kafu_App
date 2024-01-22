@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/models/auth_service.dart';
 import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
@@ -19,6 +20,31 @@ class AccountSetup3 extends StatelessWidget {
     print(userData.dateOfBirth);
     print(userData.phoneNumber);
     print(userData.description);
+
+      void finishRegistration(BuildContext context, UserData userData) async {
+      // Call your AuthService to create a new user account
+      // This is just a sample, you would replace with your actual AuthService implementation
+      final authService = AuthService(); // Assuming you have an instance of your AuthService
+      try {
+        await authService.signUpWithEmailAndPassword(
+          userData.email,
+          userData.password,
+          userData.firstName,
+          userData.lastName,
+          userData.dateOfBirth,
+          userData.phoneNumber,
+          userData.description,
+        );
+        // If registration is successful, navigate to the next screen or show a success message
+        Navigator.pushReplacementNamed(context, '/home');
+      } catch (e) {
+        // If registration fails, show an error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Registration failed: ${e.toString()}')),
+        );
+      }
+    }
+
     return Container(
       alignment: Alignment.centerLeft,
       padding: const EdgeInsets.symmetric(horizontal: 40.0),
@@ -64,9 +90,7 @@ class AccountSetup3 extends StatelessWidget {
                 ),
               ),
             ),
-            onPressed: ()  {
-              // kraj account setupa
-            },
+            onPressed: () => finishRegistration(context, userData), // Bind the onPressed event
             child: const Text(
               "Finish",
               style: TextStyle(
