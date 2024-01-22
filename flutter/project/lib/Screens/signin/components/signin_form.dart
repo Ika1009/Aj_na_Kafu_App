@@ -1,5 +1,6 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/models/auth_service.dart';
+import 'package:provider/provider.dart';
 
 
 import '../../../constants.dart';
@@ -16,10 +17,23 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> login() async {
-    await FirebaseAuth.instance.signInWithEmailAndPassword(
-      email: emailController.text.trim(), // trim da bi se formatirao tekst 
-      password: passwordController.text.trim(),
-    );
+      // get the auth service
+      final authService = Provider.of<AuthService>(context, listen: false);
+
+      try {
+        await authService.signInWithEmailAndPassword(
+          emailController.text,
+          passwordController.text,
+        );
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.toString(),
+            ),
+          ),
+        );
+      }
   }
 
   @override
