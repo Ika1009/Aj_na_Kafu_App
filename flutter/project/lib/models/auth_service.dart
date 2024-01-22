@@ -61,7 +61,7 @@ class AuthService extends ChangeNotifier {
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
-        'dateOfBirth': dateOfBirth.toIso8601String(), // Store date as ISO 8601 string
+        'dateOfBirth': dateOfBirth, // Store date as ISO 8601 string
         'phoneNumber': phoneNumber,
         'description': description,
       });
