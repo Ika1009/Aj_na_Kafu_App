@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen.dart';
 import 'dart:convert';
 
@@ -9,7 +10,7 @@ class SignUpForm extends StatefulWidget {
   const SignUpForm({super.key});
 
   @override
-  _SignUpFormState createState() => _SignUpFormState();
+  State<SignUpForm> createState() => _SignUpFormState();
 }
 
 class _SignUpFormState extends State<SignUpForm> {
@@ -134,9 +135,15 @@ class _SignUpFormState extends State<SignUpForm> {
               ),
             ),
             onPressed: () {
+              UserData userData = UserData(
+                email: emailController.text,
+                password: passwordController.text,
+              );
+              
               Navigator.pushNamed(
                 context,
                 SetupScreen.routeName,
+                arguments: userData,
               );
             },
             child: const Text(

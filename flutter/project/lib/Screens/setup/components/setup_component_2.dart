@@ -1,220 +1,143 @@
 import 'package:flutter/material.dart';
-import 'package:project/backgrounds/background_setup_2.dart';
-import 'package:project/screens/setup/components/setup_component_3.dart';
+import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
 
-class AccountSetup2 extends StatelessWidget {
-  const AccountSetup2({super.key});
+class AccountSetup2 extends StatefulWidget {
+  final Function(UserData) onNextPage;
+  final UserData userData;
+  const AccountSetup2({Key? key, required this.onNextPage, required this.userData}) : super(key: key);
+
+  @override
+  State<AccountSetup2> createState() => _AccountSetup2State();
+}
+
+class _AccountSetup2State extends State<AccountSetup2> {
+  final TextEditingController phoneNumberController = TextEditingController();
+  final TextEditingController descriptionController = TextEditingController();
+
+  @override
+  void dispose() {
+    phoneNumberController.dispose();
+    descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final args = ModalRoute.of(context)!.settings.arguments;
-    final String username = args is String ? args : 'User';
-    return Scaffold(
-      body: AccountSetupBackground(
-        progressText: '2/3',
-        progressValue: 2/3,
-        child: Container(
-          alignment: Alignment.centerLeft,
-          padding: const EdgeInsets.symmetric(horizontal: 40.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Hello, $username!',
-                style: const TextStyle(
-                  color: primaryColor,
-                  fontSize: 24,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.24,
-                ),
-              ),
-              const Text(
-                'Great, just few more steps...',
-                style: TextStyle(
-                  color: Color(0xFF757575), // dzektor da doda boju
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: defaultPadding * 4),
-              const Text(
-                'DESCRIPTION:',
-                style: TextStyle(
-                  color: primaryColor, // dzektor da doda boju
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: defaultPadding / 5),
-              SizedBox(
-                height: 120,
-                child: TextFormField(
-                  keyboardType: TextInputType.text,
-                  textInputAction: TextInputAction.next,
-                  cursorColor: primaryColor,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                    hintText: "Lorem Ipsum...",
-                    hintStyle: const TextStyle(
-                      color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                      fontWeight: FontWeight.w600,
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25), 
-                      borderSide: BorderSide.none, 
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25), 
-                      borderSide: BorderSide.none, 
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(25), 
-                      borderSide: BorderSide.none, 
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: defaultPadding),
-              const Text(
-                'DATE OF BIRTH:',
-                style: TextStyle(
-                  color: primaryColor, // dzektor da doda boju
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(height: defaultPadding / 5),
-              Row(
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      cursorColor: primaryColor,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                        hintText: "27",
-                        hintStyle: const TextStyle(
-                          color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                          fontWeight: FontWeight.w600,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 16),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 6,
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      cursorColor: primaryColor,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                        hintText: "January",
-                        hintStyle: const TextStyle(
-                          color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                          fontWeight: FontWeight.w600,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 46),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Expanded(
-                    flex: 3,
-                    child: TextFormField(
-                      keyboardType: TextInputType.number,
-                      textInputAction: TextInputAction.next,
-                      cursorColor: primaryColor,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                        hintText: "2005",
-                        hintStyle: const TextStyle(
-                          color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                          fontWeight: FontWeight.w600,
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(vertical: 18, horizontal: 20),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10), 
-                          borderSide: BorderSide.none, 
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: defaultPadding * 4),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(backgroundColor),
-                  minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25), 
-                      side: const BorderSide(color: accentColor, width: 2.0), 
-                    ),
-                  ),
-                ),
-                onPressed: ()  {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const AccountSetup3()),
-                  );
-                },
-                child: const Text(
-                  "Continue",
-                  style: TextStyle(
-                    color: accentColor,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            ],
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
+    return Container(
+      alignment: Alignment.centerLeft,
+      padding: const EdgeInsets.symmetric(horizontal: 40.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Hello, ${data.userName}!',
+            style: const TextStyle(
+              color: primaryColor,
+              fontSize: 24,
+              fontWeight: FontWeight.w600,
+              letterSpacing: -0.24,
+            ),
           ),
-        ),
+          const Text(
+            'Great, just few more steps...',
+            style: TextStyle(
+              color: Color(0xFF757575), // dzektor da doda boju
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: defaultPadding * 4),
+          TextFormField(
+            controller: phoneNumberController,
+            keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.done,
+            cursorColor: primaryColor,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+              hintText: "Phone Number",
+              hintStyle: const TextStyle(
+                color: Color(0xFF757575), // dzektor da doda boju i da se zameni
+                fontWeight: FontWeight.w600,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+            ),
+          ),
+          const SizedBox(height: defaultPadding),
+          SizedBox(
+            height: 120,
+            child: TextFormField(
+              controller: descriptionController,
+              maxLines: null,
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              cursorColor: primaryColor,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                hintText: "Description...",
+                hintStyle: const TextStyle(
+                  color: Color(0xFF757575), // dzektor da doda boju i da se zameni
+                  fontWeight: FontWeight.w600,
+                ),
+                contentPadding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: defaultPadding * 4),
+          ElevatedButton(
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(backgroundColor),
+              minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  side: const BorderSide(color: accentColor, width: 2.0), 
+                ),
+              ),
+            ),
+            onPressed: ()  {
+              widget.userData.phoneNumber = phoneNumberController.text;
+              widget.userData.description = descriptionController.text;
+              widget.onNextPage(widget.userData);
+            },
+            child: const Text(
+              "Continue",
+              style: TextStyle(
+                color: accentColor,
+                fontWeight: FontWeight.w600,
+                fontSize: 20,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

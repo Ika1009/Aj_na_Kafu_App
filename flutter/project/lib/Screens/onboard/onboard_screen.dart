@@ -8,7 +8,7 @@ class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({super.key});
 
   @override
-  _OnBoardScreenState createState() => _OnBoardScreenState();
+  State<OnBoardScreen> createState() => _OnBoardScreenState();
 }
 
 class _OnBoardScreenState extends State<OnBoardScreen> {
