@@ -20,5 +20,5 @@ final Map<String, WidgetBuilder> routes = {
   OnBoardScreen.routeName: (context) => const OnBoardScreen(),
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),
-  AccountSetupScreen.routeName: (context) => AccountSetupScreen(),
+  AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),
 };
