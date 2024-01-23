@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen.dart';
-import 'dart:convert';
 
 import '../../../constants.dart';
 
@@ -16,49 +14,6 @@ class SignUpForm extends StatefulWidget {
 class _SignUpFormState extends State<SignUpForm> {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-
-  Future<void> signUp() async {
-    const String apiUrl = 'https://bonanza.mycpanel.rs/ajnakafu/create_account.php'; // Replace with your actual API endpoint URL
-
-    final response = await http.post(
-      Uri.parse(apiUrl),
-      body: {
-        'email': emailController.text,
-        'password': passwordController.text,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      // Successful signup
-      final responseData = json.decode(response.body);
-      if (responseData['status'] == 'success') {
-        // Account created successfully
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(responseData['message']),
-            backgroundColor: Colors.green,
-          ),
-        );
-      } else {
-        // Handle other success cases or error cases from the API
-        // You can customize the error handling based on the API response.
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(responseData['message']),
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    } else {
-      // Handle HTTP error
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Failed to sign up. Please try again later.'),
-          backgroundColor: Colors.red,
-        ),
-      );
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
