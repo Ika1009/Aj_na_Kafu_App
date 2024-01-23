@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/models/UserManager.dart';
 
 class AuthService extends ChangeNotifier {
   // instance of auth
@@ -12,35 +13,58 @@ class AuthService extends ChangeNotifier {
   // sign user in
   Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
     try {
-      // sign in
+      // Sign in
       UserCredential userCredential = await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Optionally add a new document for the user in users collection if it doesn't already exist
-      _firestore.collection('users').doc(userCredential.user!.uid).set({
-        'uid': userCredential.user!.uid,
-        'email': email,
-        // Default values for additional fields if the document is new
-        'firstName': '',
-        'lastName': '',
-        'dateOfBirth': '',
-        'phoneNumber': '',
-        'description': '',
-      }, SetOptions(merge: true));
+      // Reference to the user's Firestore document
+      DocumentReference userDocRef = _firestore.collection('users').doc(userCredential.user!.uid);
+      // Attempt to retrieve the user's document
+      DocumentSnapshot userDoc = await userDocRef.get();
 
+      // Check if the document exists
+      if (!userDoc.exists) {
+        // If the document does not exist, create it with default blank values
+        await userDocRef.set({
+          'uid': userCredential.user!.uid,
+          'email': email,
+          'username': '',
+          'firstName': '',
+          'lastName': '',
+          'dateOfBirth': '',
+          'phoneNumber': '',
+          'description': '',
+        }, SetOptions(merge: true));
+      }
+
+      // Retrieve the document again to ensure it exists and to populate UserManager
+      userDoc = await userDocRef.get();
+      Map<String, dynamic> userData = userDoc.data() as Map<String, dynamic>? ?? {};
+
+      // Set global user data in UserManager with data from Firestore or default blank values
+      UserManager().setUser(
+        uid: userData['uid'] ?? userCredential.user!.uid,
+        email: userData['email'] ?? email,
+        username: userData['username'] ?? '',
+        firstName: userData['firstName'] ?? '',
+        lastName: userData['lastName'] ?? '',
+        dateOfBirth: userData['dateOfBirth'] ?? '',
+        phoneNumber: userData['phoneNumber'] ?? '',
+        description: userData['description'] ?? '',
+      );
 
       return userCredential;
-    // catch any errors
+    // Catch any errors
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
     }
   }
 
-  // create a new user
-  // Create a new user with additional fields
+  // Create a new user
   Future<UserCredential> signUpWithEmailAndPassword(
+    String username,
     String email, 
     String password,
     String firstName,
@@ -58,14 +82,25 @@ class AuthService extends ChangeNotifier {
       // After creating the user, create a new document for the user in the users collection with additional fields
       _firestore.collection('users').doc(userCredential.user!.uid).set({
         'uid': userCredential.user!.uid,
+        'username': username,
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
-        'dateOfBirth': dateOfBirth, // Store date as ISO 8601 string
+        'dateOfBirth': dateOfBirth,
         'phoneNumber': phoneNumber,
         'description': description,
       });
 
+      UserManager().setUser(
+        uid: userCredential.user!.uid,
+        username: username,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        dateOfBirth: dateOfBirth,
+        phoneNumber: phoneNumber,
+        description: description,
+      );
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
@@ -74,6 +109,7 @@ class AuthService extends ChangeNotifier {
 
   // sign user out
   Future<void> signOut() async {
+    UserManager().clearUser();
     return await FirebaseAuth.instance.signOut();
   }
 }

@@ -27,6 +27,7 @@ class AccountSetup3 extends StatelessWidget {
       final authService = AuthService(); // Assuming you have an instance of your AuthService
       try {
         await authService.signUpWithEmailAndPassword(
+          data.userName,
           data.email,
           data.password,
           userData.firstName,
