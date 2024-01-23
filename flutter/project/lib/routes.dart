@@ -9,6 +9,7 @@ import 'package:project/screens/signup/signup_screen.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/screens/launch/launch_screen.dart';
 import 'package:project/screens/setup/setup_screen.dart';
+import 'package:project/screens/snackbars/snackbar.dart';
 
 final Map<String, WidgetBuilder> routes = {
   SignInScreen.routeName: (context) => const SignInScreen(),
@@ -21,4 +22,5 @@ final Map<String, WidgetBuilder> routes = {
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),
   AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),
+  FinalView.routeName: (context) => const FinalView(),
 };

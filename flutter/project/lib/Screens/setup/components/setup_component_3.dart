@@ -12,14 +12,14 @@ class AccountSetup3 extends StatelessWidget {
   Widget build(BuildContext context) {
     final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
     // za iliju doncica ovde ti se nalaze sve varijable i dole ti je dugme finish gde ce ti se zavrsi registracija
-    print(data.email);
+    /*(print(data.email);
     print(data.password);
     print(data.userName);
     print(userData.firstName);
     print(userData.lastName);
     print(userData.dateOfBirth);
     print(userData.phoneNumber);
-    print(userData.description);
+    print(userData.description);*/
 
       void finishRegistration(BuildContext context, UserData userData) async {
       // Call your AuthService to create a new user account
@@ -27,8 +27,8 @@ class AccountSetup3 extends StatelessWidget {
       final authService = AuthService(); // Assuming you have an instance of your AuthService
       try {
         await authService.signUpWithEmailAndPassword(
-          userData.email,
-          userData.password,
+          data.email,
+          data.password,
           userData.firstName,
           userData.lastName,
           userData.dateOfBirth,
