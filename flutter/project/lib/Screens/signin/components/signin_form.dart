@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/snackbars.dart';
 import 'package:project/models/auth_service.dart';
 import 'package:provider/provider.dart';
-
 
 import '../../../constants.dart';
 
@@ -17,7 +17,6 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController passwordController = TextEditingController();
 
   Future<void> login() async {
-      // get the auth service
       final authService = Provider.of<AuthService>(context, listen: false);
 
       try {
@@ -27,17 +26,15 @@ class _LoginFormState extends State<LoginForm> {
         );
       } catch (e) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              e.toString(),
-            ),
-          ),
+          MySnackBars.warningSnackBar(
+            e.toString(),
+          )
         );
       }
   }
 
   @override
-  void dispose() { // resi se za memory managment
+  void dispose() { 
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
