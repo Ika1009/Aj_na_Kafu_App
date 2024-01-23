@@ -1,3 +1,5 @@
+import 'package:geolocator/geolocator.dart';
+
 class UserManager {
   // Singleton instance
   static final UserManager _instance = UserManager._internal();
@@ -19,6 +21,7 @@ class UserManager {
   String? dateOfBirth;
   String? phoneNumber;
   String? description;
+  Position? location;
 
   // Method to populate user data
   void setUser({
