@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:project/models/location_service.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/chats/chats_screen.dart';
 import 'package:project/screens/signin/signin_screen.dart';
@@ -30,6 +32,11 @@ class _HomePageState extends State<HomeScreen> {
 
   static const List<String> _titles = ["Chats", "Profile"];
 
+  Future<Position?> _getUserLocation() {
+    LocationService locationService = LocationService();
+    return locationService.getUserLocation();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,7 +66,21 @@ class _HomePageState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      body: FutureBuilder<Position?>(
+        future: _getUserLocation(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error: ${snapshot.error}'));
+          } else if (snapshot.hasData) {
+            // Display location data
+            return Center(child: Text('Location: ${snapshot.data}'));
+          } else {
+            return const Center(child: Text('Unable to get location'));
+          }
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
