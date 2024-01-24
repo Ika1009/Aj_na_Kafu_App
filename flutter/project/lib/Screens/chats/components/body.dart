@@ -1,31 +1,39 @@
 import 'package:project/models/Chat.dart';
+import 'package:project/models/friendships_manager.dart';
+import 'package:project/models/user_manager.dart';
+import 'package:project/screens/chats/components/chat_card.dart';
 import 'package:project/screens/messages/message_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
-import 'chat_card.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    FriendsManager friendsManager = FriendsManager();
+    UserManager userManager = UserManager();
     return Column(
       children: [
         Expanded(
-          child: ListView.builder(
-            itemCount: chatsData.length,
-            itemBuilder: (context, index) => ChatCard(
-              chat: chatsData[index],
-              press: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const MessagesScreen(),
-                ),
-              ),
-            ),
+          child: FutureBuilder<List<Map<String, dynamic>>>(
+            future: friendsManager.getFriendsOfUser(userManager.uid!), // ovde mi baca error jer ovaj usermanager.uid bude null
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              }
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.hasData) {
+                return ListView(
+                  children: snapshot.data!
+                      .map<Widget>((friendData) => _buildUserListItem(friendData))
+                      .toList(),
+                );
+              } else {
+                return const Text('No friends found');
+              }
+            },
           ),
         ),
       ],
@@ -33,42 +41,29 @@ class Body extends StatelessWidget {
   }
 }
 
-// evo ti kod da se napravi lista korisnika koji treba se ispisu ovde
-// FriendsManager friendsManager = FriendsManager();
-// UserManager userManager = UserManager();
+Widget _buildUserListItem(Map<String, dynamic> users) {
+  return ListView.builder(
+    itemCount: users.length,
+    itemBuilder: (context, index) {
+      var userDoc = users[index];
+      var userData = userDoc.data() as Map<String, dynamic>;
+      var chatData = Chat(
+        name: userData['firstName'],
+        lastMessage: 'Tap to chat with ${userData['firstName']}',
+        image: "assets/images/profile1.png",
+        time: "3m ago",
+        isActive: false,
+      );
 
-
-// Widget _buildUserList() {
-//   return FutureBuilder<List<Map<String, dynamic>>>(
-//     // Use FriendsManager to get the friends' data
-//     future: friendsManager.getFriendsOfUser(userManager.uid!),
-//     builder: (context, snapshot) {
-//       if (snapshot.hasError) {
-//         return const Text('Error');
-//       }
-//       if (snapshot.connectionState == ConnectionState.waiting) {
-//         return const Text('Loading...');
-//       }
-//       if (snapshot.hasData) {
-//         return ListView(
-//           children: snapshot.data!
-//               .map<Widget>((friendData) => _buildUserListItem(friendData))
-//               .toList(),
-//         );
-//       } else {
-//         return const Text('No friends found');
-//       }
-//     },
-//   );
-// }
-
-// Widget _buildUserListItem(Map<String, dynamic> data) {
-//   return ListTile(
-//     title: Text(data['email'] ?? 'No email'),
-//     onTap: () {
-//       // Here you can open the chat page with the user's UID
-//       // For example: openChatPage(data['uid']);
-//     },
-//   );
-// }
-
+      return ChatCard(
+        chat: chatData, 
+        press: () => Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const MessagesScreen(),
+          ),
+        ),
+      );
+    },
+  );
+}
