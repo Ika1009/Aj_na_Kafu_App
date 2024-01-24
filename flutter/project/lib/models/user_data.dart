@@ -12,9 +12,9 @@ class UserData {
     this.email = '',
     this.password = '',
     this.userName = '',
+    this.firstName = '',
     this.lastName = '',
     this.dateOfBirth = '',
-    this.firstName = '',
     this.phoneNumber = '', 
     this.description = '',
   });

@@ -34,14 +34,14 @@ class Body extends StatelessWidget {
 }
 
 // evo ti kod da se napravi lista korisnika koji treba se ispisu ovde
+// FriendsManager friendsManager = FriendsManager();
 // UserManager userManager = UserManager();
 
+
 // Widget _buildUserList() {
-//   return StreamBuilder<QuerySnapshot>(
-//     // Stream only the users who are in the current user's friends list
-//     stream: FirebaseFirestore.instance.collection('users')
-//       .where(FieldPath.documentId, whereIn: userManager.friends)
-//       .snapshots(),
+//   return FutureBuilder<List<Map<String, dynamic>>>(
+//     // Use FriendsManager to get the friends' data
+//     future: friendsManager.getFriendsOfUser(userManager.uid!),
 //     builder: (context, snapshot) {
 //       if (snapshot.hasError) {
 //         return const Text('Error');
@@ -49,23 +49,26 @@ class Body extends StatelessWidget {
 //       if (snapshot.connectionState == ConnectionState.waiting) {
 //         return const Text('Loading...');
 //       }
-//       return ListView(
-//         children: snapshot.data!.docs
-//             .map<Widget>((doc) => _buildUserListItem(doc))
-//             .toList(),
-//       );
+//       if (snapshot.hasData) {
+//         return ListView(
+//           children: snapshot.data!
+//               .map<Widget>((friendData) => _buildUserListItem(friendData))
+//               .toList(),
+//         );
+//       } else {
+//         return const Text('No friends found');
+//       }
 //     },
 //   );
 // }
 
-// Widget _buildUserListItem(DocumentSnapshot document) {
-//   Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
-
+// Widget _buildUserListItem(Map<String, dynamic> data) {
 //   return ListTile(
 //     title: Text(data['email'] ?? 'No email'),
 //     onTap: () {
 //       // Here you can open the chat page with the user's UID
-//       // For example: openChatPage(document.id);
+//       // For example: openChatPage(data['uid']);
 //     },
 //   );
 // }
+
