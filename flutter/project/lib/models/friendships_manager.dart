@@ -33,4 +33,25 @@ class FriendsManager {
 
     return friendsList;
   }
+  
+  // Function to get all users
+  Future<List<Map<String, dynamic>>> getAllUsers() async {
+    List<Map<String, dynamic>> usersList = [];
+
+    try {
+      // Fetch all user documents from the 'users' collection
+      QuerySnapshot querySnapshot = await _firestore.collection('users').get();
+
+      for (var doc in querySnapshot.docs) {
+        // Cast each document's data to Map<String, dynamic>
+        Map<String, dynamic> userData = doc.data() as Map<String, dynamic>;
+        usersList.add(userData);
+      }
+    } catch (e) {
+      // Handle any errors here
+      print('Error fetching users data: $e');
+    }
+
+    return usersList;
+  }
 }
