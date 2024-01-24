@@ -3,8 +3,6 @@ import 'package:geolocator/geolocator.dart';
 import 'package:project/models/location_service.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/chats/chats_screen.dart';
-import 'package:project/screens/signin/signin_screen.dart';
-import 'package:project/screens/signup/signup_screen.dart';
 
 import '../../constants.dart';
 
@@ -18,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomePageState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  bool locationEnabled = false;
+  Position? location;
 
   void _navigateBottomBar(int index) {
     setState(() {
@@ -47,26 +47,25 @@ class _HomePageState extends State<HomeScreen> {
         child: Column(
           children: [
             ListTile(
-              leading: const Icon(Icons.login),
-              title: const Text("Sign In"),
+              leading: const Icon(Icons.location_pin),
+              title: const Text("Map"),
               onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, SignInScreen.routeName);
-              },
-            ),
 
-            ListTile(
-              leading: const Icon(Icons.logout),
-              title: const Text("Sign up"),
-              onTap: () {
-                Navigator.pop(context);
-                Navigator.pushNamed(context, SignUpScreen.routeName);
               },
             ),
           ],
         ),
       ),
-      body: _pages[_selectedIndex],
+      body: FutureBuilder<Position?>(
+        future: _getUserLocation(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            locationEnabled = true;
+            location = snapshot.data;
+          }
+          return _pages[_selectedIndex];
+        },
+      ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
