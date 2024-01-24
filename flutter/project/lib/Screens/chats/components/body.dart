@@ -34,9 +34,14 @@ class Body extends StatelessWidget {
 }
 
 // evo ti kod da se napravi lista korisnika koji treba se ispisu ovde
+// UserManager userManager = UserManager();
+
 // Widget _buildUserList() {
 //   return StreamBuilder<QuerySnapshot>(
-//     stream: FirebaseFirestore.instance.collection('users').snapshots(),
+//     // Stream only the users who are in the current user's friends list
+//     stream: FirebaseFirestore.instance.collection('users')
+//       .where(FieldPath.documentId, whereIn: userManager.friends)
+//       .snapshots(),
 //     builder: (context, snapshot) {
 //       if (snapshot.hasError) {
 //         return const Text('Error');
@@ -56,13 +61,11 @@ class Body extends StatelessWidget {
 // Widget _buildUserListItem(DocumentSnapshot document) {
 //   Map<String, dynamic> data = document.data()! as Map<String, dynamic>;
 
-//   // Assuming _auth is an instance of FirebaseAuth
-//   if (FirebaseAuth.instance.currentUser!.email != data['email']) {
-//     return ListTile(
-//       title: Text(data['email']),
-//       onTap: () { // ovde treba da otvori stranu za chatovanje sa UID }
-//     );
-//   } else {
-//     return Container(); // Return an empty container if it's the current user
-//   }
+//   return ListTile(
+//     title: Text(data['email'] ?? 'No email'),
+//     onTap: () {
+//       // Here you can open the chat page with the user's UID
+//       // For example: openChatPage(document.id);
+//     },
+//   );
 // }

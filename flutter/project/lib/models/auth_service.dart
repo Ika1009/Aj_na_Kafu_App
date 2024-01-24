@@ -10,7 +10,7 @@ class AuthService extends ChangeNotifier {
   // instance of firestore
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // sign user in
+  // Sign user in
   Future<UserCredential> signInWithEmailAndPassword(String email, String password) async {
     try {
       // Sign in
@@ -36,6 +36,7 @@ class AuthService extends ChangeNotifier {
           'dateOfBirth': '',
           'phoneNumber': '',
           'description': '',
+          'friends': [] // Initialize an empty friends list
         }, SetOptions(merge: true));
       }
 
@@ -53,6 +54,7 @@ class AuthService extends ChangeNotifier {
         dateOfBirth: userData['dateOfBirth'] ?? '',
         phoneNumber: userData['phoneNumber'] ?? '',
         description: userData['description'] ?? '',
+        friends: List<String>.from(userData['friends'] ?? []), // Retrieve friends list or initialize as empty
       );
 
       return userCredential;
@@ -62,6 +64,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
+
   // Create a new user
   Future<UserCredential> signUpWithEmailAndPassword(
     String username,
@@ -69,7 +72,7 @@ class AuthService extends ChangeNotifier {
     String password,
     String firstName,
     String lastName,
-    String  dateOfBirth,
+    String dateOfBirth,
     String phoneNumber,
     String description
   ) async {
@@ -89,6 +92,7 @@ class AuthService extends ChangeNotifier {
         'dateOfBirth': dateOfBirth,
         'phoneNumber': phoneNumber,
         'description': description,
+        'friends': [] // Initialize an empty friends list
       });
 
       UserManager().setUser(
@@ -106,6 +110,7 @@ class AuthService extends ChangeNotifier {
       throw Exception(e.code);
     }
   }
+
 
   // sign user out
   Future<void> signOut() async {
