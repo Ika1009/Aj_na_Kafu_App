@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:project/models/auth_service.dart';
+import 'package:project/screens/signin/signin_screen.dart';
+import 'package:provider/provider.dart';
 
 import 'components/profile_menu.dart';
 import 'components/profile_pic.dart';
@@ -10,6 +13,7 @@ class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context);
     return Scaffold(
       backgroundColor: backgroundColor,
       body: SingleChildScrollView(
@@ -41,7 +45,10 @@ class ProfileScreen extends StatelessWidget {
             ProfileMenu(
               text: "Log Out",
               icon: "assets/icons/logout.svg",
-              press: () {},
+              press: () async {
+                await authService.signOut();
+                Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
+              },
             ),
           ],
         ),

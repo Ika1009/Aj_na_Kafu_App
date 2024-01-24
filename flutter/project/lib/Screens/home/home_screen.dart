@@ -66,21 +66,7 @@ class _HomePageState extends State<HomeScreen> {
           ],
         ),
       ),
-      body: FutureBuilder<Position?>(
-        future: _getUserLocation(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            // Display location data
-            return Center(child: Text('Location: ${snapshot.data}'));
-          } else {
-            return const Center(child: Text('Unable to get location'));
-          }
-        },
-      ),
+      body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
         onTap: _navigateBottomBar,
