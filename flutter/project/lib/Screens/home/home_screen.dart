@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project/Screens/map/map_screen.dart';
-import 'package:project/models/location_service.dart';
+import 'package:project/services/location_service.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/chats/chats_screen.dart';
 

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/Chat.dart';
-import 'package:project/models/friendships_manager.dart';
+import 'package:project/services/friendships_manager.dart';
 import 'package:project/screens/chats/components/chat_card.dart';
 import 'package:project/screens/messages/message_screen.dart';
 

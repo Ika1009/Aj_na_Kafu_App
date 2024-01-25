@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:project/components/snackbars.dart';
-import 'package:project/models/auth_service.dart';
+import 'package:project/services/auth_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants.dart';

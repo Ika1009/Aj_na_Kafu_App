@@ -1,6 +1,6 @@
 //import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:project/models/auth_service.dart';
+import 'package:project/services/auth_service.dart';
 import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/theme.dart';
 import 'package:project/routes.dart';
