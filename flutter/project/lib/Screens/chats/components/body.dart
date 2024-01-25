@@ -39,7 +39,7 @@ class Body extends StatelessWidget {
                 return ListView.builder(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
-                    return _buildUserListItem(context, snapshot.data![index]);
+                    return _buildUserListItem(context, snapshot.data![index], currentUser);
                   },
                 );
               } else {
