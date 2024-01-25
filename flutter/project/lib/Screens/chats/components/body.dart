@@ -1,9 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:project/models/Chat.dart';
 import 'package:project/models/friendships_manager.dart';
-import 'package:project/models/user_manager.dart';
 import 'package:project/screens/chats/components/chat_card.dart';
 import 'package:project/screens/messages/message_screen.dart';
-import 'package:flutter/material.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -11,12 +11,23 @@ class Body extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     FriendsManager friendsManager = FriendsManager();
-    UserManager userManager = UserManager();
+
+    // Getting the current user from Firebase
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    // Check if currentUser is null and handle accordingly
+    if (currentUser == null) {
+      // Return a widget that handles this case, like a login prompt or an error message
+      return const Center(
+        child: Text('User not logged in.'),
+      );
+    }
+
     return Column(
       children: [
         Expanded(
           child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: friendsManager.getFriendsOfUser(userManager.uid!), // ovde mi baca error jer ovaj usermanager.uid bude null
+            future: friendsManager.getFriendsOfUser(currentUser.uid),
             builder: (context, snapshot) {
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
