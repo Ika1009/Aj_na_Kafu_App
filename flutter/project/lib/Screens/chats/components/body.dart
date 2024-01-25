@@ -36,10 +36,11 @@ class Body extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasData) {
-                return ListView(
-                  children: snapshot.data!
-                      .map<Widget>((friendData) => _buildUserListItem(friendData))
-                      .toList(),
+                return ListView.builder(
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    return _buildUserListItem(context, snapshot.data![index]);
+                  },
                 );
               } else {
                 return const Text('No friends found');
@@ -52,29 +53,22 @@ class Body extends StatelessWidget {
   }
 }
 
-Widget _buildUserListItem(Map<String, dynamic> users) {
-  return ListView.builder(
-    itemCount: users.length,
-    itemBuilder: (context, index) {
-      var userDoc = users[index];
-      var userData = userDoc.data() as Map<String, dynamic>;
-      var chatData = Chat(
-        name: userData['firstName'],
-        lastMessage: 'Tap to chat with ${userData['firstName']}',
-        image: "assets/images/profile1.png",
-        time: "3m ago",
-        isActive: false,
-      );
+Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users) {
+  var chatData = Chat(
+    name: users['firstName'],
+    lastMessage: 'Tap to chat with ${users['firstName']}',
+    image: "assets/images/profile1.png",
+    time: "3m ago",
+    isActive: false,
+  );
 
-      return ChatCard(
-        chat: chatData, 
-        press: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const MessagesScreen(),
-          ),
-        ),
-      );
-    },
+  return ChatCard(
+    chat: chatData, 
+    press: () => Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MessagesScreen(),
+      ),
+    ),
   );
 }

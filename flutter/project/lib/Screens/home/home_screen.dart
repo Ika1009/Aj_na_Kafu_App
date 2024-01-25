@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:project/Screens/map/map_screen.dart';
 import 'package:project/models/location_service.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/chats/chats_screen.dart';
@@ -15,7 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeScreen> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   bool locationEnabled = false;
   Position? location;
 
@@ -27,10 +28,11 @@ class _HomePageState extends State<HomeScreen> {
 
   final List _pages = [
     const ChatsScreen(),
+    const MapScreen(),
     const ProfileScreen(),
   ];
 
-  static const List<String> _titles = ["Chats", "Profile"];
+  static const List<String> _titles = ["Chats", "Map", "Profile"];
 
   Future<Position?> _getUserLocation() {
     LocationService locationService = LocationService();
@@ -49,9 +51,7 @@ class _HomePageState extends State<HomeScreen> {
             ListTile(
               leading: const Icon(Icons.location_pin),
               title: const Text("Map"),
-              onTap: () {
-
-              },
+              onTap: () {},
             ),
           ],
         ),
@@ -73,6 +73,11 @@ class _HomePageState extends State<HomeScreen> {
           BottomNavigationBarItem(
             icon: Icon(Icons.chat),
             label: 'Chats',
+          ),
+
+          BottomNavigationBarItem(
+            icon: Icon(Icons.location_pin),
+            label: 'Map',
           ),
 
           BottomNavigationBarItem(
