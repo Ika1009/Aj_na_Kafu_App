@@ -53,7 +53,7 @@ class Body extends StatelessWidget {
   }
 }
 
-Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users) {
+Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
   var chatData = Chat(
     name: users['firstName'],
     lastMessage: 'Tap to chat with ${users['firstName']}',
@@ -67,7 +67,11 @@ Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users) {
     press: () => Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MessagesScreen(),
+        builder: (context) => MessagesScreen(
+          // firstName: currentUser.firstName, ne radi ne znam sto
+          // lastName: 'Doncic',
+          // uid: '123456789',
+        ),
       ),
     ),
   );

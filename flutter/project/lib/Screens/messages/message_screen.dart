@@ -1,11 +1,20 @@
-import 'package:project/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:project/constants.dart';
 
 import 'components/body.dart';
 
 class MessagesScreen extends StatelessWidget {
   static String routeName = "/messages";
-  const MessagesScreen({Key? key}) : super(key: key);
+  final String firstName;
+  final String lastName;
+  final String uid;
+
+  const MessagesScreen({
+    Key? key,
+    required this.firstName,
+    required this.lastName,
+    required this.uid,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +27,21 @@ class MessagesScreen extends StatelessWidget {
   AppBar buildAppBar() {
     return AppBar(
       automaticallyImplyLeading: false,
-      title: const Row(
+      title: Row(
         children: [
-          BackButton(),
-          CircleAvatar(
+          const BackButton(),
+          const CircleAvatar(
             backgroundImage: AssetImage("assets/images/profile2.png"),
           ),
-          SizedBox(width: kDefaultPadding * 0.75),
+          const SizedBox(width: kDefaultPadding * 0.75),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Kristin Watson",
+                "$firstName $lastName",
                 style: TextStyle(fontSize: 16),
               ),
-              Text(
+              const Text(
                 "Active 3m ago",
                 style: TextStyle(fontSize: 12),
               )
