@@ -85,16 +85,22 @@ class _FindFriendsState extends State<FindFriends> {
     return Scaffold(
         body: Stack(
         children: [
-          GoogleMap(
-            initialCameraPosition: _kGooglePlex,
-            markers: _markers,
-            myLocationButtonEnabled: false,
-            zoomControlsEnabled: false,
-            onMapCreated: (GoogleMapController controller) {
-              _controller = controller;
-              controller.setMapStyle(MapStyle().aubergine);
-            },
-          ),
+          Positioned(
+            bottom: -25,
+            top: 0,
+            left: 0,
+            right: 0,
+            child: GoogleMap(
+              initialCameraPosition: _kGooglePlex,
+              markers: _markers,
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              onMapCreated: (GoogleMapController controller) {
+                _controller = controller;
+                controller.setMapStyle(MapStyle().aubergine);
+              },
+            ),
+          ), 
         Positioned(
           bottom: 20,
           left: 10,
