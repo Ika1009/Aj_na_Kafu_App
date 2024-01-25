@@ -62,17 +62,21 @@ Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User
     isActive: false,
   );
 
-  return ChatCard(
-    chat: chatData, 
-    press: () => Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MessagesScreen(
-          // firstName: currentUser.firstName, ne radi ne znam sto
-          // lastName: 'Doncic',
-          // uid: '123456789',
-        ),
-      ),
-    ),
-  );
+return ChatCard(
+  chat: chatData, 
+  press: () {
+    // TODO: Navigation to MessagesScreen is commented out until the page is ready.
+    // Navigator.push(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => MessagesScreen(
+    //       // firstName: currentUser.firstName, // This line has an issue
+    //       // lastName: 'Doncic',
+    //       // uid: '123456789',
+    //     ),
+    //   ),
+    // );
+  },
+);
+
 }

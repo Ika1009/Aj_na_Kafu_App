@@ -17,22 +17,6 @@ class AuthService extends ChangeNotifier {
         password: password,
       );
 
-      // Reference to the user's Firestore document
-      DocumentReference userDocRef = _firestore.collection('users').doc(userCredential.user!.uid);
-
-      // If the document does not exist, create it with default blank values
-      await userDocRef.set({
-        'uid': userCredential.user!.uid,
-        'email': email,
-        'username': '',
-        'firstName': '',
-        'lastName': '',
-        'dateOfBirth': '',
-        'phoneNumber': '',
-        'description': '',
-        'friends': [] // Initialize an empty friends list
-      }, SetOptions(merge: true));
-
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
@@ -67,7 +51,6 @@ class AuthService extends ChangeNotifier {
         'description': description,
         'friends': [] // Initialize an empty friends list
       });
-
       return userCredential;
     } on FirebaseAuthException catch (e) {
       throw Exception(e.code);
