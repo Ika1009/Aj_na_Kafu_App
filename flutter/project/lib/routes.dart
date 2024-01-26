@@ -3,7 +3,7 @@ import 'package:project/Screens/chats/chats_screen.dart';
 import 'package:project/Screens/map/map_screen.dart';
 import 'package:project/screens/setup/setup_screen_2.dart';
 import 'package:project/screens/signin/signin_screen.dart';
-//import 'package:project/screens/messages/message_screen.dart';
+import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/home/home_screen.dart';
 import 'package:project/screens/signup/signup_screen.dart';
@@ -17,7 +17,7 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
   ProfileScreen.routeName: (context) => const ProfileScreen(), 
   ChatsScreen.routeName: (context) => const ChatsScreen(),
-  //MessagesScreen.routeName: (context) => const MessagesScreen(),
+  MessagesScreen.routeName: (context) => const MessagesScreen(receiverFirstName: "First name", receiverLastName: "Last name", receiverID: "1"),
   OnBoardScreen.routeName: (context) => const OnBoardScreen(),
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),

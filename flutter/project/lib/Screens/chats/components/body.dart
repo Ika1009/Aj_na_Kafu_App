@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:project/models/Chat.dart';
+import 'package:project/models/chat_tile.dart';
+import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/services/friendships_manager.dart';
 import 'package:project/screens/chats/components/chat_card.dart';
-import 'package:project/screens/messages/message_screen.dart';
 
 class Body extends StatelessWidget {
   const Body({Key? key}) : super(key: key);
@@ -51,32 +51,30 @@ class Body extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
-  var chatData = Chat(
-    name: users['firstName'],
-    lastMessage: 'Tap to chat with ${users['firstName']}',
-    image: "assets/images/profile1.png",
-    time: "3m ago",
-    isActive: false,
-  );
+  Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
+    var chatData = Chat(
+      name: users['firstName'],
+      lastMessage: 'Tap to chat with ${users['firstName']}', // ovde treba poslednja poruka ako je moguce
+      image: "assets/images/profile1.png", // ovde treba slika od usera
+      time: "3m ago", // ovde kad je poslata ta poslenja poruka ako je moguce
+      isActive: false,
+    );
 
-return ChatCard(
-  chat: chatData, 
-  press: () {
-    // TODO: Navigation to MessagesScreen is commented out until the page is ready.
-    // Navigator.push(
-    //   context,
-    //   MaterialPageRoute(
-    //     builder: (context) => MessagesScreen(
-    //       // firstName: currentUser.firstName, // This line has an issue
-    //       // lastName: 'Doncic',
-    //       // uid: '123456789',
-    //     ),
-    //   ),
-    // );
-  },
-);
-
+    return ChatCard(
+      chat: chatData, 
+      press: () {   
+       Navigator.push(
+         context,
+         MaterialPageRoute(
+           builder: (context) => MessagesScreen(
+             receiverFirstName: users['firstName'],
+             receiverLastName: users['lastName'],
+             receiverID: users['uid'],
+           ),
+         ),
+       );
+      },
+    );
+  }
 }
