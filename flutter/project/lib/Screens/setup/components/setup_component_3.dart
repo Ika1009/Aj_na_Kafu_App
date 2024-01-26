@@ -4,6 +4,7 @@ import 'package:project/services/auth_service.dart';
 import 'package:project/models/user_data.dart';
 import 'package:image_input/image_input.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:typed_data';
 
 import '../../../constants.dart';
 
@@ -20,26 +21,22 @@ class _AccountSetup3State extends State<AccountSetup3> {
   XFile? _imageFile;
   bool _isUploading = false;
 
+  Uint8List? imageData;
+
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
     try {
       final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
+        // Read the image file as bytes
+        Uint8List imageBytes = await pickedFile.readAsBytes();
         setState(() {
-          profileImage = pickedFile;
+          imageData = imageBytes;
         });
       }
     } catch (e) {
-      // Handle any errors
-      //print(e.toString());
+      print(e.toString());
     }
-  }
-
-  // This function will be called when the user selects an image
-  void onImageChanged(XFile? image) {
-    setState(() {
-      _imageFile = image;
-    });
   }
 
   void finishRegistration(BuildContext context) async {
@@ -66,9 +63,9 @@ class _AccountSetup3State extends State<AccountSetup3> {
       String? userUID = userCredential.user?.uid;
 
       // Now upload the image using the UID, if an image is selected
-      if (_imageFile != null && userUID != null) {
+      if (imageData != null && userUID != null) {
         try {
-          String imageUrl = await authService.uploadImage(_imageFile!, userUID);
+          String imageUrl = await authService.uploadImage(imageData!, userUID);
 
           // Update Firestore collection with the imageUrl that has been uploaded to the servers
           await authService.updateUserProfileImage(userUID, imageUrl);
