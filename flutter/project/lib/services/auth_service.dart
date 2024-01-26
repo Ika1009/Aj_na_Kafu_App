@@ -1,12 +1,10 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
-import 'package:image_input/image_input.dart';
 
 class AuthService extends ChangeNotifier {
   // Instance of FirebaseAuth
@@ -31,14 +29,7 @@ class AuthService extends ChangeNotifier {
 
   // Create a new user with email and password
   Future<UserCredential> signUpWithEmailAndPassword(
-    String username,
-    String email, 
-    String password,
-    String firstName,
-    String lastName,
-    String dateOfBirth,
-    String phoneNumber,
-    String description,
+    String username, email, password, firstName, lastName, dateOfBirth, phoneNumber, description,
   ) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -64,7 +55,6 @@ class AuthService extends ChangeNotifier {
       throw Exception(e.code);
     }
   }
-
 
   // Sign user out
   Future<void> signOut() async {
@@ -114,4 +104,3 @@ class AuthService extends ChangeNotifier {
     }
   }
 }
-

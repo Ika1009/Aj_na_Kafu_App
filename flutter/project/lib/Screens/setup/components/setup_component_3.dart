@@ -18,9 +18,7 @@ class AccountSetup3 extends StatefulWidget {
 
 class _AccountSetup3State extends State<AccountSetup3> {
   XFile? profileImage = XFile('assets/images/placeholder-image.png');
-  XFile? _imageFile;
   bool _isUploading = false;
-
   Uint8List? imageData;
 
   Future<void> pickImage() async {
@@ -31,11 +29,12 @@ class _AccountSetup3State extends State<AccountSetup3> {
         // Read the image file as bytes
         Uint8List imageBytes = await pickedFile.readAsBytes();
         setState(() {
+          profileImage = pickedFile;
           imageData = imageBytes;
         });
       }
     } catch (e) {
-      print(e.toString());
+      //print(e.toString());
     }
   }
 
@@ -177,7 +176,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
             ),
             onPressed: _isUploading ? null : () => finishRegistration(context), // Disable the button when uploading
             child: _isUploading
-                ? const CircularProgressIndicator() // Show a loading indicator when uploading
+                ? const CircularProgressIndicator(color: backgroundColor) // Show a loading indicator when uploading
                 : const Text(
                     "Finish",
                     style: TextStyle(
