@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/constants.dart';
+import 'package:project/screens/messages/components/message_bubble.dart';
 import 'package:project/services/chat_service.dart';
 
 class MessagesScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class MessagesScreen extends StatefulWidget {
 
 class _MessagesScreenState extends State<MessagesScreen> {
   final TextEditingController _messageController = TextEditingController();
+  final ScrollController _scrollController = ScrollController();
   final ChatService _chatService = ChatService();
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   
@@ -35,7 +37,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
       _messageController.clear();
     }
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,8 +47,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
           Expanded(
             child: _buildMessageList(),
           ),
-
           _buildMessageInput(),
+          const SizedBox(height: 10),
         ],
       ),
     );
@@ -92,7 +94,18 @@ class _MessagesScreenState extends State<MessagesScreen> {
           return const Text('Loading...');
         }
 
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (_scrollController.hasClients) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+            );
+          }
+        });
+
         return ListView(
+          controller: _scrollController,
           children: snapshot.data!.docs.map((document) => _buildMessageItem(document)).toList(),
         );
       },
@@ -108,53 +121,72 @@ class _MessagesScreenState extends State<MessagesScreen> {
 
     return Container(
       alignment: alignment,
-      child: Column(
-        children: [
-          Text(data['senderName']),
-          Text(data['message']),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: 
+              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
+          mainAxisAlignment: 
+              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+          children: [
+            Text(data['senderName']),
+            const SizedBox(height: 5),
+            MessageBubble(message: data['message']),
+          ],
+        ),
       ),
     );
   }
 
   Widget _buildMessageInput() {
-    return Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: _messageController,
-             decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-              hintText: "Enter message...",
-              hintStyle: const TextStyle(
-                color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                fontWeight: FontWeight.w600,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25), 
-                borderSide: BorderSide.none, 
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25), 
-                borderSide: BorderSide.none, 
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25), 
-                borderSide: BorderSide.none, 
+    return Padding(
+      padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              maxLines: null,
+              controller: _messageController,
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                hintText: "Enter message...",
+                hintStyle: const TextStyle(
+                  color: Color(0xFF757575), // dzektor da doda boju i da se zameni
+                  fontWeight: FontWeight.w600,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25), 
+                  borderSide: BorderSide.none, 
+                ),
               ),
             ),
           ),
-        ),
 
-        IconButton(
-          onPressed: sendMessage, 
-          icon: const Icon(
-            Icons.arrow_upward,
-            size: 40,
-          )
-        ),
-      ],
+          const SizedBox(width: 10),
+    
+          IconButton(
+            onPressed: sendMessage, 
+            icon: const Icon(
+              Icons.arrow_upward,
+              size: 30,
+            )
+          ),
+        ],
+      ),
     );
   }
 }
