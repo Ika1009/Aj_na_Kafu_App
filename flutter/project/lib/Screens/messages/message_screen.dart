@@ -135,7 +135,12 @@ class _MessagesScreenState extends State<MessagesScreen> {
           children: [
             Text(data['senderName']),
             const SizedBox(height: 5),
-            MessageBubble(message: data['message']),
+            MessageBubble(
+              message: data['message'],
+              color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
+                  ? secondaryColor
+                  : Colors.grey,
+            ),
           ],
         ),
       ),
@@ -181,7 +186,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
           IconButton(
             onPressed: sendMessage, 
             icon: const Icon(
-              Icons.arrow_upward,
+              Icons.arrow_right_alt_rounded,
               size: 30,
             )
           ),

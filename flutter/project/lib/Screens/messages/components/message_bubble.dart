@@ -3,7 +3,8 @@ import 'package:project/constants.dart';
 
 class MessageBubble extends StatelessWidget {
   final String message;
-  const MessageBubble({super.key, required this.message});
+  final Color color;
+  const MessageBubble({super.key, required this.message, required this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +12,7 @@ class MessageBubble extends StatelessWidget {
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: primaryColor
+        color: color,
       ),
       child: Text(
         message, 
