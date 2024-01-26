@@ -32,7 +32,7 @@ class ChatService extends ChangeNotifier {
     String chatRoomId = ids.join("_"); // Combine the ids into a single string to use as a chat room id
 
     // Add new message to database
-  await _fireStore
+    await _fireStore
       .collection('chat_rooms')
       .doc(chatRoomId)
       .collection('messages')
@@ -50,9 +50,8 @@ class ChatService extends ChangeNotifier {
         .collection('chat_rooms')
         .doc(chatRoomId)
         .collection('messages')
-        .orderBy('timestamp', descending: true)
+        .orderBy('timestamp', descending: false)
         .snapshots();
   }
-
 }
 
