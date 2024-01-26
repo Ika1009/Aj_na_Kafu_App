@@ -43,6 +43,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
   }
 
   void finishRegistration(BuildContext context) async {
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
     final authService = AuthService();
 
     setState(() {
@@ -51,9 +52,9 @@ class _AccountSetup3State extends State<AccountSetup3> {
 
     try {
       UserCredential userCredential = await authService.signUpWithEmailAndPassword(
-        widget.userData.userName,
-        widget.userData.email,
-        widget.userData.password,
+        data.userName,
+        data.email,
+        data.password,
         widget.userData.firstName,
         widget.userData.lastName,
         widget.userData.dateOfBirth,
@@ -183,7 +184,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
                 : const Text(
                     "Finish",
                     style: TextStyle(
-                      color: accentColor,
+                      color: backgroundColor,
                       fontWeight: FontWeight.w600,
                       fontSize: 20,
                     ),
