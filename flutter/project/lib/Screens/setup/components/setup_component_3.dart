@@ -174,9 +174,9 @@ class _AccountSetup3State extends State<AccountSetup3> {
                 ),
               ),
             ),
-            onPressed: _isUploading ? null : () => finishRegistration(context), // Disable the button when uploading
+            onPressed: _isUploading ? null : () => finishRegistration(context),
             child: _isUploading
-                ? const CircularProgressIndicator(color: backgroundColor) // Show a loading indicator when uploading
+                ? const CircularProgressIndicator(color: backgroundColor)
                 : const Text(
                     "Finish",
                     style: TextStyle(
