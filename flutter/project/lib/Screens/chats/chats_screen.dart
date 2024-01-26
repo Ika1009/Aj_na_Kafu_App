@@ -15,6 +15,25 @@ class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Chats',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w400,
+          ),
+        ),
+        automaticallyImplyLeading: false, 
+        centerTitle: true,
+        // dzektor da pogleda ovaj kod
+        /*bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.2),
+          child: Container(
+            color: const Color(0xFF757575),
+            height: 0.2,
+          ),
+        ),*/
+      ),
       body: const Body(),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
