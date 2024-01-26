@@ -81,7 +81,7 @@ class AuthService extends ChangeNotifier {
 
       // Add the image data to the request
       final mimeType = MediaType('image', 'jpeg'); // Adjust the mime type as needed
-      final multipartFile = http.MultipartFile.fromBytes('file', imageData, filename: userUID + '.jpg', contentType: mimeType);
+      final multipartFile = http.MultipartFile.fromBytes('file', imageData, filename: '$userUID.jpg', contentType: mimeType);
       request.files.add(multipartFile);
 
       // Send the request and get the response
