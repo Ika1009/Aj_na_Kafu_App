@@ -40,7 +40,7 @@ class UserService {
         return null; // User data not found in Firestore
       }
     } catch (e) {
-      print('Error retrieving user data: $e');
+      //print('Error retrieving user data: $e');
       return null; // Error occurred while retrieving user data
     }
   }

@@ -19,9 +19,9 @@ class _AccountSetup3State extends State<AccountSetup3> {
   XFile? profileImage = XFile('assets/images/placeholder-image.png');
 
   Future<void> pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+    final ImagePicker picker = ImagePicker();
     try {
-      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         setState(() {
           profileImage = pickedFile;
@@ -29,7 +29,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
       }
     } catch (e) {
       // Handle any errors
-      print(e.toString());
+      //print(e.toString());
     }
   }
 
@@ -52,6 +52,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
           userData.description,
         );
         // If registration is successful, navigate to the next screen or show a success message
+        if (!context.mounted) return;
         Navigator.pushReplacementNamed(context, '/home');
       } catch (e) {
         // If registration fails, show an error message
@@ -122,13 +123,6 @@ class _AccountSetup3State extends State<AccountSetup3> {
                 ),
               ),
             ),
-            onImageChanged: (XFile? image) {
-              //save image to cloud and get the url
-              //or
-              //save image to local storage and get the path
-              String? tempPath = image?.path;
-              print(tempPath);
-            },
             onImageRemoved: () {
               setState(() {
                 profileImage = null;

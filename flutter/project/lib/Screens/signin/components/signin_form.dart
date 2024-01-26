@@ -25,6 +25,7 @@ class _LoginFormState extends State<LoginForm> {
           passwordController.text,
         );
       } catch (e) {
+        if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           MySnackBars.warningSnackBar(
             e.toString(),
