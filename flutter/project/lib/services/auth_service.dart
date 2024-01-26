@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -69,24 +71,21 @@ class AuthService extends ChangeNotifier {
     return await _firebaseAuth.signOut();
   }
 
-  Future<String> uploadImage(XFile imageFile, String userUID) async {
-    final uri = Uri.parse('https://bonanza.mycpanel.rs/ajnakafu/upload_image.php'); //Cuvam sliku na nasem serveru i vracam url
-
+  Future<String> uploadImage(Uint8List imageData, String userUID) async {
+    final uri = Uri.parse('https://bonanza.mycpanel.rs/ajnakafu/upload_image.php');
     try {
       final request = http.MultipartRequest('POST', uri);
-      
-      // Add the image file to the request
-      final fileStream = http.ByteStream(imageFile.openRead());
-      final length = await imageFile.length();
+
+      // Add userUID as a field in the request
+      request.fields['userUID'] = userUID;
+
+      // Add the image data to the request
       final mimeType = MediaType('image', 'jpeg'); // Adjust the mime type as needed
-      
-      final multipartFile = http.MultipartFile('file', fileStream, length, filename: userUID, contentType: mimeType);
-      
+      final multipartFile = http.MultipartFile.fromBytes('file', imageData, filename: '$userUID.jpg', contentType: mimeType);
       request.files.add(multipartFile);
-      
+
       // Send the request and get the response
       final response = await request.send();
-      
       if (response.statusCode == 200) {
         // Image uploaded successfully, parse the response to get the image URL
         final responseData = await response.stream.toBytes();
