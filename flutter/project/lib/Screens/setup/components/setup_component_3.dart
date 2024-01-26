@@ -2,12 +2,36 @@ import 'package:flutter/material.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/models/user_data.dart';
 import 'package:image_input/image_input.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../../../constants.dart';
 
-class AccountSetup3 extends StatelessWidget {
+class AccountSetup3 extends StatefulWidget {
   final UserData userData;
   const AccountSetup3({Key? key, required this.userData}) : super(key: key);
+
+  @override
+  State<AccountSetup3> createState() => _AccountSetup3State();
+}
+
+class _AccountSetup3State extends State<AccountSetup3> {
+  List<XFile> images = [];
+  XFile? profileImage = XFile('assets/images/placeholder-image.png');
+
+  Future<void> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    try {
+      final XFile? pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+      if (pickedFile != null) {
+        setState(() {
+          profileImage = pickedFile;
+        });
+      }
+    } catch (e) {
+      // Handle any errors
+      print(e.toString());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,23 +89,29 @@ class AccountSetup3 extends StatelessWidget {
           ProfileAvatar(
             radius: 100,
             allowEdit: true,
+            image: profileImage,
             backgroundColor: const Color(0xFFE0F8E8),
-            addImageIcon: Container(
-              decoration: BoxDecoration(
-                color: accentColor,
-                borderRadius: BorderRadius.circular(100),
-              ),
-              child: const Padding(
-                padding: EdgeInsets.all(8.0),
-                child: Icon(
-                  Icons.add_a_photo,
-                  color: backgroundColor,
+            addImageIcon: GestureDetector(
+              onTap: () {
+                pickImage();
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: secondaryColor,
+                  borderRadius: BorderRadius.circular(100),
+                ),
+                child: const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Icon(
+                    Icons.add_a_photo,
+                    color: backgroundColor,
+                  ),
                 ),
               ),
             ),
             removeImageIcon: Container(
               decoration: BoxDecoration(
-                color: accentColor,
+                color: secondaryColor,
                 borderRadius: BorderRadius.circular(100),
               ),
               child: const Padding(
@@ -99,24 +129,28 @@ class AccountSetup3 extends StatelessWidget {
               String? tempPath = image?.path;
               print(tempPath);
             },
+            onImageRemoved: () {
+              setState(() {
+                profileImage = null;
+              });
+            },
           ),
           const SizedBox(height: defaultPadding * 4),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(backgroundColor),
+              backgroundColor: MaterialStateProperty.all(accentColor),
               minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25), 
-                  side: const BorderSide(color: accentColor, width: 2.0), 
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
             ),
-            onPressed: () => finishRegistration(context, userData), // Bind the onPressed event
+            onPressed: () => finishRegistration(context, widget.userData), // Bind the onPressed event
             child: const Text(
               "Finish",
               style: TextStyle(
-                color: accentColor,
+                color: backgroundColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 20,
               ),

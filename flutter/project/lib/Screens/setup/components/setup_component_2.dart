@@ -114,12 +114,11 @@ class _AccountSetup2State extends State<AccountSetup2> {
           const SizedBox(height: defaultPadding * 4),
           ElevatedButton(
             style: ButtonStyle(
-              backgroundColor: MaterialStateProperty.all(backgroundColor),
+              backgroundColor: MaterialStateProperty.all(accentColor),
               minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(25), 
-                  side: const BorderSide(color: accentColor, width: 2.0), 
+                  borderRadius: BorderRadius.circular(25),
                 ),
               ),
             ),
@@ -131,7 +130,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
             child: const Text(
               "Continue",
               style: TextStyle(
-                color: accentColor,
+                color: backgroundColor,
                 fontWeight: FontWeight.w600,
                 fontSize: 20,
               ),
