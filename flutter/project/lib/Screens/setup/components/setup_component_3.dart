@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/models/user_data.dart';
@@ -34,33 +35,72 @@ class _AccountSetup3State extends State<AccountSetup3> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
-      void finishRegistration(BuildContext context, UserData userData) async {
-      // Call your AuthService to create a new user account
-      // This is just a sample, you would replace with your actual AuthService implementation
-      final authService = AuthService(); // Assuming you have an instance of your AuthService
+  _AccountSetup3State createState() => _AccountSetup3State();
+}
+
+class _AccountSetup3State extends State<AccountSetup3> {
+  XFile? _imageFile;
+  bool _isUploading = false;
+
+  // This function will be called when the user selects an image
+  void onImageChanged(XFile? image) {
+    setState(() {
+      _imageFile = image;
+    });
+  }
+void finishRegistration(BuildContext context) async {
+  setState(() {
+    _isUploading = true;
+  });
+
+  final authService = AuthService();
+  try {
+    UserCredential userCredential = await authService.signUpWithEmailAndPassword(
+      widget.userData.userName,
+      widget.userData.email,
+      widget.userData.password,
+      widget.userData.firstName,
+      widget.userData.lastName,
+      widget.userData.dateOfBirth,
+      widget.userData.phoneNumber,
+      widget.userData.description,
+    );
+
+    // After successful account creation, get the UID
+    String? userUID = userCredential.user?.uid;
+
+    // Now upload the image using the UID, if an image is selected
+    if (_imageFile != null && userUID != null) {
       try {
-        await authService.signUpWithEmailAndPassword(
-          data.userName,
-          data.email,
-          data.password,
-          userData.firstName,
-          userData.lastName,
-          userData.dateOfBirth,
-          userData.phoneNumber,
-          userData.description,
-        );
-        // If registration is successful, navigate to the next screen or show a success message
-        if (!context.mounted) return;
-        Navigator.pushReplacementNamed(context, '/home');
+        String imageUrl = await authService.uploadImage(_imageFile!, userUID);
+
+        // Update Firestore collection with the imageUrl that has been uploaded to the servers
+        await authService.updateUserProfileImage(userUID, imageUrl);
+
+        // Optionally update user's profile or additional data with the imageUrl
       } catch (e) {
-        // If registration fails, show an error message
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Registration failed: ${e.toString()}')),
+          SnackBar(content: Text('Image upload failed: ${e.toString()}')),
         );
       }
     }
+
+      Navigator.pushReplacementNamed(context, '/home');
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Registration failed: ${e.toString()}')),
+      );
+    } finally {
+      setState(() {
+        _isUploading = false;
+      });
+    }
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
 
     return Container(
       alignment: Alignment.centerLeft,
@@ -140,15 +180,17 @@ class _AccountSetup3State extends State<AccountSetup3> {
                 ),
               ),
             ),
-            onPressed: () => finishRegistration(context, widget.userData), // Bind the onPressed event
-            child: const Text(
-              "Finish",
-              style: TextStyle(
-                color: backgroundColor,
-                fontWeight: FontWeight.w600,
-                fontSize: 20,
-              ),
-            ),
+            onPressed: _isUploading ? null : () => finishRegistration(context), // Disable the button when uploading
+            child: _isUploading
+                ? const CircularProgressIndicator() // Show a loading indicator when uploading
+                : const Text(
+                    "Finish",
+                    style: TextStyle(
+                      color: accentColor,
+                      fontWeight: FontWeight.w600,
+                      fontSize: 20,
+                    ),
+                  ),
           ),
         ],
       ),
