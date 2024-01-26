@@ -1,5 +1,5 @@
 import 'package:project/constants.dart';
-import 'package:project/models/ChatMessage.dart';
+import 'package:project/models/chat_message.dart';
 import 'package:flutter/material.dart';
 
 import 'chat_input_field.dart';

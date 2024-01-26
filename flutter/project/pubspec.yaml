@@ -46,6 +46,7 @@ dependencies:
   google_maps_flutter: ^2.5.3
   image_input: ^0.0.2
   http_parser: ^4.0.2
+  image_picker: ^1.0.7
 
 dev_dependencies:
   flutter_test:

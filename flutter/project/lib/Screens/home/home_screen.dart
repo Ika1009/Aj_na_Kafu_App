@@ -77,7 +77,7 @@ class _HomePageState extends State<HomeScreen> {
               label: 'Profile',
             ),
           ],
-          selectedItemColor: accentColor,
+          selectedItemColor: secondaryColor,
         ),
       ),
     );

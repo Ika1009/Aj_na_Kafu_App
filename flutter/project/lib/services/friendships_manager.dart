@@ -27,7 +27,7 @@ class FriendsManager {
         }
       } catch (e) {
         // Handle any errors here
-        print('Error fetching friend data: $e');
+        //print('Error fetching friend data: $e');
       }
     }
 
@@ -49,7 +49,7 @@ class FriendsManager {
       }
     } catch (e) {
       // Handle any errors here
-      print('Error fetching users data: $e');
+      //print('Error fetching users data: $e');
     }
 
     return usersList;

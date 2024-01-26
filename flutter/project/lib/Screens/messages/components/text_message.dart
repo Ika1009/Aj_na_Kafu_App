@@ -1,4 +1,4 @@
-import 'package:project/models/ChatMessage.dart';
+import 'package:project/models/chat_message.dart';
 import 'package:flutter/material.dart';
 
 import '../../../constants.dart';
@@ -14,9 +14,6 @@ class TextMessage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // color: MediaQuery.of(context).platformBrightness == Brightness.dark
-      //     ? Colors.white
-      //     : Colors.black,
       padding: const EdgeInsets.symmetric(
         horizontal: kDefaultPadding * 0.75,
         vertical: kDefaultPadding / 2,

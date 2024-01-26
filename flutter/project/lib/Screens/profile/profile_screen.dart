@@ -47,6 +47,7 @@ class ProfileScreen extends StatelessWidget {
               icon: "assets/icons/logout.svg",
               press: () async {
                 await authService.signOut();
+                if (!context.mounted) return;
                 Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
               },
             ),

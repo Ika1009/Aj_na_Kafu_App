@@ -24,26 +24,24 @@ class ChatInputField extends StatelessWidget {
           ),
         ],
       ),
-      child: SafeArea(
+      child: const SafeArea(
         child: Row(
           children: [
             Expanded(
-              child: Container(
-                child: const Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          hintText: "Type message",
-                          border: InputBorder.none,
-                        ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      textAlign: TextAlign.start,
+                      decoration: InputDecoration(
+                        hintText: "Type message",
+                        border: InputBorder.none,
                       ),
                     ),
-                    SizedBox(width: kDefaultPadding / 2),
-                    Icon(Icons.arrow_forward, color: primaryColor),
-                  ],
-                ),
+                  ),
+                  SizedBox(width: kDefaultPadding / 2),
+                  Icon(Icons.arrow_forward, color: primaryColor),
+                ],
               ),
             ),
           ],
