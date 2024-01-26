@@ -32,8 +32,6 @@ class _HomePageState extends State<HomeScreen> {
     const ProfileScreen(),
   ];
 
-  static const List<String> _titles = ["Chats", "Map", "Profile"];
-
   Future<Position?> _getUserLocation() {
     LocationService locationService = LocationService();
     return locationService.getUserLocation();
@@ -42,20 +40,6 @@ class _HomePageState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_titles[_selectedIndex]),
-      ),
-      drawer: Drawer(
-        child: Column(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.location_pin),
-              title: const Text("Map"),
-              onTap: () {},
-            ),
-          ],
-        ),
-      ),
       body: FutureBuilder<Position?>(
         future: _getUserLocation(),
         builder: (context, snapshot) {
@@ -66,26 +50,35 @@ class _HomePageState extends State<HomeScreen> {
           return _pages[_selectedIndex];
         },
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _navigateBottomBar,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.chat),
-            label: 'Chats',
+      bottomNavigationBar: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            top: BorderSide(color: Color(0xFF757575), width: 0.2),
           ),
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: backgroundColor,
+          elevation: 0,
+          currentIndex: _selectedIndex,
+          onTap: _navigateBottomBar,
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: 'Chats',
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.location_pin),
-            label: 'Map',
-          ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_pin),
+              label: 'Map',
+            ),
 
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-        selectedItemColor: primaryColor,
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: 'Profile',
+            ),
+          ],
+          selectedItemColor: accentColor,
+        ),
       ),
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/models/user_data.dart';
+import 'package:image_input/image_input.dart';
 
 import '../../../constants.dart';
 
@@ -11,16 +12,6 @@ class AccountSetup3 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final UserData data = ModalRoute.of(context)!.settings.arguments as UserData;
-    // za iliju doncica ovde ti se nalaze sve varijable i dole ti je dugme finish gde ce ti se zavrsi registracija
-    /*(print(data.email);
-    print(data.password);
-    print(data.userName);
-    print(userData.firstName);
-    print(userData.lastName);
-    print(userData.dateOfBirth);
-    print(userData.phoneNumber);
-    print(userData.description);*/
-
       void finishRegistration(BuildContext context, UserData userData) async {
       // Call your AuthService to create a new user account
       // This is just a sample, you would replace with your actual AuthService implementation
@@ -71,13 +62,43 @@ class AccountSetup3 extends StatelessWidget {
             ),
           ),
           const SizedBox(height: defaultPadding * 4),
-          const Text(
-            'PROFILE IMAGE:',
-            style: TextStyle(
-              color: primaryColor, // dzektor da doda boju
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+          ProfileAvatar(
+            radius: 100,
+            allowEdit: true,
+            backgroundColor: const Color(0xFFE0F8E8),
+            addImageIcon: Container(
+              decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.add_a_photo,
+                  color: backgroundColor,
+                ),
+              ),
             ),
+            removeImageIcon: Container(
+              decoration: BoxDecoration(
+                color: accentColor,
+                borderRadius: BorderRadius.circular(100),
+              ),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.close,
+                  color: backgroundColor,
+                ),
+              ),
+            ),
+            onImageChanged: (XFile? image) {
+              //save image to cloud and get the url
+              //or
+              //save image to local storage and get the path
+              String? tempPath = image?.path;
+              print(tempPath);
+            },
           ),
           const SizedBox(height: defaultPadding * 4),
           ElevatedButton(

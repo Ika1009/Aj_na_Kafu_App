@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
-
+import 'package:flutter_svg/svg.dart';
+import 'package:project/constants.dart';
 import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,7 +11,7 @@ class FindFriends extends StatefulWidget {
   const FindFriends({Key? key}) : super(key: key);
 
   @override
-  _FindFriendsState createState() => _FindFriendsState();
+  State<FindFriends> createState() => _FindFriendsState();
 }
 
 class _FindFriendsState extends State<FindFriends> {
@@ -20,7 +21,6 @@ class _FindFriendsState extends State<FindFriends> {
   );
 
   final Set<Marker> _markers = {};
-  late GoogleMapController _controller;
 
   final List<dynamic> _contacts = const [
     {
@@ -83,7 +83,7 @@ class _FindFriendsState extends State<FindFriends> {
     createMarkers(context);
 
     return Scaffold(
-        body: Stack(
+      body: Stack(
         children: [
           Positioned(
             bottom: -25,
@@ -96,56 +96,46 @@ class _FindFriendsState extends State<FindFriends> {
               myLocationButtonEnabled: false,
               zoomControlsEnabled: false,
               onMapCreated: (GoogleMapController controller) {
-                _controller = controller;
-                controller.setMapStyle(MapStyle().aubergine);
+                controller.setMapStyle(MapStyle().retro);
               },
             ),
           ), 
-        Positioned(
-          bottom: 20,
-          left: 10,
-          right: 10,
-          child: Container(
+          Positioned(
+            top: 15,
+            left: 40,
+            right: 40,
+            child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 120,
+              height: 40,
               decoration: BoxDecoration(
-                  color: Colors.white, borderRadius: BorderRadius.circular(20)),
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: _contacts.length,
-                itemBuilder: (context, index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _controller.moveCamera(
-                          CameraUpdate.newLatLng(_contacts[index]["position"]));
-                    },
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      margin: const EdgeInsets.only(right: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(
-                            _contacts[index]['image'],
-                            width: 60,
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            _contacts[index]["name"],
-                            style: const TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600),
-                          )
-                        ],
-                      ),
+                color: backgroundColor, 
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                    child: SvgPicture.asset(
+                      'assets/icons/searchperson.svg', 
+                      height: 24,
+                      width: 24,
                     ),
-                  );
-                },
-              )),
-        )
-      ],
-    ));
+                  ),
+                  const Text(
+                    'Search',
+                    style: TextStyle(
+                    color: Color(0xFF757575),
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 
   createMarkers(BuildContext context) {
@@ -159,7 +149,7 @@ class _FindFriendsState extends State<FindFriends> {
             .then((value) => value),
         infoWindow: InfoWindow(
           title: contact['name'],
-          snippet: 'Street 6 . 2min ago',
+          snippet: 'aktivan',
         ),
       );
 
