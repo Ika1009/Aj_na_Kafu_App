@@ -16,8 +16,9 @@ class AccountSetup3 extends StatefulWidget {
 }
 
 class _AccountSetup3State extends State<AccountSetup3> {
-  List<XFile> images = [];
   XFile? profileImage = XFile('assets/images/placeholder-image.png');
+  XFile? _imageFile;
+  bool _isUploading = false;
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -34,69 +35,65 @@ class _AccountSetup3State extends State<AccountSetup3> {
     }
   }
 
-  @override
-  _AccountSetup3State createState() => _AccountSetup3State();
-}
-
-class _AccountSetup3State extends State<AccountSetup3> {
-  XFile? _imageFile;
-  bool _isUploading = false;
-
   // This function will be called when the user selects an image
   void onImageChanged(XFile? image) {
     setState(() {
       _imageFile = image;
     });
   }
-void finishRegistration(BuildContext context) async {
-  setState(() {
-    _isUploading = true;
-  });
 
-  final authService = AuthService();
-  try {
-    UserCredential userCredential = await authService.signUpWithEmailAndPassword(
-      widget.userData.userName,
-      widget.userData.email,
-      widget.userData.password,
-      widget.userData.firstName,
-      widget.userData.lastName,
-      widget.userData.dateOfBirth,
-      widget.userData.phoneNumber,
-      widget.userData.description,
-    );
+  void finishRegistration(BuildContext context) async {
+    final authService = AuthService();
 
-    // After successful account creation, get the UID
-    String? userUID = userCredential.user?.uid;
+    setState(() {
+      _isUploading = true;
+    });
 
-    // Now upload the image using the UID, if an image is selected
-    if (_imageFile != null && userUID != null) {
-      try {
-        String imageUrl = await authService.uploadImage(_imageFile!, userUID);
+    try {
+      UserCredential userCredential = await authService.signUpWithEmailAndPassword(
+        widget.userData.userName,
+        widget.userData.email,
+        widget.userData.password,
+        widget.userData.firstName,
+        widget.userData.lastName,
+        widget.userData.dateOfBirth,
+        widget.userData.phoneNumber,
+        widget.userData.description,
+      );
 
-        // Update Firestore collection with the imageUrl that has been uploaded to the servers
-        await authService.updateUserProfileImage(userUID, imageUrl);
+      // After successful account creation, get the UID
+      String? userUID = userCredential.user?.uid;
 
-        // Optionally update user's profile or additional data with the imageUrl
-      } catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Image upload failed: ${e.toString()}')),
-        );
+      // Now upload the image using the UID, if an image is selected
+      if (_imageFile != null && userUID != null) {
+        try {
+          String imageUrl = await authService.uploadImage(_imageFile!, userUID);
+
+          // Update Firestore collection with the imageUrl that has been uploaded to the servers
+          await authService.updateUserProfileImage(userUID, imageUrl);
+
+          // Optionally update user's profile or additional data with the imageUrl
+        } catch (e) {
+          if (!context.mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Image upload failed: ${e.toString()}')),
+          );
+        }
       }
-    }
-
+      if (!context.mounted) return;
       Navigator.pushReplacementNamed(context, '/home');
-    } catch (e) {
+    } 
+    catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text('Registration failed: ${e.toString()}')),
       );
-    } finally {
+    } 
+    finally {
       setState(() {
         _isUploading = false;
       });
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
