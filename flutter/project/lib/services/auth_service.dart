@@ -58,6 +58,7 @@ class AuthService extends ChangeNotifier {
       });
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      print("email" + email);
       throw Exception(e.code);
     }
   }
