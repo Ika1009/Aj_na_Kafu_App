@@ -5,7 +5,7 @@ class UsersManager {
 
   Future<List<Map<String, dynamic>>> getFriendsOfUser(String userUid) async {
     List<Map<String, dynamic>> friendsList = [];
-
+    
     // Retrieve the user's document to get their friends list
     DocumentSnapshot userDoc = await _firestore.collection('users').doc(userUid).get();
     if (!userDoc.exists) {

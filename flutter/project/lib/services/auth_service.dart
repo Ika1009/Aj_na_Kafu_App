@@ -29,7 +29,8 @@ class AuthService extends ChangeNotifier {
 
   // Create a new user with email and password
   Future<UserCredential> signUpWithEmailAndPassword(
-    String username, email, password, firstName, lastName, dateOfBirth, phoneNumber, description,
+    String username, String email, String password, String firstName, String lastName, 
+    String dateOfBirth, String phoneNumber, String description,
   ) async {
     try {
       UserCredential userCredential = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -46,15 +47,19 @@ class AuthService extends ChangeNotifier {
         'dateOfBirth': dateOfBirth,
         'phoneNumber': phoneNumber,
         'description': description,
-        'imageUrl': 'https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png', // Add imageUrl to the user document
-        'friends': [] // Initialize an empty friends list
+        'imageUrl': 'https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png', // Default imageUrl
+        'friends': [], // Initialize an empty friends list
+        'sentRequests': [], // Initialize an empty array for sent friend requests
+        'receivedRequests': [], // Initialize an empty array for received friend requests
+        'status': false // Initialize the availability status to false
       });
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      //print("email" + email);
+      // Handle FirebaseAuthException
       throw Exception(e.code);
     }
   }
+
 
   // Sign user out
   Future<void> signOut() async {
