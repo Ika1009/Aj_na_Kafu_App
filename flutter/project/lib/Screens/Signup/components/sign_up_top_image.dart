@@ -22,7 +22,7 @@ class SignUpScreenTopImage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center, 
                 children: <Widget>[
                   Text(
-                    "Welcome,",
+                    "Dobrodošao,",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF757575),
@@ -31,7 +31,7 @@ class SignUpScreenTopImage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Sign Up to continue",
+                    "Registruj se da bi nastavio",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       color: Color(0xFF757575), // Adjust the style as needed

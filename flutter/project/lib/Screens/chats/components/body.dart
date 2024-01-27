@@ -55,9 +55,9 @@ class Body extends StatelessWidget {
   Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
     var chatData = Chat(
       name: users['firstName'],
-      lastMessage: 'Tap to chat with ${users['firstName']}', // ovde treba poslednja poruka ako je moguce
+      lastMessage: 'Klikni za ćaskanje sa ${users['firstName']}', // ovde treba poslednja poruka ako je moguce
       image: "assets/images/profile1.png", // ovde treba slika od usera
-      time: "3m ago", // ovde kad je poslata ta poslenja poruka ako je moguce
+      time: "sada", // ovde kad je poslata ta poslenja poruka ako je moguce
       isActive: false,
     );
 

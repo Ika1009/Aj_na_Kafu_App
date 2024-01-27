@@ -34,7 +34,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, ${data.userName}!',
+            'Zdravo, ${data.userName}!',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
@@ -43,7 +43,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
             ),
           ),
           const Text(
-            'Great, just few more steps...',
+            'Odlično, još samo nekoliko koraka...',
             style: TextStyle(
               color: Color(0xFF757575), // dzektor da doda boju
               fontSize: 16,
@@ -59,7 +59,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
             decoration: InputDecoration(
               filled: true,
               fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-              hintText: "Phone Number",
+              hintText: "Broj telefona",
               hintStyle: const TextStyle(
                 color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                 fontWeight: FontWeight.w600,
@@ -90,7 +90,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                hintText: "Description...",
+                hintText: "Opis...",
                 hintStyle: const TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,
@@ -128,7 +128,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
               widget.onNextPage(widget.userData);
             },
             child: const Text(
-              "Continue",
+              "Nastavi",
               style: TextStyle(
                 color: backgroundColor,
                 fontWeight: FontWeight.w600,

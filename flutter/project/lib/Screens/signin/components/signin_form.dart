@@ -54,7 +54,7 @@ class _LoginFormState extends State<SignInForm> {
             decoration: InputDecoration(
               filled: true,
               fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-              hintText: "Enter your email...",
+              hintText: "Unesi mejl...",
               hintStyle: const TextStyle(
                 color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                 fontWeight: FontWeight.w600,
@@ -84,7 +84,7 @@ class _LoginFormState extends State<SignInForm> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                hintText: "Enter you password...",
+                hintText: "Unesi lozinku...",
                 hintStyle: const TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,
@@ -119,7 +119,7 @@ class _LoginFormState extends State<SignInForm> {
               await login();
             },
             child: const Text(
-              "Sign In",
+              "Prijavi se",
               style: TextStyle(
                 color: backgroundColor,
                 fontWeight: FontWeight.w600,

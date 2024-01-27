@@ -17,7 +17,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
       children: <Widget>[
         Text.rich(
           TextSpan(
-            text: login ? "Don’t have an account? " : "Already have an account? ",
+            text: login ? "Nemaš nalog? " : "Već imaš nalog? ",
             style: const TextStyle(
               color: Color(0xFF757575), // dzektor da doda boju
               fontSize: 16,
@@ -29,7 +29,7 @@ class AlreadyHaveAnAccountCheck extends StatelessWidget {
           onTap: press as void Function()?,
           child: Text.rich(
             TextSpan(
-              text: login ? "Sign Up" : "Sign In",
+              text: login ? "Registruj se" : "Prijavi se",
               style: const TextStyle(
                 color: accentColor,
                 fontSize: 16,

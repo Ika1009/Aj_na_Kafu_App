@@ -44,7 +44,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Profile',
+          'Profil',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,
@@ -129,7 +129,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: _isUploading
                     ? const CircularProgressIndicator(color: backgroundColor)
                     : const Text(
-                        "Update",
+                        "Ažuriraj",
                         style: TextStyle(
                           color: backgroundColor,
                           fontWeight: FontWeight.w600,

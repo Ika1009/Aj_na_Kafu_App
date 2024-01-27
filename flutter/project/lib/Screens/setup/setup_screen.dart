@@ -64,7 +64,7 @@ class _SetupScreenState extends State<SetupScreen> {
               ),
               const SizedBox(height: defaultPadding * 3),
               const Text(
-                'Customize your profile to',
+                'Personalizuj svoj profil da',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju
@@ -73,7 +73,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 ),
               ),
               const Text(
-                'reflect your personality and',
+                'istakne tvoju ličnost i',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju
@@ -82,7 +82,7 @@ class _SetupScreenState extends State<SetupScreen> {
                 ),
               ),
               const Text(
-                'interests',
+                'interesovanja',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju
@@ -101,7 +101,7 @@ class _SetupScreenState extends State<SetupScreen> {
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: backgroundColor,
-                    hintText: "Choose a nickname",
+                    hintText: "Izaberi korisničko ime",
                     hintStyle: const TextStyle(
                       color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                       fontWeight: FontWeight.w600,

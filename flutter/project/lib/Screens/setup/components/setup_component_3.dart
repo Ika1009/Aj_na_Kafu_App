@@ -104,7 +104,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, ${data.userName}',
+            'Zdravo, ${data.userName}',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
@@ -113,7 +113,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
             ),
           ),
           const Text(
-            'Great, just few more steps...',
+            'Odlično, još samo nekoliko koraka...',
             style: TextStyle(
               color: Color(0xFF757575), // dzektor da doda boju
               fontSize: 16,
@@ -178,7 +178,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
             child: _isUploading
                 ? const CircularProgressIndicator(color: backgroundColor)
                 : const Text(
-                    "Finish",
+                    "Završi",
                     style: TextStyle(
                       color: backgroundColor,
                       fontWeight: FontWeight.w600,

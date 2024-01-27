@@ -8,10 +8,10 @@ class AppTheme {
       scaffoldBackgroundColor: Colors.white,
       fontFamily: "Poppins",
       appBarTheme: const AppBarTheme(
-          color: Colors.white,
-          elevation: 0,
-          iconTheme: IconThemeData(color: Colors.black),
-          titleTextStyle: TextStyle(color: Colors.black)),
+        color: Colors.white,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.black),
+        titleTextStyle: TextStyle(color: Colors.black)),
       textTheme: const TextTheme(
         bodyLarge: TextStyle(color: textColor),
         bodyMedium: TextStyle(color: textColor),

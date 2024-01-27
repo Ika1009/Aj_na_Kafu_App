@@ -122,7 +122,7 @@ class _FindFriendsState extends State<FindFriends> {
                     ),
                   ),
                   const Text(
-                    'Search',
+                    'Pretraži...',
                     style: TextStyle(
                     color: Color(0xFF757575),
                       fontSize: 16,

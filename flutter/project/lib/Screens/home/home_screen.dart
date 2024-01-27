@@ -64,17 +64,17 @@ class _HomePageState extends State<HomeScreen> {
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
-              label: 'Chats',
+              label: 'Ćaskanja',
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.location_pin),
-              label: 'Map',
+              label: 'Mapa',
             ),
 
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              label: 'Profile',
+              label: 'Profil',
             ),
           ],
           selectedItemColor: secondaryColor,

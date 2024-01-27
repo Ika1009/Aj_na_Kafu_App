@@ -160,7 +160,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                hintText: "Enter message...",
+                hintText: "Ukucaj poruku...",
                 hintStyle: const TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,

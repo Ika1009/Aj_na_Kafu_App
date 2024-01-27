@@ -17,7 +17,12 @@ final Map<String, WidgetBuilder> routes = {
   HomeScreen.routeName: (context) => const HomeScreen(),
   ProfileScreen.routeName: (context) => const ProfileScreen(), 
   ChatsScreen.routeName: (context) => const ChatsScreen(),
-  MessagesScreen.routeName: (context) => const MessagesScreen(receiverFirstName: "First name", receiverLastName: "Last name", receiverID: "1"),
+  MessagesScreen.routeName: (context) => 
+  const MessagesScreen(
+    receiverFirstName: "Ime", 
+    receiverLastName: "Prezime", 
+    receiverID: "123",
+  ),
   OnBoardScreen.routeName: (context) => const OnBoardScreen(),
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),

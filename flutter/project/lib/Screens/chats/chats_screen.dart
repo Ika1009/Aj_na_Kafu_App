@@ -17,7 +17,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Chats',
+          'Ćaskanja',
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w400,

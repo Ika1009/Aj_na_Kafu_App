@@ -36,14 +36,14 @@ class _AccountSetupScreenState extends State<AccountSetupScreen> {
   void initState() {
     super.initState();
     _userData = UserData(
-      email: 'Email',
-      password: 'Password',
-      userName: 'User Name',
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      dateOfBirth: 'Date of Birth',
-      phoneNumber: 'Phone Number',
-      description: 'Description',
+      email: 'Mejl',
+      password: 'Lozinka',
+      userName: 'Korisničko ime',
+      firstName: 'Ime',
+      lastName: 'Prezime',
+      dateOfBirth: 'Datum rođenja',
+      phoneNumber: 'Broj telefona',
+      description: 'Opis',
     );
 
     _controller.addListener(() {

@@ -8,7 +8,7 @@ class MySnackBars {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
-        title: 'On Snap!',
+        title: 'Greška!',
         message: message,
         contentType: ContentType.failure,
       ),
@@ -21,7 +21,7 @@ class MySnackBars {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
-        title: 'Hi There!',
+        title: 'Zdravo!',
         message: message,
         contentType: ContentType.help,
       ),
@@ -34,7 +34,7 @@ class MySnackBars {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
-        title: 'Congratulation!',
+        title: 'Čestitke!',
         message: message,
         contentType: ContentType.success,
       ),
@@ -47,7 +47,7 @@ class MySnackBars {
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
-        title: 'Warning!',
+        title: 'Upozorenje!',
         message: message,
         contentType: ContentType.warning,
       ),

@@ -23,12 +23,12 @@ class _AccountSetupState extends State<AccountSetup> {
     super.dispose();
   }
 
-  String selectedDay = '21';
-  String selectedMonth = 'January';
+  String selectedDay = '29';
+  String selectedMonth = 'Januar';
   String selectedYear = '2024';
 
   final List<String> days = List<String>.generate(31, (i) => '${i + 1}');
-  final List<String> months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  final List<String> months = ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'];
   final List<String> years = List<String>.generate(101, (i) => '${i + 1924}');
 
   @override
@@ -42,7 +42,7 @@ class _AccountSetupState extends State<AccountSetup> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Hello, ${data.userName}!',
+            'Zdravo, ${data.userName}!',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,
@@ -51,7 +51,7 @@ class _AccountSetupState extends State<AccountSetup> {
             ),
           ),
           const Text(
-            'Great, just few more steps...',
+            'Odlično, još samo nekoliko koraka...',
             style: TextStyle(
               color: Color(0xFF757575), // dzektor da doda boju
               fontSize: 16,
@@ -67,7 +67,7 @@ class _AccountSetupState extends State<AccountSetup> {
             decoration: InputDecoration(
               filled: true,
               fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-              hintText: "First Name",
+              hintText: "Ime",
               hintStyle: const TextStyle(
                 color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                 fontWeight: FontWeight.w600,
@@ -97,7 +97,7 @@ class _AccountSetupState extends State<AccountSetup> {
               decoration: InputDecoration(
                 filled: true,
                 fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                hintText: "Last Name",
+                hintText: "Prezime",
                 hintStyle: const TextStyle(
                   color: Color(0xFF757575), // dzektor da doda boju i da se zameni
                   fontWeight: FontWeight.w600,
@@ -198,7 +198,7 @@ class _AccountSetupState extends State<AccountSetup> {
               widget.onNextPage(widget.userData);
             },
             child: const Text(
-              "Continue",
+              "Nastavi",
               style: TextStyle(
                 color: backgroundColor,
                 fontWeight: FontWeight.w600,
