@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_input/image_input.dart';
@@ -38,7 +38,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
       currentUser = fetchedUser;
     });
   }
-
 
   XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
   final bool _isUploading = false;

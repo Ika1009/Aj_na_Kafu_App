@@ -43,7 +43,7 @@ class _HomePageState extends State<HomeScreen> {
       }
     } catch (e) {
       // Handle any errors here, such as showing an error message or logging
-      print('Failed to get location or update position: $e');
+      //print('Failed to get location or update position: $e');
     }
   }
 
@@ -58,6 +58,7 @@ class _HomePageState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      body: _pages[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(
