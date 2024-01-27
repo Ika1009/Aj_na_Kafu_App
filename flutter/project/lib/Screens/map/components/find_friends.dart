@@ -6,6 +6,7 @@ import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:project/services/users_manager.dart';
 
 class FindFriends extends StatefulWidget {
   const FindFriends({Key? key}) : super(key: key);
@@ -19,6 +20,13 @@ class _FindFriendsState extends State<FindFriends> {
     target: LatLng(43.3209, 21.8958),
     zoom: 14.4746,
   );
+
+  Future<List<Map<String, dynamic>>> fetchData(UsersManager usersManager) async {
+    var friends = await usersManager.getFriendsOfUser("userUid");
+    //var allUsers = await usersManager.getAllUsers();
+    
+    return friends; // If getAllUsers is not available
+  }
 
   final Set<Marker> _markers = {};
 

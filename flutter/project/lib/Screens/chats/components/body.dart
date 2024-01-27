@@ -55,10 +55,10 @@ class Body extends StatelessWidget {
   Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
     var chatData = Chat(
       name: users['firstName'],
-      lastMessage: 'Klikni za ćaskanje sa ${users['firstName']}', // ovde treba poslednja poruka ako je moguce
-      image: "assets/images/profile1.png", // ovde treba slika od usera
+      lastMessage: 'Klikni za ćaskanje sa ${users['firstName']}',
+      image: "${users['imageUrl']}",
       time: "sada", // ovde kad je poslata ta poslenja poruka ako je moguce
-      isActive: false,
+      isActive: true,
     );
 
     return ChatCard(

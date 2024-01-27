@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_input/image_input.dart';
@@ -17,6 +18,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  User? currentUser = FirebaseAuth.instance.currentUser;
   XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
   final bool _isUploading = false;
   Uint8List? imageData;
@@ -121,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: defaultPadding),
               const Text(
-                'Misa', // doncic da ispise ime iz baze
+                "Misa", // doncic da ispise ime iz baze
                 style: TextStyle(
                   color: primaryColor,
                   fontSize: 24,
