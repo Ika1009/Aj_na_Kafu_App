@@ -25,14 +25,13 @@ class _ChatsScreenState extends State<ChatsScreen> {
         ),
         automaticallyImplyLeading: false, 
         centerTitle: true,
-        // dzektor da pogleda ovaj kod
-        /*bottom: PreferredSize(
+        bottom: PreferredSize(
           preferredSize: const Size.fromHeight(0.2),
           child: Container(
             color: const Color(0xFF757575),
             height: 0.2,
           ),
-        ),*/
+        ),
       ),
       body: const Body(),
       floatingActionButton: FloatingActionButton(

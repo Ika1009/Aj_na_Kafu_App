@@ -76,6 +76,9 @@ class _FindFriendsState extends State<FindFriends> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Transparent status bar
+    ));
   }
 
   @override
@@ -83,57 +86,59 @@ class _FindFriendsState extends State<FindFriends> {
     createMarkers(context);
 
     return Scaffold(
-      body: Stack(
-        children: [
-          Positioned(
-            bottom: -25,
-            top: 0,
-            left: 0,
-            right: 0,
-            child: GoogleMap(
-              initialCameraPosition: _kGooglePlex,
-              markers: _markers,
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              onMapCreated: (GoogleMapController controller) {
-                controller.setMapStyle(MapStyle().retro);
-              },
-            ),
-          ), 
-          Positioned(
-            top: 15,
-            left: 40,
-            right: 40,
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              decoration: BoxDecoration(
-                color: backgroundColor, 
-                borderRadius: BorderRadius.circular(20),
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned(
+              bottom: -25,
+              top: 0,
+              left: 0,
+              right: 0,
+              child: GoogleMap(
+                initialCameraPosition: _kGooglePlex,
+                markers: _markers,
+                myLocationButtonEnabled: false,
+                zoomControlsEnabled: false,
+                onMapCreated: (GoogleMapController controller) {
+                  controller.setMapStyle(MapStyle().retro);
+                },
               ),
-              child: Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: SvgPicture.asset(
-                      'assets/icons/searchperson.svg', 
-                      height: 24,
-                      width: 24,
+            ), 
+            Positioned(
+              top: 15,
+              left: 40,
+              right: 40,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: backgroundColor, 
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                      child: SvgPicture.asset(
+                        'assets/icons/searchperson.svg', 
+                        height: 24,
+                        width: 24,
+                      ),
                     ),
-                  ),
-                  const Text(
-                    'Pretraži...',
-                    style: TextStyle(
-                    color: Color(0xFF757575),
-                      fontSize: 16,
-                      fontWeight: FontWeight.w400,
+                    const Text(
+                      'Pretraži...',
+                      style: TextStyle(
+                      color: Color(0xFF757575),
+                        fontSize: 16,
+                        fontWeight: FontWeight.w400,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -27,9 +27,7 @@ class _LoginFormState extends State<SignInForm> {
       } catch (e) {
         if (!context.mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
-          MySnackBars.warningSnackBar(
-            e.toString(),
-          )
+          MySnackBars.warningSnackBar(),
         );
       }
   }

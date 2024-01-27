@@ -79,35 +79,32 @@ class _AccountSetup2State extends State<AccountSetup2> {
             ),
           ),
           const SizedBox(height: defaultPadding),
-          SizedBox(
-            height: 120,
-            child: TextFormField(
-              controller: descriptionController,
-              maxLines: null,
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              cursorColor: primaryColor,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
-                hintText: "Opis...",
-                hintStyle: const TextStyle(
-                  color: Color(0xFF757575), // dzektor da doda boju i da se zameni
-                  fontWeight: FontWeight.w600,
-                ),
-                contentPadding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25), 
-                  borderSide: BorderSide.none, 
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25), 
-                  borderSide: BorderSide.none, 
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25), 
-                  borderSide: BorderSide.none, 
-                ),
+          TextFormField(
+            controller: descriptionController,
+            maxLines: null,
+            keyboardType: TextInputType.multiline,
+            textInputAction: TextInputAction.next,
+            cursorColor: primaryColor,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+              hintText: "Opis...",
+              hintStyle: const TextStyle(
+                color: Color(0xFF757575), // dzektor da doda boju i da se zameni
+                fontWeight: FontWeight.w600,
+              ),
+              contentPadding: const EdgeInsets.symmetric(vertical: 50, horizontal: 40),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25), 
+                borderSide: BorderSide.none, 
               ),
             ),
           ),
