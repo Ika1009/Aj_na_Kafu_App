@@ -124,60 +124,63 @@ class _AccountSetupState extends State<AccountSetup> {
               color: const Color(0xFFD6E6DA), 
               borderRadius: BorderRadius.circular(25),
             ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                DropdownButton<String>(
-                  value: selectedDay,
-                  items: days.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedDay = newValue!;
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                  child: VerticalDivider(color: Colors.white),
-                ),
-                DropdownButton<String>(
-                  value: selectedMonth,
-                  items: months.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedMonth = newValue!;
-                    });
-                  },
-                ),
-                const SizedBox(
-                  height: 20,
-                  child: VerticalDivider(color: Colors.white),
-                ),
-                DropdownButton<String>(
-                  value: selectedYear,
-                  items: years.map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      selectedYear = newValue!;
-                    });
-                  },
-                ),
-              ],
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  DropdownButton<String>(
+                    value: selectedDay,
+                    items: days.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedDay = newValue!;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                    child: VerticalDivider(color: Colors.white),
+                  ),
+                  DropdownButton<String>(
+                    value: selectedMonth,
+                    items: months.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedMonth = newValue!;
+                      });
+                    },
+                  ),
+                  const SizedBox(
+                    height: 20,
+                    child: VerticalDivider(color: Colors.white),
+                  ),
+                  DropdownButton<String>(
+                    value: selectedYear,
+                    items: years.map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedYear = newValue!;
+                      });
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
           const SizedBox(height: defaultPadding * 4),

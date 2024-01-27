@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:project/backgrounds/background_setup_2.dart';
 import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/components/setup_component.dart';
@@ -45,6 +46,10 @@ class _AccountSetupScreenState extends State<AccountSetupScreen> {
       phoneNumber: 'Broj telefona',
       description: 'Opis',
     );
+
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, // Transparent status bar
+    ));
 
     _controller.addListener(() {
       int currentPage = _controller.page!.round();

@@ -1,5 +1,5 @@
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_input/image_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/components/signin_check.dart';
@@ -20,6 +20,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
   XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
   final bool _isUploading = false;
   Uint8List? imageData;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent, 
+    ));
+  }
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -52,6 +60,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         automaticallyImplyLeading: false, 
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.2),
+          child: Container(
+            color: const Color(0xFF757575),
+            height: 0.2,
+          ),
+        ),
       ),
       body: Container(
         alignment: Alignment.centerLeft,
