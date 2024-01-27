@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/chat_tile.dart';
 import 'package:project/screens/messages/message_screen.dart';
-import 'package:project/services/friendships_manager.dart';
+import 'package:project/services/users_manager.dart';
 import 'package:project/screens/chats/components/chat_card.dart';
 
 class Body extends StatelessWidget {
@@ -10,7 +10,7 @@ class Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    FriendsManager friendsManager = FriendsManager();
+    UsersManager friendsManager = UsersManager();
 
     // Getting the current user from Firebase
     User? currentUser = FirebaseAuth.instance.currentUser;
