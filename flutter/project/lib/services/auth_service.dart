@@ -51,7 +51,7 @@ class AuthService extends ChangeNotifier {
         'friends': [], // Initialize an empty friends list
         'sentRequests': [], // Initialize an empty array for sent friend requests
         'receivedRequests': [], // Initialize an empty array for received friend requests
-        'available': false // Initialize the availability status to false
+        'status': false // Initialize the availability status to false
       });
       return userCredential;
     } on FirebaseAuthException catch (e) {
