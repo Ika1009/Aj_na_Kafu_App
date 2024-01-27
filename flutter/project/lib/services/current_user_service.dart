@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:project/models/user_data.dart';
 import 'package:project/services/auth_service.dart';
 
@@ -77,4 +78,29 @@ class UserService {
       throw Exception("Error updating user data");
     }
   }
+
+  Future<void> updateCurrentUserPosition(Position? position) async {
+    final userId = getCurrentUserId();
+    if (userId == null || position == null) {
+      throw Exception("User not logged in");
+    } 
+
+    try {
+      Map<String, dynamic> positionMap = {
+        'latitude': position.latitude,
+        'longitude': position.longitude,
+        'accuracy': position.accuracy,
+        'timestamp': position.timestamp.toIso8601String(), // Firestore does not support DateTime directly
+      };
+
+      await _firestore.collection('users').doc(userId).update({
+        'position': positionMap,
+      });
+    } catch (e) {
+      // Handle errors here
+      throw Exception("Error updating user position: $e");
+    }
+  }
+
+
 }

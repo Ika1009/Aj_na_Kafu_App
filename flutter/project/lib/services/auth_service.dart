@@ -51,7 +51,8 @@ class AuthService extends ChangeNotifier {
         'friends': [], // Initialize an empty friends list
         'sentRequests': [], // Initialize an empty array for sent friend requests
         'receivedRequests': [], // Initialize an empty array for received friend requests
-        'status': false // Initialize the availability status to false
+        'status': false, // Initialize the availability status to false
+        'location': null // Initialize location as null
       });
       return userCredential;
     } on FirebaseAuthException catch (e) {
@@ -95,7 +96,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateUserProfileImage(String userUID, String imageUrl) async {
+  Future<void> uploadUserProfileImageURL(String userUID, String imageUrl) async {
     try {
       // Reference to the Firestore document for the user
       DocumentReference userDocRef = _firestore.collection('users').doc(userUID);
