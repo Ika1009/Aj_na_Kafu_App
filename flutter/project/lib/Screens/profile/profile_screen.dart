@@ -4,7 +4,9 @@ import 'package:image_input/image_input.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
+import 'package:project/models/user_data.dart';
 import 'package:project/services/auth_service.dart';
+import 'package:project/services/current_user_service.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -17,9 +19,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
-  final bool _isUploading = false;
-  Uint8List? imageData;
+  UserData? currentUser;
 
   @override
   void initState() {
@@ -27,7 +27,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, 
     ));
+    fetchCurrentUser();
   }
+
+  Future<void> fetchCurrentUser() async {
+    UserService userService = UserService();
+    UserData? fetchedUser = await userService.getCurrentUserData();
+    setState(() {
+      currentUser = fetchedUser;
+    });
+  }
+
+
+  XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
+  final bool _isUploading = false;
+  Uint8List? imageData;
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
