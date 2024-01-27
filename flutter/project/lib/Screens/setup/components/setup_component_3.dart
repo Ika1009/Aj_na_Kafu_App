@@ -67,7 +67,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
           String imageUrl = await authService.uploadImage(imageData!, userUID);
 
           // Update Firestore collection with the imageUrl that has been uploaded to the servers
-          await authService.updateUserProfileImage(userUID, imageUrl);
+          await authService.uploadUserProfileImageURL(userUID, imageUrl);
 
           // Optionally update user's profile or additional data with the imageUrl
         } catch (e) {

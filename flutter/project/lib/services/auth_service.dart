@@ -96,7 +96,7 @@ class AuthService extends ChangeNotifier {
     }
   }
 
-  Future<void> updateUserProfileImage(String userUID, String imageUrl) async {
+  Future<void> uploadUserProfileImageURL(String userUID, String imageUrl) async {
     try {
       // Reference to the Firestore document for the user
       DocumentReference userDocRef = _firestore.collection('users').doc(userUID);
