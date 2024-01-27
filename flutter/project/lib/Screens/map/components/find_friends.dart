@@ -45,7 +45,6 @@ class _FindFriendsState extends State<FindFriends> {
   Future<void> createMarkers() async {
     List<Map<String, dynamic>> contacts = await fetchData(usersManager);
     Marker marker;
-    print(contacts);
     contacts.forEach((contact) async {
       marker = Marker(
         markerId: MarkerId(contact['name']),
@@ -92,7 +91,7 @@ class _FindFriendsState extends State<FindFriends> {
               future: friendsFuture,
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
                 }
                 if (snapshot.hasError) {
                   return const Center(child: Text('Error loading friends.'));

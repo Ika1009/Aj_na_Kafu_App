@@ -37,7 +37,7 @@ class UserService {
           phoneNumber: userData['phoneNumber'] ?? '',
           description: userData['description'] ?? '',
           uid: userId,
-          username: userData['username'] ?? '',
+          imageUrl: userData['imageUrl'] ?? '',
           friends: List<String>.from(userData['friends'] ?? []),
         );
       } else {
@@ -65,7 +65,7 @@ class UserService {
         'dateOfBirth': userData.dateOfBirth,
         'phoneNumber': userData.phoneNumber,
         'description': userData.description,
-        'username': userData.username,
+        'imageUrl': userData.imageUrl,
         // Add other fields as needed
       });
       if(imageData != null) {

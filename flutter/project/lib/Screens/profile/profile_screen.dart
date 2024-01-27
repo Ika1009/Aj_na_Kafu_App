@@ -21,6 +21,9 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserData? currentUser;
+  XFile? profileImage; 
+  final bool _isUploading = false;
+  Uint8List? imageData;
 
   @override
   void initState() {
@@ -36,12 +39,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserData? fetchedUser = await userService.getCurrentUserData();
     setState(() {
       currentUser = fetchedUser;
+      if (currentUser != null) {
+        profileImage = XFile(currentUser!.imageUrl);
+      }
     });
   }
-
-  XFile? profileImage = XFile('assets/images/placeholder-image.png'); // doncic da ispise sliku korisnika iz baze
-  final bool _isUploading = false;
-  Uint8List? imageData;
 
   Future<void> pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -92,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ProfileAvatar(
-                radius: 80,
+                radius: 60,
                 allowEdit: true,
                 image: profileImage,
                 backgroundColor: const Color(0xFFE0F8E8),
@@ -106,7 +108,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       borderRadius: BorderRadius.circular(100),
                     ),
                     child: const Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(4.0),
                       child: Icon(
                         Icons.add_a_photo,
                         color: backgroundColor,
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: const Padding(
-                    padding: EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(4.0),
                     child: Icon(
                       Icons.close,
                       color: backgroundColor,
@@ -134,11 +136,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
               const SizedBox(height: defaultPadding),
-              const Text(
-                "Misa", // doncic da ispise ime iz baze
-                style: TextStyle(
+              Text(
+                currentUser?.firstName ?? "Loading...",
+                style: const TextStyle(
                   color: primaryColor,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.w600,
                   letterSpacing: -0.24,
                 ),
@@ -162,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         style: TextStyle(
                           color: backgroundColor,
                           fontWeight: FontWeight.w600,
-                          fontSize: 20,
+                          fontSize: 16,
                         ),
                       ),
               ),
