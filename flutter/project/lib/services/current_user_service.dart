@@ -94,7 +94,7 @@ class UserService {
       };
 
       await _firestore.collection('users').doc(userId).update({
-        'position': positionMap,
+        'location': positionMap,
       });
     } catch (e) {
       // Handle errors here
