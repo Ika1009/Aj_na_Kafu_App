@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/constants.dart';
 import 'package:project/models/map_style.dart';
@@ -16,21 +17,35 @@ class FindFriends extends StatefulWidget {
 }
 
 class _FindFriendsState extends State<FindFriends> {
+  final UsersManager usersManager = UsersManager(); 
+  User? currentUser = FirebaseAuth.instance.currentUser;
+  late Future<List<Map<String, dynamic>>> friendsFuture;
+  List<Map<String, dynamic>> contacts = [];
+
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
     zoom: 14.4746,
   );
 
   Future<List<Map<String, dynamic>>> fetchData(UsersManager usersManager) async {
-    var friends = await usersManager.getFriendsOfUser("userUid");
-    //var allUsers = await usersManager.getAllUsers();
-    
-    return friends; // If getAllUsers is not available
-  }
+    var friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+
+    for (var friend in friends) {
+      print(1);
+      contacts.add({
+        "name": friend['name'], // Assuming 'name' is a field in the data
+        "position": const LatLng(43.315092426177465, 21.929081988723677), // Replace 'lat' and 'lng' with actual field names
+        "marker": 'assets/markers/marker-1.png', // Use a default marker or vary based on friend data
+        "image": friend['imageUrl'], // Assuming 'imageUrl' is a field in the data
+      });
+    }
+
+    return contacts;
+  } 
 
   final Set<Marker> _markers = {};
 
-  final List<dynamic> _contacts = const [
+  /*final List<dynamic> _contacts = const [
     {
       "name": "Me",
       "position": LatLng(43.315092426177465, 21.929081988723677),
@@ -79,7 +94,7 @@ class _FindFriendsState extends State<FindFriends> {
       "marker": 'assets/markers/marker-7.png',
       "image": 'assets/images/avatar-7.png',
     },
-  ];
+  ];*/
 
   @override
   void initState() {
@@ -87,10 +102,19 @@ class _FindFriendsState extends State<FindFriends> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
+    friendsFuture = fetchData(usersManager);
   }
 
   @override
   Widget build(BuildContext context) {
+    // Check if currentUser is null and handle accordingly
+    if (currentUser == null) {
+      // Return a widget that handles this case, like a login prompt or an error message
+      return const Center(
+        child: Text('User not logged in.'),
+      );
+    }
+    
     createMarkers(context);
 
     return Scaffold(
@@ -154,7 +178,7 @@ class _FindFriendsState extends State<FindFriends> {
   createMarkers(BuildContext context) {
     Marker marker;
 
-    _contacts.forEach((contact) async {
+    contacts.forEach((contact) async {
       marker = Marker(
         markerId: MarkerId(contact['name']),
         position: contact['position'],
@@ -167,6 +191,7 @@ class _FindFriendsState extends State<FindFriends> {
       );
 
       setState(() {
+        print(2);
         _markers.add(marker);
       });
     });
