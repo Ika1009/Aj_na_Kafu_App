@@ -26,7 +26,7 @@ class SignInScreen extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 450,
-                      child: LoginForm(),
+                      child: SignInForm(),
                     ),
                   ],
                 ),
@@ -55,7 +55,7 @@ class MobileSignInScreen extends StatelessWidget {
             Spacer(),
             Expanded(
               flex: 8,
-              child: LoginForm(),
+              child: SignInForm(),
             ),
             Spacer(),
           ],

@@ -58,7 +58,7 @@ class AuthService extends ChangeNotifier {
 
   // Sign user out
   Future<void> signOut() async {
-    return await _firebaseAuth.signOut();
+    return await FirebaseAuth.instance.signOut();
   }
 
   Future<String> uploadImage(Uint8List imageData, String userUID) async {

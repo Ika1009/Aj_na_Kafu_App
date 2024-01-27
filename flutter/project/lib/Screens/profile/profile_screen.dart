@@ -2,9 +2,9 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_input/image_input.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
 import 'package:project/services/auth_service.dart';
-import 'package:project/screens/signin/signin_screen.dart';
 import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -142,10 +142,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await authService.signOut();
+        onPressed: () {
+          authService.signOut();
           if (!context.mounted) return;
-          Navigator.of(context).pushReplacementNamed(SignInScreen.routeName);
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const SignInCheck()),
+          );
         },
         backgroundColor: secondaryColor,
         child: const Icon(
