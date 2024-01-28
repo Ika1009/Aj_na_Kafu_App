@@ -1,12 +1,9 @@
 class Chat {
-  final String name, lastMessage, image, time;
-  final bool isActive;
+  final String name, lastMessage, image;
 
   Chat({
     this.name = '',
     this.lastMessage = '',
     this.image = '',
-    this.time = '',
-    this.isActive = false,
   });
 }

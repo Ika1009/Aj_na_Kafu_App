@@ -24,67 +24,70 @@ class Body extends StatelessWidget {
       );
     }
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
-          child: TextFormField(
-            keyboardType: TextInputType.text,
-            textInputAction: TextInputAction.next,
-            cursorColor: primaryColor,
-            decoration: InputDecoration(
-              filled: true,
-              fillColor: const Color(
-                  0xF0F0F0F0), // dzektor da doda boju i da se zameni
-              hintText: "Pretraži",
-              hintStyle: const TextStyle(
-                color: Color(
-                    0xFF757575), // dzektor da doda boju i da se zameni
-                fontWeight: FontWeight.w600,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide.none,
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(25),
-                borderSide: BorderSide.none,
-              ),
-              prefixIcon: const Icon(
-                Icons.search_outlined,
-                color: secondaryColor,
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+            child: TextFormField(
+              keyboardType: TextInputType.text,
+              textInputAction: TextInputAction.next,
+              cursorColor: primaryColor,
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: const Color(
+                    0xF0F0F0F0), // dzektor da doda boju i da se zameni
+                hintText: "Pretraži",
+                hintStyle: const TextStyle(
+                  color: Color(
+                      0xFF757575), // dzektor da doda boju i da se zameni
+                  fontWeight: FontWeight.w600,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(25),
+                  borderSide: BorderSide.none,
+                ),
+                prefixIcon: const Icon(
+                  Icons.search_outlined,
+                  color: secondaryColor,
+                ),
               ),
             ),
           ),
-        ),
-        Expanded(
-          child: FutureBuilder<List<Map<String, dynamic>>>(
-            future: friendsManager.getFriendsOfUser(currentUser.uid),
-            builder: (context, snapshot) {
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              }
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator(color: secondaryColor));
-              }
-              if (snapshot.hasData) {
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    return _buildUserListItem(context, snapshot.data![index], currentUser);
-                  },
-                );
-              } else {
-                return const Text('No friends found');
-              }
-            },
+          const SizedBox(height: 10),
+          Expanded(
+            child: FutureBuilder<List<Map<String, dynamic>>>(
+              future: friendsManager.getFriendsOfUser(currentUser.uid),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                }
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
+                }
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return _buildUserListItem(context, snapshot.data![index], currentUser);
+                    },
+                  );
+                } else {
+                  return const Text('Dodaj prijatelje kako bi pokrenuo ćaskanje');
+                }
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
@@ -93,8 +96,6 @@ class Body extends StatelessWidget {
       name: users['firstName'],
       lastMessage: 'Klikni za ćaskanje',
       image: "${users['imageUrl']}",
-      time: "1h", // ovde kad je poslata ta poslenja poruka ako je moguce
-      isActive: true,
     );
 
     return ChatCard(

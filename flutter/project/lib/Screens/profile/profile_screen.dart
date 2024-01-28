@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Image.network(
-                    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                    currentUser?.imageUrl ?? "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png",
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
