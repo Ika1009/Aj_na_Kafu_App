@@ -84,109 +84,190 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
         ),
       ),
-      body: Container(
-        alignment: Alignment.centerLeft,
-        padding: const EdgeInsets.symmetric(horizontal: 40.0),
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+      body: SafeArea(
+          top: true,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
             children: [
-              ProfileAvatar(
-                radius: 60,
-                allowEdit: true,
-                image: profileImage,
-                backgroundColor: const Color(0xFFE0F8E8),
-                addImageIcon: GestureDetector(
-                  onTap: () {
-                    pickImage();
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: secondaryColor,
-                      borderRadius: BorderRadius.circular(100),
-                    ),
-                    child: const Padding(
-                      padding: EdgeInsets.all(4.0),
-                      child: Icon(
-                        Icons.add_a_photo,
-                        color: backgroundColor,
-                      ),
-                    ),
+              const SizedBox(height: 20),
+              Card(
+                clipBehavior: Clip.antiAliasWithSaveLayer,
+                color: primaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(50),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(60),
+                  child: Image.network(
+                    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                    width: 100,
+                    height: 100,
+                    fit: BoxFit.cover,
                   ),
                 ),
-                removeImageIcon: Container(
+              ),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+                child: Text(
+                  'Milos Mitrovic'
+                )
+              ),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                child: Text(
+                  'milosmitrovic005@gmail.com',
+                ),
+              ),
+              const Divider(
+                height: 34,
+                thickness: 0.2,
+                indent: 24,
+                endIndent: 24,
+                color: Color(0xFF757575),
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                child: Container(
+                  width: double.infinity,
                   decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(100),
+                    color: const Color(0xFFF0F0F0),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(2),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          child: Icon(
+                            Icons.power_settings_new_rounded,
+                            color: secondaryColor,
+                            size: 24,
+                          ),
+                        ),
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFF0F0F0), // Tile color
+                              borderRadius: BorderRadius.circular(24),
+                            ),
+                            child: SwitchListTile.adaptive(
+                              value: true,
+                              onChanged: (bool value) {
+                                // Your logic here when the switch is toggled
+                              },
+                              title: const Text(
+                                'Active',
+                              ),
+                              // Use a transparent color for the tile, since the Container handles the background
+                              tileColor: Colors.transparent, 
+                              activeColor: secondaryColor, 
+                              activeTrackColor: const Color(0x3439D2C0),
+                              dense: true,
+                              controlAffinity: ListTileControlAffinity.trailing,
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+                            ),
+                          ),
+                        ),
+
+                        ],
+                      ),
+                  ),
+                )
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F0F0),
+                    borderRadius: BorderRadius.circular(24),
                   ),
                   child: const Padding(
-                    padding: EdgeInsets.all(4.0),
-                    child: Icon(
-                      Icons.close,
-                      color: backgroundColor,
-                    ),
-                  ),
-                ),
-                onImageRemoved: () {
-                  setState(() {
-                    profileImage = null;
-                  });
-                },
-              ),
-              const SizedBox(height: defaultPadding),
-              Text(
-                currentUser?.firstName ?? "Loading...",
-                style: const TextStyle(
-                  color: primaryColor,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: -0.24,
-                ),
-              ),
-              const SizedBox(height: defaultPadding * 4),
-              ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.all(accentColor),
-                  minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
-                  shape: MaterialStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25),
-                    ),
-                  ),
-                ),
-                onPressed: () {}, // doncic da napise novu funkciju za update podataka
-                child: _isUploading
-                    ? const CircularProgressIndicator(color: backgroundColor)
-                    : const Text(
-                        "Ažuriraj",
-                        style: TextStyle(
-                          color: backgroundColor,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 16,
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                          child: Icon(
+                            Icons.account_circle_outlined,
+                            color: secondaryColor,
+                            size: 24,
+                          ),
                         ),
-                      ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          child: Text(
+                            'Edit Profile',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF0F0F0),
+                    borderRadius: BorderRadius.circular(24),
+                  ),
+                  child: const Padding(
+                    padding: EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
+                          child: Icon(
+                            Icons.settings_outlined,
+                            color: secondaryColor,
+                            size: 24,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          child: Text(
+                            'Account Settings',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                )
+              ),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Your onPressed code here
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white, // Background color
+                    foregroundColor: Colors.black, // Text color
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(38),
+                    ),
+                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                    // removed fixedSize to allow flexible sizing
+                  ),
+                  child: const Text(
+                    'Log Out',
+                    style: TextStyle(
+                      fontSize: 16, // Example size
+                      color: Colors.black, // Example color
+                    ),
+                  ),
+                ),
               ),
             ],
           ),
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          authService.signOut();
-          if (!context.mounted) return;
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const SignInCheck()),
-          );
-        },
-        backgroundColor: secondaryColor,
-        child: const Icon(
-          Icons.logout,
-          color: Colors.white,
-        ),
-      ),
-    );
+      );
   }
 }
