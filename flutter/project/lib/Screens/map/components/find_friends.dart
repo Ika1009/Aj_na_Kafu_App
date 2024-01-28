@@ -33,20 +33,30 @@ class _FindFriendsState extends State<FindFriends> {
 
   Set<Marker> _markers = {};
 
-  Future<void> initMarkers() async {
-    // Fetch all users and create markers
+Future<void> initMarkers() async {
+  try {
+    // Fetch all users and create markers for them
     List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
     await createMarkersFromUsers(allUsers, _allUserMarkers);
 
-    // Fetch friends and create markers
+    // Fetch friends and create markers for them
     List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+    
+    // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
+    var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
+    if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
+      friends.add(currentUserData);
+    }
     await createMarkersFromUsers(friends, _friendMarkers);
 
-    // Set initial markers to display friends
+    // Set initial markers to display friends including the current user
     setState(() {
       _markers = Set.from(_friendMarkers);
     });
+  } catch (e) {
+    print('Error initializing markers: $e');
   }
+}
 
   void toggleUserDisplayMode() {
     setState(() {

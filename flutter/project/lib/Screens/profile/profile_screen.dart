@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                 child: Text(
-                  currentUser?.userName ?? "Korisnik",
+                  currentUser?.username ?? "Korisnik",
                 ),
               ),
               Padding(
