@@ -25,7 +25,7 @@ class ChatCard extends StatelessWidget {
             Stack(
               children: [
                 CircleAvatar(
-                  radius: 24,
+                  radius: 30,
                   backgroundImage: NetworkImage(chat.image),
                 ),
                 if (chat.isActive)
@@ -56,7 +56,7 @@ class ChatCard extends StatelessWidget {
                     Text(
                       chat.name,
                       style:
-                          const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                          const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
                     ),
                     const SizedBox(height: 8),
                     Opacity(
@@ -65,6 +65,8 @@ class ChatCard extends StatelessWidget {
                         chat.lastMessage,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
+                        style:
+                          const TextStyle(fontSize: 12),
                       ),
                     ),
                   ],
@@ -73,7 +75,7 @@ class ChatCard extends StatelessWidget {
             ),
             Opacity(
               opacity: 0.64,
-              child: Text(chat.time),
+              child: Text(chat.time, style: const TextStyle(fontSize: 12)),
             ),
           ],
         ),

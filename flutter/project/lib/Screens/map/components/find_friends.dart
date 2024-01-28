@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:http/http.dart' as http;
 import 'package:project/constants.dart';
 import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
@@ -19,8 +20,7 @@ class FindFriends extends StatefulWidget {
 class _FindFriendsState extends State<FindFriends> {
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
-  late Future<List<Map<String, dynamic>>> friendsFuture;
-  List<Map<String, dynamic>> contacts = [];
+  late Future<void> friendsFuture;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
@@ -28,73 +28,41 @@ class _FindFriendsState extends State<FindFriends> {
   );
 
   Future<List<Map<String, dynamic>>> fetchData(UsersManager usersManager) async {
+    List<Map<String, dynamic>> contacts = [];
     var friends = await usersManager.getFriendsOfUser(currentUser!.uid);
 
     for (var friend in friends) {
-      print(1);
       contacts.add({
-        "name": friend['name'], // Assuming 'name' is a field in the data
-        "position": const LatLng(43.315092426177465, 21.929081988723677), // Replace 'lat' and 'lng' with actual field names
-        "marker": 'assets/markers/marker-1.png', // Use a default marker or vary based on friend data
-        "image": friend['imageUrl'], // Assuming 'imageUrl' is a field in the data
+        "name": friend['firstName'], 
+        "position": LatLng(friend['location']['latitude'], friend['location']['longitude']),
+        "marker": friend['imageUrl'],
       });
     }
 
     return contacts;
   } 
 
-  final Set<Marker> _markers = {};
+  Future<void> createMarkers() async {
+    List<Map<String, dynamic>> contacts = await fetchData(usersManager);
+    Marker marker;
+    contacts.forEach((contact) async {
+      marker = Marker(
+        markerId: MarkerId(contact['name']),
+        position: contact['position'],
+        icon: BitmapDescriptor.defaultMarker,
+        infoWindow: InfoWindow(
+          title: contact['name'],
+          snippet: 'aktivan',
+        ),
+      );
 
-  /*final List<dynamic> _contacts = const [
-    {
-      "name": "Me",
-      "position": LatLng(43.315092426177465, 21.929081988723677),
-      "marker": 'assets/images/avatar-1.png',
-      "image": 'assets/images/avatar-1.png',
-    },
-    {
-      "name": "Nikola",
-      "position": LatLng(43.307134037870505, 21.930686454044327),
-      "marker": 'assets/images/avatar-2.png',
-      "image": 'assets/images/avatar-2.png',
-    },
-    {
-      "name": "Ilija",
-      "position": LatLng(43.3192165679354, 21.890076638701004),
-      "marker": 'assets/images/avatar-3.png',
-      "image": 'assets/images/avatar-3.png',
-    },
-    {
-      "name": "Mila",
-      "position": LatLng(43.31902510484924, 21.922130145746458),
-      "marker": 'assets/images/avatar-4.png',
-      "image": 'assets/images/avatar-4.png',
-    },
-    {
-      "name": "Djuka",
-      "position": LatLng(43.32188038893505, 21.91620402520917),
-      "marker": 'assets/markers/marker-1.png',
-      "image": 'assets/images/avatar-1.png',
-    },
-    {
-      "name": "Uros",
-      "position": LatLng(43.322434376781445, 21.917747696373194),
-      "marker": 'assets/markers/marker-5.png',
-      "image": 'assets/images/avatar-5.png',
-    },
-    {
-      "name": "Iskra",
-      "position": LatLng(43.3152883710363, 21.89068448986699),
-      "marker": 'assets/markers/marker-6.png',
-      "image": 'assets/images/avatar-6.png',
-    },
-    {
-      "name": "Golub",
-      "position": LatLng(43.33125751774165, 21.91157592948357),
-      "marker": 'assets/markers/marker-7.png',
-      "image": 'assets/images/avatar-7.png',
-    },
-  ];*/
+      setState(() {
+        _markers.add(marker);
+      });
+    });
+  }
+
+  final Set<Marker> _markers = {};
 
   @override
   void initState() {
@@ -102,7 +70,7 @@ class _FindFriendsState extends State<FindFriends> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
-    friendsFuture = fetchData(usersManager);
+    friendsFuture = createMarkers();
   }
 
   @override
@@ -114,27 +82,30 @@ class _FindFriendsState extends State<FindFriends> {
         child: Text('User not logged in.'),
       );
     }
-    
-    createMarkers(context);
 
     return Scaffold(
       body: SafeArea(
         child: Stack(
           children: [
-            Positioned(
-              bottom: -25,
-              top: 0,
-              left: 0,
-              right: 0,
-              child: GoogleMap(
-                initialCameraPosition: _kGooglePlex,
-                markers: _markers,
-                myLocationButtonEnabled: false,
-                zoomControlsEnabled: false,
-                onMapCreated: (GoogleMapController controller) {
-                  controller.setMapStyle(MapStyle().retro);
-                },
-              ),
+            FutureBuilder(
+              future: friendsFuture,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
+                }
+                if (snapshot.hasError) {
+                  return const Center(child: Text('Error loading friends.'));
+                }
+                return GoogleMap(
+                  initialCameraPosition: _kGooglePlex,
+                  markers: _markers,
+                  myLocationButtonEnabled: false,
+                  zoomControlsEnabled: false,
+                  onMapCreated: (GoogleMapController controller) {
+                    controller.setMapStyle(MapStyle().retro);
+                  },
+                );
+              },
             ), 
             Positioned(
               top: 15,
@@ -175,54 +146,16 @@ class _FindFriendsState extends State<FindFriends> {
     );
   }
 
-  createMarkers(BuildContext context) {
-    Marker marker;
+  Future<BitmapDescriptor> getNetworkImageAsMarkerIcon(String url, {int width = 100, int height = 100}) async {
+    final http.Response response = await http.get(Uri.parse(url));
+    final Uint8List bytes = response.bodyBytes;
 
-    contacts.forEach((contact) async {
-      marker = Marker(
-        markerId: MarkerId(contact['name']),
-        position: contact['position'],
-        icon: await _getAssetIcon(context, contact['marker'], 50, 50)
-            .then((value) => value),
-        infoWindow: InfoWindow(
-          title: contact['name'],
-          snippet: 'aktivan',
-        ),
-      );
+    // Resize the image using dart:ui as required
+    final Codec codec = await instantiateImageCodec(bytes, targetWidth: width, targetHeight: height);
+    final FrameInfo frameInfo = await codec.getNextFrame();
+    final ByteData? byteData = await frameInfo.image.toByteData(format: ImageByteFormat.png);
+    final Uint8List resizedBytes = byteData!.buffer.asUint8List();
 
-      setState(() {
-        print(2);
-        _markers.add(marker);
-      });
-    });
-  }
-
-  Future<BitmapDescriptor> _getAssetIcon(
-      BuildContext context, String icon, int width, int height) async {
-    final ImageConfiguration config = createLocalImageConfiguration(context);
-    final Completer<BitmapDescriptor> bitmapIcon =
-        Completer<BitmapDescriptor>();
-
-    AssetImage(icon).resolve(config).addListener(
-      ImageStreamListener((ImageInfo image, bool sync) async {
-        final ByteData? byteData =
-            await image.image.toByteData(format: ImageByteFormat.png);
-        if (byteData != null) {
-          // Resize the image
-          final codec = await instantiateImageCodec(
-              byteData.buffer.asUint8List(),
-              targetWidth: width,
-              targetHeight: height);
-          final FrameInfo frameInfo = await codec.getNextFrame();
-          final ByteData? resizedBytes =
-              await frameInfo.image.toByteData(format: ImageByteFormat.png);
-          final BitmapDescriptor bitmap =
-              BitmapDescriptor.fromBytes(resizedBytes!.buffer.asUint8List());
-          bitmapIcon.complete(bitmap);
-        }
-      }),
-    );
-
-    return await bitmapIcon.future;
+    return BitmapDescriptor.fromBytes(resizedBytes);
   }
 }

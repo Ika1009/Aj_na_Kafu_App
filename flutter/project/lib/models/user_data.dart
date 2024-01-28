@@ -1,7 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 
 class UserData {
-  String email, password, userName, firstName, lastName, dateOfBirth, phoneNumber, description, uid, username;
+  String email, password, userName, firstName, lastName, dateOfBirth, phoneNumber, description, uid, imageUrl;
   Position? location;
   List<String> friends;
 
@@ -15,7 +15,7 @@ class UserData {
     this.phoneNumber = '', 
     this.description = '',
     this.uid = '',
-    this.username = '',
+    this.imageUrl = '',
     this.friends = const [],
   });
 }

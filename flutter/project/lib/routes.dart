@@ -7,7 +7,6 @@ import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/screens/profile/profile_screen.dart';
 import 'package:project/screens/home/home_screen.dart';
 import 'package:project/screens/signup/signup_screen.dart';
-import 'package:project/screens/onboard/onboard_screen.dart';
 import 'package:project/screens/launch/launch_screen.dart';
 import 'package:project/screens/setup/setup_screen.dart';
 
@@ -23,7 +22,6 @@ final Map<String, WidgetBuilder> routes = {
     receiverLastName: "Prezime", 
     receiverID: "123",
   ),
-  OnBoardScreen.routeName: (context) => const OnBoardScreen(),
   LaunchScreen.routeName: (context) => const LaunchScreen(),
   SetupScreen.routeName: (context) => const SetupScreen(),
   AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),

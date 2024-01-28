@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/constants.dart';
 import 'package:project/models/chat_tile.dart';
 import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/services/users_manager.dart';
@@ -33,7 +34,7 @@ class Body extends StatelessWidget {
                 return Text('Error: ${snapshot.error}');
               }
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator(color: secondaryColor));
               }
               if (snapshot.hasData) {
                 return ListView.builder(
@@ -55,9 +56,9 @@ class Body extends StatelessWidget {
   Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
     var chatData = Chat(
       name: users['firstName'],
-      lastMessage: 'Klikni za ćaskanje sa ${users['firstName']}',
+      lastMessage: 'Klikni za ćaskanje',
       image: "${users['imageUrl']}",
-      time: "sada", // ovde kad je poslata ta poslenja poruka ako je moguce
+      time: "1h", // ovde kad je poslata ta poslenja poruka ako je moguce
       isActive: true,
     );
 
