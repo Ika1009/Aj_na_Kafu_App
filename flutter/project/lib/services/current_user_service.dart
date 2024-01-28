@@ -30,7 +30,7 @@ class UserService {
         final userData = userDataSnapshot.data() as Map<String, dynamic>;
         return UserData(
           email: userData['email'] ?? '',
-          userName: userData['userName'] ?? '',
+          username: userData['username'] ?? '',
           firstName: userData['firstName'] ?? '',
           lastName: userData['lastName'] ?? '',
           dateOfBirth: userData['dateOfBirth'] ?? '',
@@ -59,7 +59,7 @@ class UserService {
     try {
       await _firestore.collection('users').doc(userId).update({
         'email': userData.email,
-        'userName': userData.userName,
+        'username': userData.username,
         'firstName': userData.firstName,
         'lastName': userData.lastName,
         'dateOfBirth': userData.dateOfBirth,
@@ -102,20 +102,26 @@ class UserService {
     }
   }
 
-  Future<void> updateCurrentUserStatus(bool newStatus) async {
+  Future<void> toggleCurrentUserStatus() async {
     final userId = getCurrentUserId();
     if (userId == null) {
       throw Exception("User not logged in");
     }
 
     try {
-      await _firestore.collection('users').doc(userId).update({
-        'status': newStatus, // Update the status field with the new value
-      });
+      DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+      if (userDoc.exists && userDoc.data() != null) {
+        final userData = userDoc.data() as Map<String, dynamic>;
+        final currentStatus = userData['status'] as bool? ?? false; // Default to false if not set
+        await _firestore.collection('users').doc(userId).update({
+          'status': !currentStatus, // Toggle the status
+        });
+      } else {
+        throw Exception("User document does not exist");
+      }
     } catch (e) {
       // Handle errors here
-      throw Exception("Error updating user status: $e");
+      throw Exception("Error toggling user status: $e");
     }
   }
-
 }

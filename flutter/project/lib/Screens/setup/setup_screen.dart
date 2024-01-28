@@ -121,7 +121,7 @@ class _SetupScreenState extends State<SetupScreen> {
                           UserData userData = UserData(
                             email: data.email,
                             password: data.password,
-                            userName: usernameController.text,
+                            username: usernameController.text,
                           );
 
                           Navigator.pushNamed(
