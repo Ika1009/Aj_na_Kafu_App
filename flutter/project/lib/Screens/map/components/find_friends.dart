@@ -20,49 +20,62 @@ class FindFriends extends StatefulWidget {
 class _FindFriendsState extends State<FindFriends> {
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
-  late Future<void> friendsFuture;
+
+  final Set<Marker> _allUserMarkers = {};
+  final Set<Marker> _friendMarkers = {};
+  bool _showAllUsers = false; // Flag to track the current mode
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
     zoom: 14.4746,
   );
 
-  Future<List<Map<String, dynamic>>> fetchData(UsersManager usersManager) async {
-    List<Map<String, dynamic>> contacts = [];
-    var friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+  Set<Marker> _markers = {};
 
-    for (var friend in friends) {
-      contacts.add({
-        "name": friend['firstName'], 
-        "position": LatLng(friend['location']['latitude'], friend['location']['longitude']),
-        "marker": friend['imageUrl'],
-      });
-    }
+  Future<void> initMarkers() async {
+    // Fetch all users and create markers
+    List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
+    await createMarkersFromUsers(allUsers, _allUserMarkers);
 
-    return contacts;
-  } 
+    // Fetch friends and create markers
+    List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+    await createMarkersFromUsers(friends, _friendMarkers);
 
-  Future<void> createMarkers() async {
-    List<Map<String, dynamic>> contacts = await fetchData(usersManager);
-    Marker marker;
-    contacts.forEach((contact) async {
-      marker = Marker(
-        markerId: MarkerId(contact['name']),
-        position: contact['position'],
-        icon: await getNetworkImageAsMarkerIcon(contact['marker']),
+    // Set initial markers to display friends
+    setState(() {
+      _markers = Set.from(_friendMarkers);
+    });
+  }
+
+  void toggleUserDisplayMode() {
+    setState(() {
+      _showAllUsers = !_showAllUsers;
+      _markers = _showAllUsers ? _allUserMarkers : _friendMarkers;
+    });
+  }
+  // Utility function to create markers from a list of user data
+  Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, Set<Marker> markersSet) async {
+    for (var user in usersData) {
+      final markerIcon = await getNetworkImageAsMarkerIcon(user['marker']);
+      final marker = Marker(
+        markerId: MarkerId(user['name']),
+        position: LatLng(
+          user['location']['latitude'], 
+          user['location']['longitude']
+        ),
+        icon: markerIcon,
         infoWindow: InfoWindow(
-          title: contact['name'],
+          title: user['name'],
           snippet: 'aktivan',
         ),
       );
 
-      setState(() {
-        _markers.add(marker);
-      });
-    });
-  }
+      markersSet.add(marker);
+    }
 
-  final Set<Marker> _markers = {};
+    // If needed, update the UI to show new markers
+    setState(() {});
+  }
 
   @override
   void initState() {
@@ -70,7 +83,7 @@ class _FindFriendsState extends State<FindFriends> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
-    friendsFuture = createMarkers();
+        initMarkers();
   }
 
   @override
@@ -87,26 +100,15 @@ class _FindFriendsState extends State<FindFriends> {
       body: SafeArea(
         child: Stack(
           children: [
-            FutureBuilder(
-              future: friendsFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
-                }
-                if (snapshot.hasError) {
-                  return const Center(child: Text('Error loading friends.'));
-                }
-                return GoogleMap(
-                  initialCameraPosition: _kGooglePlex,
-                  markers: _markers,
-                  myLocationButtonEnabled: false,
-                  zoomControlsEnabled: false,
-                  onMapCreated: (GoogleMapController controller) {
-                    controller.setMapStyle(MapStyle().retro);
-                  },
-                );
+            GoogleMap(
+              initialCameraPosition: _kGooglePlex,
+              markers: _markers,
+              myLocationButtonEnabled: false,
+              zoomControlsEnabled: false,
+              onMapCreated: (GoogleMapController controller) {
+                controller.setMapStyle(MapStyle().retro);
               },
-            ), 
+            ),
             Positioned(
               top: 15,
               left: 40,
@@ -115,7 +117,7 @@ class _FindFriendsState extends State<FindFriends> {
                 width: MediaQuery.of(context).size.width,
                 height: 40,
                 decoration: BoxDecoration(
-                  color: backgroundColor, 
+                  color: backgroundColor,
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Row(
@@ -123,7 +125,7 @@ class _FindFriendsState extends State<FindFriends> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10.0),
                       child: SvgPicture.asset(
-                        'assets/icons/searchperson.svg', 
+                        'assets/icons/searchperson.svg',
                         height: 24,
                         width: 24,
                       ),
@@ -131,7 +133,7 @@ class _FindFriendsState extends State<FindFriends> {
                     const Text(
                       'Pretraži...',
                       style: TextStyle(
-                      color: Color(0xFF757575),
+                        color: Color(0xFF757575),
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
                       ),
@@ -150,13 +152,11 @@ class _FindFriendsState extends State<FindFriends> {
                   minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(25), 
+                      borderRadius: BorderRadius.circular(25),
                     ),
                   ),
                 ),
-                onPressed: () async {
-                  
-                },
+                onPressed: toggleUserDisplayMode, // Hook up the toggle function here
                 child: const Text(
                   "Aj Na Kafu",
                   style: TextStyle(
@@ -166,23 +166,27 @@ class _FindFriendsState extends State<FindFriends> {
                   ),
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
-
+  // Function to fetch an image from the network and convert it to a BitmapDescriptor
   Future<BitmapDescriptor> getNetworkImageAsMarkerIcon(String url, {int width = 100, int height = 100}) async {
     final http.Response response = await http.get(Uri.parse(url));
+    if (response.statusCode != 200) {
+      throw Exception('Failed to load network image.');
+    }
     final Uint8List bytes = response.bodyBytes;
-
-    // Resize the image using dart:ui as required
     final Codec codec = await instantiateImageCodec(bytes, targetWidth: width, targetHeight: height);
     final FrameInfo frameInfo = await codec.getNextFrame();
     final ByteData? byteData = await frameInfo.image.toByteData(format: ImageByteFormat.png);
-    final Uint8List resizedBytes = byteData!.buffer.asUint8List();
-
+    if (byteData == null) {
+      throw Exception('Failed to convert image to byte data.');
+    }
+    final Uint8List resizedBytes = byteData.buffer.asUint8List();
     return BitmapDescriptor.fromBytes(resizedBytes);
   }
+
 }
