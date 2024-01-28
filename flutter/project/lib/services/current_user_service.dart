@@ -102,5 +102,20 @@ class UserService {
     }
   }
 
+  Future<void> updateCurrentUserStatus(bool newStatus) async {
+    final userId = getCurrentUserId();
+    if (userId == null) {
+      throw Exception("User not logged in");
+    }
+
+    try {
+      await _firestore.collection('users').doc(userId).update({
+        'status': newStatus, // Update the status field with the new value
+      });
+    } catch (e) {
+      // Handle errors here
+      throw Exception("Error updating user status: $e");
+    }
+  }
 
 }

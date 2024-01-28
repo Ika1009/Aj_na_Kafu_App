@@ -40,6 +40,7 @@ class AuthService extends ChangeNotifier {
 
       // Create a document for the user in the 'users' collection
       await _firestore.collection('users').doc(userCredential.user!.uid).set({
+        'uid': userCredential.user!.uid,
         'username': username,
         'email': email,
         'firstName': firstName,
