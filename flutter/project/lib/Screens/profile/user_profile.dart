@@ -1,13 +1,9 @@
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/backgrounds/background.dart';
-import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
 import 'package:project/models/user_data.dart';
-import 'package:project/services/auth_service.dart';
 import 'package:project/services/current_user_service.dart';
-import 'package:provider/provider.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static String routeName = "/user_profile";
@@ -59,7 +55,6 @@ class _ProfileScreenState extends State<UserProfileScreen> {
   
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<AuthService>(context);
     return Background(
       child: SafeArea(
           top: true,
@@ -143,12 +138,12 @@ class _ProfileScreenState extends State<UserProfileScreen> {
               ),
               GestureDetector(
                 onTap: () {
-                  authService.signOut();
+                  /*authService.signOut(); // umesto sign out treba send friend request
                   if (!context.mounted) return;
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const SignInCheck()),
-                  );
+                  );*/
                 },
                 child: const Text.rich(
                   TextSpan(

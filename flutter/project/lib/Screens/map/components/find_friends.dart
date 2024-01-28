@@ -33,30 +33,30 @@ class _FindFriendsState extends State<FindFriends> {
 
   Set<Marker> _markers = {};
 
-Future<void> initMarkers() async {
-  try {
-    // Fetch all users and create markers for them
-    List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
-    await createMarkersFromUsers(allUsers, _allUserMarkers);
+  Future<void> initMarkers() async {
+    try {
+      // Fetch all users and create markers for them
+      List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
+      await createMarkersFromUsers(allUsers, _allUserMarkers);
 
-    // Fetch friends and create markers for them
-    List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
-    
-    // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
-    var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
-    if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
-      friends.add(currentUserData);
+      // Fetch friends and create markers for them
+      List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+      
+      // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
+      var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
+      if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
+        friends.add(currentUserData);
+      }
+      await createMarkersFromUsers(friends, _friendMarkers);
+
+      // Set initial markers to display friends including the current user
+      setState(() {
+        _markers = Set.from(_friendMarkers);
+      });
+    } catch (e) {
+      //print('Error initializing markers: $e');
     }
-    await createMarkersFromUsers(friends, _friendMarkers);
-
-    // Set initial markers to display friends including the current user
-    setState(() {
-      _markers = Set.from(_friendMarkers);
-    });
-  } catch (e) {
-    //print('Error initializing markers: $e');
   }
-}
 
   void toggleUserDisplayMode() {
     setState(() {
@@ -64,10 +64,12 @@ Future<void> initMarkers() async {
       _markers = showFriends ? _friendMarkers : _allUserMarkers;
     });
   }
+
   void changeUsersAvailabilityStatus() {
     UserService userService = UserService();
     userService.toggleCurrentUserStatus();
   }
+
   // Utility function to create markers from a list of user data
   Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, Set<Marker> markersSet) async {
     for (var user in usersData) {
@@ -109,8 +111,6 @@ Future<void> initMarkers() async {
     }
   }
 
-
-
   @override
   void initState() {
     super.initState();
@@ -126,7 +126,7 @@ Future<void> initMarkers() async {
     if (currentUser == null) {
       // Return a widget that handles this case, like a login prompt or an error message
       return const Center(
-        child: Text('User not logged in.'),
+        child: Text('Korisnik nije prijavljen'),
       );
     }
 
@@ -219,7 +219,7 @@ Future<void> initMarkers() async {
     );
   }
   // Function to fetch an image from the network and convert it to a BitmapDescriptor
-  Future<BitmapDescriptor> getNetworkImageAsMarkerIcon(String url, {int width = 100, int height = 100}) async {
+  Future<BitmapDescriptor> getNetworkImageAsMarkerIcon(String url, {int width = 120, int height = 120}) async {
     final http.Response response = await http.get(Uri.parse(url));
     if (response.statusCode != 200) {
       throw Exception('Failed to load network image.');

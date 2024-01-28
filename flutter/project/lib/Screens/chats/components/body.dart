@@ -118,7 +118,7 @@ class _ChatsBodyState extends State<ChatsBody> {
                 return _buildUserListItem(context, filteredUsers[index], currentUser!);
               },
             ) : const Center(
-                child: Text("Ne postoji korisnik ili niste započeli pretragu"),
+                child: Text("Ne postoji ćaskanje ili niste započeli pretragu"),
               ),
           ),
         ],
