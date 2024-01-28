@@ -33,26 +33,35 @@ class _FindFriendsState extends State<FindFriends> {
 
   Set<Marker> _markers = {};
 
-  Future<void> initMarkers() async {
-    // Fetch all users and create markers
+Future<void> initMarkers() async {
+  try {
+    // Fetch all users and create markers for them
     List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
     await createMarkersFromUsers(allUsers, _allUserMarkers);
 
-    // Fetch friends and create markers
+    // Fetch friends and create markers for them
     List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+    
+    // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
+    var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
+    if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
+      friends.add(currentUserData);
+    }
     await createMarkersFromUsers(friends, _friendMarkers);
 
-    // Set initial markers to display friends
+    // Set initial markers to display friends including the current user
     setState(() {
       _markers = Set.from(_friendMarkers);
     });
+  } catch (e) {
+    print('Error initializing markers: $e');
   }
+}
 
   void toggleUserDisplayMode() {
     setState(() {
       showFriends = !showFriends;
       _markers = showFriends ? _friendMarkers : _allUserMarkers;
-      print(_markers);
     });
   }
   void changeUsersAvailabilityStatus() {
@@ -62,35 +71,45 @@ class _FindFriendsState extends State<FindFriends> {
   // Utility function to create markers from a list of user data
   Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, Set<Marker> markersSet) async {
     for (var user in usersData) {
+      BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker; // Default marker icon
+
       try {
-        final markerIcon = await getNetworkImageAsMarkerIcon(user['marker'] as String);
-        final position = LatLng(
-          user['location']['latitude'] as double, 
-          user['location']['longitude'] as double
-        );
+        // Attempt to get the custom image for the marker
+        final String markerUrl = user['imageUrl'] ?? ''; // Provide a default or placeholder image URL if necessary
+        markerIcon = await getNetworkImageAsMarkerIcon(markerUrl);
+      } catch (e) {
+        print('Error fetching image for user: ${user['uid']}. Using default marker icon. Error: $e');
+      }
+
+      try {
+        // Continue to create the marker with whatever icon we have (custom or default)
+        final double latitude = (user['location']['latitude'] as num).toDouble();
+        final double longitude = (user['location']['longitude'] as num).toDouble();
+        final String name = "${user['firstName']} ${user['lastName']}";
 
         final marker = Marker(
-          markerId: MarkerId(user['name'] as String),
-          position: position,
+          markerId: MarkerId(name),
+          position: LatLng(latitude, longitude),
           icon: markerIcon,
           infoWindow: InfoWindow(
-            title: user['name'] as String,
-            snippet: 'aktivan',
+            title: name,
+            snippet: user['description'], // Use the description or another field
           ),
         );
 
         markersSet.add(marker);
       } catch (e) {
-        print('Error creating marker for user: ${user.toString()}');
-        print('Error details: $e');
+        print('Error creating marker for user: ${user['uid']}. Error: $e');
       }
     }
 
-    // Update the UI
+    // Update the UI if the widget is still mounted
     if (mounted) {
       setState(() {});
     }
   }
+
+
 
   @override
   void initState() {
