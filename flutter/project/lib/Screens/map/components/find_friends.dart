@@ -49,7 +49,7 @@ class _FindFriendsState extends State<FindFriends> {
       marker = Marker(
         markerId: MarkerId(contact['name']),
         position: contact['position'],
-        icon: BitmapDescriptor.defaultMarker,
+        icon: await getNetworkImageAsMarkerIcon(contact['marker']),
         infoWindow: InfoWindow(
           title: contact['name'],
           snippet: 'aktivan',
@@ -140,6 +140,33 @@ class _FindFriendsState extends State<FindFriends> {
                 ),
               ),
             ),
+            Positioned(
+              bottom: 20,
+              right: 20,
+              left: 20,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(secondaryColor),
+                  minimumSize: MaterialStateProperty.all(const Size(double.infinity, 62)),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(25), 
+                    ),
+                  ),
+                ),
+                onPressed: () async {
+                  
+                },
+                child: const Text(
+                  "Aj Na Kafu",
+                  style: TextStyle(
+                    color: backgroundColor,
+                    fontWeight: FontWeight.w600,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            )
           ],
         ),
       ),
