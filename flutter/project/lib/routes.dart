@@ -24,5 +24,5 @@ final Map<String, WidgetBuilder> routes = {
   AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),
   MapScreen.routeName: (context) => const MapScreen(),
   SearchScreen.routeName: (context) => const SearchScreen(),
-  UserProfileScreen.routeName:(context) => const UserProfileScreen(userFirstName: "Ime", userLastName: "Prezime", userUsername: "Korisnik", userDescription: "Opis", userPhoneNumber: "+38161234567", userDateOfBirth: "01-January-2000", userEmail: "korisnik@gmail.com", userImage: "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png", userID: "123")
+  UserProfileScreen.routeName:(context) => const UserProfileScreen(userFirstName: "Ime", userLastName: "Prezime", userUsername: "Korisnik", userDescription: "Opis", userDateOfBirth: "01-January-2000", userImage: "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png", userID: "123")
 };

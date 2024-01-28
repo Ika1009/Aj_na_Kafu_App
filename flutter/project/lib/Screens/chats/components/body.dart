@@ -6,21 +6,70 @@ import 'package:project/screens/messages/message_screen.dart';
 import 'package:project/services/users_manager.dart';
 import 'package:project/screens/chats/components/chat_card.dart';
 
-class ChatsBody extends StatelessWidget {
+class ChatsBody extends StatefulWidget {
   const ChatsBody({Key? key}) : super(key: key);
 
   @override
+  State<ChatsBody> createState() => _ChatsBodyState();
+}
+
+class _ChatsBodyState extends State<ChatsBody> {
+  TextEditingController searchController = TextEditingController();
+  List<Map<String, dynamic>> allUsers = [];
+  List<Map<String, dynamic>> filteredUsers = [];
+  User? currentUser = FirebaseAuth.instance.currentUser;
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllUsers();
+    searchController.addListener(() {
+      filterUsers(searchController.text);
+    });
+  }
+
+  Future<void> fetchAllUsers() async {
+    try {
+      allUsers = await UsersManager().getFriendsOfUser(currentUser!.uid);
+      filteredUsers = allUsers;
+    } catch (e) {
+      //print('Failed to fetch users: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void filterUsers(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredUsers = allUsers;
+      });
+    } else {
+      setState(() {
+        filteredUsers = allUsers
+          .where((user) =>
+              user['firstName'].toLowerCase().contains(query.toLowerCase()) ||
+              user['lastName'].toLowerCase().contains(query.toLowerCase()) ||
+              user['username'].toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    UsersManager friendsManager = UsersManager();
-
-    // Getting the current user from Firebase
-    User? currentUser = FirebaseAuth.instance.currentUser;
-
-    // Check if currentUser is null and handle accordingly
     if (currentUser == null) {
-      // Return a widget that handles this case, like a login prompt or an error message
       return const Center(
-        child: Text('User not logged in.'),
+        child: Text('Korisnik nije prijavljen'),
       );
     }
 
@@ -30,17 +79,16 @@ class ChatsBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
             child: TextFormField(
+              controller: searchController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               cursorColor: primaryColor,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: const Color(
-                    0xF0F0F0F0), // dzektor da doda boju i da se zameni
+                fillColor: const Color(0xF0F0F0F0), 
                 hintText: "Pretraži",
                 hintStyle: const TextStyle(
-                  color: Color(
-                      0xFF757575), // dzektor da doda boju i da se zameni
+                  color: Color(0xFF757575),
                   fontWeight: FontWeight.w600,
                 ),
                 border: OutlineInputBorder(
@@ -64,27 +112,14 @@ class ChatsBody extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: friendsManager.getFriendsOfUser(currentUser.uid),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return _buildUserListItem(context, snapshot.data![index], currentUser);
-                    },
-                  );
-                } else {
-                  return const Text('Dodaj prijatelje kako bi pokrenuo ćaskanje');
-                }
+            child: filteredUsers.isNotEmpty ? ListView.builder(
+              itemCount: filteredUsers.length,
+              itemBuilder: (context, index) {
+                return _buildUserListItem(context, filteredUsers[index], currentUser!);
               },
-            ),
+            ) : const Center(
+                child: Text("Ne postoji korisnik ili niste započeli pretragu"),
+              ),
           ),
         ],
       ),

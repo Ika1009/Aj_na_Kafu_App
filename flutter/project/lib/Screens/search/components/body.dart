@@ -6,21 +6,71 @@ import 'package:project/screens/profile/user_profile.dart';
 import 'package:project/screens/search/components/search_card.dart';
 import 'package:project/services/users_manager.dart';
 
-class SearchBody extends StatelessWidget {
+class SearchBody extends StatefulWidget {
   const SearchBody({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    UsersManager friendsManager = UsersManager();
+  State<SearchBody> createState() => _SearchBodyState();
+}
 
-    // Getting the current user from Firebase
+class _SearchBodyState extends State<SearchBody> {
+  TextEditingController searchController = TextEditingController();
+  List<Map<String, dynamic>> allUsers = [];
+  List<Map<String, dynamic>> filteredUsers = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAllUsers();
+    searchController.addListener(() {
+      filterUsers(searchController.text);
+    });
+  }
+
+  Future<void> fetchAllUsers() async {
+    try {
+      allUsers = await UsersManager().getAllUsers();
+      filteredUsers = [];
+    } catch (e) {
+      //print('Failed to fetch users: $e');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  void filterUsers(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        filteredUsers = [];
+      });
+    } else {
+      setState(() {
+        filteredUsers = allUsers
+          .where((user) =>
+              user['firstName'].toLowerCase().contains(query.toLowerCase()) ||
+              user['lastName'].toLowerCase().contains(query.toLowerCase()) ||
+              user['username'].toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    searchController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
-    // Check if currentUser is null and handle accordingly
     if (currentUser == null) {
-      // Return a widget that handles this case, like a login prompt or an error message
       return const Center(
-        child: Text('User not logged in.'),
+        child: Text('Korisnik nije prijavljen'),
       );
     }
 
@@ -30,6 +80,7 @@ class SearchBody extends StatelessWidget {
           Padding(
             padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
             child: TextFormField(
+              controller: searchController,
               keyboardType: TextInputType.text,
               textInputAction: TextInputAction.next,
               cursorColor: primaryColor,
@@ -62,27 +113,14 @@ class SearchBody extends StatelessWidget {
           ),
           const SizedBox(height: 10),
           Expanded(
-            child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: friendsManager.getAllUsers(),
-              builder: (context, snapshot) {
-                if (snapshot.hasError) {
-                  return Text('Error: ${snapshot.error}');
-                }
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
-                }
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                    itemCount: snapshot.data!.length,
-                    itemBuilder: (context, index) {
-                      return _buildUserListItem(context, snapshot.data![index], currentUser);
-                    },
-                  );
-                } else {
-                  return const Text('');
-                }
+            child: filteredUsers.isNotEmpty ? ListView.builder(
+              itemCount: filteredUsers.length,
+              itemBuilder: (context, index) {
+                return _buildUserListItem(context, filteredUsers[index], currentUser);
               },
-            ),
+            ) : const Center(
+                child: Text("Ne postoji korisnik ili niste započeli pretragu"),
+              ),
           ),
         ],
       ),
@@ -107,9 +145,7 @@ class SearchBody extends StatelessWidget {
              userLastName: users['lastName'],
              userUsername: users['username'],
              userDescription: users['description'],
-             userPhoneNumber: users['phoneNumber'],
              userDateOfBirth: users['dateOfBirth'],
-             userEmail: users['email'],
              userImage: users['imageUrl'],
              userID: users['uid'],
            ),

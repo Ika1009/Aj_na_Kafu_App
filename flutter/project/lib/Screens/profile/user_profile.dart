@@ -17,9 +17,7 @@ class UserProfileScreen extends StatefulWidget {
   final String userFullName;
   final String userImage;
   final String userUsername;
-  final String userEmail;
   final String userDateOfBirth;
-  final String userPhoneNumber;
   final String userDescription;
 
   const UserProfileScreen({
@@ -28,9 +26,7 @@ class UserProfileScreen extends StatefulWidget {
     required this.userLastName,
     required this.userUsername,
     required this.userDescription,
-    required this.userPhoneNumber,
     required this.userDateOfBirth,
-    required this.userEmail,
     required this.userImage,
     required this.userID,
   })  : userFullName = '$userFirstName $userLastName',
