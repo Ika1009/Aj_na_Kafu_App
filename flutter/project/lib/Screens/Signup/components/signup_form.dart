@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/snackbars.dart';
 import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen.dart';
 import 'package:project/services/auth_service.dart';
@@ -101,10 +102,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 // Check for forbidden characters in the email
                 if (forbiddenChars.hasMatch(email)) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Imejl sadrži nedozvoljene karaktere.'),
-                      backgroundColor: Colors.red,
-                    ),
+                    MySnackBars.warningSnackBar(), // Using custom Snackbar
                   );
                   return; // Stop further execution
                 }
@@ -112,12 +110,9 @@ class _SignUpFormState extends State<SignUpForm> {
                 // Check if the email already exists
                 bool emailExists = await AuthService().doesEmailExist(email);
                 if (emailExists) {
-                  // Show a Snackbar if the email already exists
+                  // Show a custom Snackbar if the email already exists
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Nalog sa tim imejlom već postoji. Molimo Vas koristite drugi imejl.'),
-                      backgroundColor: Colors.red,
-                    ),
+                    MySnackBars.warningSnackBar(), // Using custom Snackbar
                   );
                 } else {
                   // Proceed with the registration if the email doesn't exist
@@ -135,13 +130,11 @@ class _SignUpFormState extends State<SignUpForm> {
               } catch (e) {
                 // Handle exceptions from AuthService
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('An error occurred: ${e.toString()}'),
-                    backgroundColor: Colors.red,
-                  ),
+                  MySnackBars.warningSnackBar(), // Using custom Snackbar
                 );
               }
             },
+
             child: const Text(
               "Registruj se",
               style: TextStyle(
