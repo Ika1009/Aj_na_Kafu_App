@@ -26,6 +26,41 @@ class Body extends StatelessWidget {
 
     return Column(
       children: [
+        Padding(
+          padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 0),
+          child: TextFormField(
+            keyboardType: TextInputType.text,
+            textInputAction: TextInputAction.next,
+            cursorColor: primaryColor,
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: const Color(
+                  0xF0F0F0F0), // dzektor da doda boju i da se zameni
+              hintText: "Pretraži",
+              hintStyle: const TextStyle(
+                color: Color(
+                    0xFF757575), // dzektor da doda boju i da se zameni
+                fontWeight: FontWeight.w600,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: BorderSide.none,
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: BorderSide.none,
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(25),
+                borderSide: BorderSide.none,
+              ),
+              prefixIcon: const Icon(
+                Icons.search_outlined,
+                color: secondaryColor,
+              ),
+            ),
+          ),
+        ),
         Expanded(
           child: FutureBuilder<List<Map<String, dynamic>>>(
             future: friendsManager.getFriendsOfUser(currentUser.uid),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_input/image_input.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:project/backgrounds/background.dart';
 import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
 import 'package:project/models/user_data.dart';
@@ -65,26 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Profil',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
-          ),
-        ),
-        automaticallyImplyLeading: false, 
-        centerTitle: true,
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0.2),
-          child: Container(
-            color: const Color(0xFF757575),
-            height: 0.2,
-          ),
-        ),
-      ),
-      body: SafeArea(
+    return Background(
+      child: SafeArea(
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -106,16 +89,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
               ),
-              const Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                 child: Text(
-                  'Milos Mitrovic'
-                )
+                  "${currentUser?.firstName ?? "Ime"} ${currentUser?.lastName ?? "Prezime"}",
+                ),
               ),
-              const Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+              Padding(
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                 child: Text(
-                  'milosmitrovic005@gmail.com',
+                  currentUser?.email ?? "Mejl",
                 ),
               ),
               const Divider(
@@ -209,7 +192,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -240,27 +223,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 )
               ),
-              Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 16, 0, 0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    // Your onPressed code here
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white, // Background color
-                    foregroundColor: Colors.black, // Text color
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(38),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                    // removed fixedSize to allow flexible sizing
-                  ),
-                  child: const Text(
-                    'Log Out',
+              GestureDetector(
+                onTap: () {
+                  authService.signOut();
+                  if (!context.mounted) return;
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const SignInCheck()),
+                  );
+                },
+                child: const Text.rich(
+                  TextSpan(
+                    text: "Odjavi se",
                     style: TextStyle(
-                      fontSize: 16, // Example size
-                      color: Colors.black, // Example color
+                      color: primaryColor,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ),

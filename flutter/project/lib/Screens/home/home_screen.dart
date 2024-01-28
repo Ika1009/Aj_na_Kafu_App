@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project/Screens/map/map_screen.dart';
+import 'package:project/screens/search/search_screen.dart';
 import 'package:project/services/current_user_service.dart';
 import 'package:project/services/location_service.dart';
 import 'package:project/screens/profile/profile_screen.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomeScreen> {
-  int _selectedIndex = 1;
+  int _selectedIndex = 2;
   bool locationEnabled = false;
   Position? location;
 
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomeScreen> {
 
   final List _pages = [
     const ChatsScreen(),
+    const SearchScreen(),
     const MapScreen(),
     const ProfileScreen(),
   ];
@@ -50,8 +52,6 @@ class _HomePageState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Call the function to get and update the user location when the widget is first created.
-    // Note that we don't need to use the result in the FutureBuilder anymore since the state is updated after the location is fetched.
     _getUserLocation();
   }
 
@@ -66,6 +66,7 @@ class _HomePageState extends State<HomeScreen> {
           ),
         ),
         child: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
           backgroundColor: backgroundColor,
           elevation: 0,
           currentIndex: _selectedIndex,
@@ -74,6 +75,11 @@ class _HomePageState extends State<HomeScreen> {
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Ćaskanja',
+            ),
+
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: 'Traži',
             ),
 
             BottomNavigationBarItem(
