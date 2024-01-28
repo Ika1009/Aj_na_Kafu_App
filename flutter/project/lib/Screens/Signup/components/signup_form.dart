@@ -96,7 +96,7 @@ class _SignUpFormState extends State<SignUpForm> {
               String password = passwordController.text.trim();
 
               // Regular expression to check for forbidden characters
-              RegExp forbiddenChars = RegExp(r'[!#$%^&*(),?":{}|<>]');
+              RegExp forbiddenChars = RegExp(r'[!#$%^&*(),?":{}|<> ]');
 
               try {
                 // Check for forbidden characters in the email
