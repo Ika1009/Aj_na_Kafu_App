@@ -72,7 +72,7 @@ flutter_launcher_icons:
 
 flutter_native_splash:
   color: "#FBFEFC"
-  image: assets/icons/logo.png
+  image: assets/icons/launchlogo.png
 
 # The following section is specific to Flutter packages.
 flutter:
