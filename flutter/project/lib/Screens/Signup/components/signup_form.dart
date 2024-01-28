@@ -111,6 +111,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 bool emailExists = await AuthService().doesEmailExist(email);
                 if (emailExists) {
                   // Show a custom Snackbar if the email already exists
+                  if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     MySnackBars.warningSnackBar(), // Using custom Snackbar
                   );
@@ -121,6 +122,7 @@ class _SignUpFormState extends State<SignUpForm> {
                     password: password,
                   );
                   
+                  if (!context.mounted) return;
                   Navigator.pushNamed(
                     context,
                     SetupScreen.routeName,

@@ -1,13 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/constants.dart';
-import 'package:project/models/chat_tile.dart';
-import 'package:project/screens/messages/message_screen.dart';
+import 'package:project/models/search_tile.dart';
+import 'package:project/screens/profile/user_profile.dart';
+import 'package:project/screens/search/components/search_card.dart';
 import 'package:project/services/users_manager.dart';
-import 'package:project/screens/chats/components/chat_card.dart';
 
-class ChatsBody extends StatelessWidget {
-  const ChatsBody({Key? key}) : super(key: key);
+class SearchBody extends StatelessWidget {
+  const SearchBody({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,10 @@ class ChatsBody extends StatelessWidget {
               cursorColor: primaryColor,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: const Color(
-                    0xF0F0F0F0), // dzektor da doda boju i da se zameni
+                fillColor: const Color(0xF0F0F0F0), 
                 hintText: "Pretraži",
                 hintStyle: const TextStyle(
-                  color: Color(
-                      0xFF757575), // dzektor da doda boju i da se zameni
+                  color: Color(0xFF757575),
                   fontWeight: FontWeight.w600,
                 ),
                 border: OutlineInputBorder(
@@ -65,7 +63,7 @@ class ChatsBody extends StatelessWidget {
           const SizedBox(height: 10),
           Expanded(
             child: FutureBuilder<List<Map<String, dynamic>>>(
-              future: friendsManager.getFriendsOfUser(currentUser.uid),
+              future: friendsManager.getAllUsers(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
                   return Text('Error: ${snapshot.error}');
@@ -81,7 +79,7 @@ class ChatsBody extends StatelessWidget {
                     },
                   );
                 } else {
-                  return const Text('Dodaj prijatelje kako bi pokrenuo ćaskanje');
+                  return const Text('');
                 }
               },
             ),
@@ -92,24 +90,28 @@ class ChatsBody extends StatelessWidget {
   }
 
   Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
-    var chatData = Chat(
-      name: users['firstName'],
-      lastMessage: 'Klikni za ćaskanje',
+    var searchData = Search(
+      username: users['username'],
+      fullName: "${users['firstName']} ${users['lastName']}",
       image: "${users['imageUrl']}",
     );
 
-    return ChatCard(
-      chat: chatData, 
+    return SearchCard(
+      search: searchData, 
       press: () {   
        Navigator.push(
          context,
          MaterialPageRoute(
-           builder: (context) => MessagesScreen(
-             receiverFirstName: users['firstName'],
-             receiverLastName: users['lastName'],
-             receiverUsername: users['username'],
-             receiverImagePath: users['imageUrl'],
-             receiverID: users['uid'],
+           builder: (context) => UserProfileScreen(
+             userFirstName: users['firstName'],
+             userLastName: users['lastName'],
+             userUsername: users['username'],
+             userDescription: users['description'],
+             userPhoneNumber: users['phoneNumber'],
+             userDateOfBirth: users['dateOfBirth'],
+             userEmail: users['email'],
+             userImage: users['imageUrl'],
+             userID: users['uid'],
            ),
          ),
        );

@@ -14,7 +14,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Body(),
+      body: ChatsBody(),
     );
   }
 }

@@ -54,7 +54,7 @@ Future<void> initMarkers() async {
       _markers = Set.from(_friendMarkers);
     });
   } catch (e) {
-    print('Error initializing markers: $e');
+    //print('Error initializing markers: $e');
   }
 }
 
@@ -78,7 +78,7 @@ Future<void> initMarkers() async {
         final String markerUrl = user['imageUrl'] ?? ''; // Provide a default or placeholder image URL if necessary
         markerIcon = await getNetworkImageAsMarkerIcon(markerUrl);
       } catch (e) {
-        print('Error fetching image for user: ${user['uid']}. Using default marker icon. Error: $e');
+        //print('Error fetching image for user: ${user['uid']}. Using default marker icon. Error: $e');
       }
 
       try {
@@ -99,7 +99,7 @@ Future<void> initMarkers() async {
 
         markersSet.add(marker);
       } catch (e) {
-        print('Error creating marker for user: ${user['uid']}. Error: $e');
+        //print('Error creating marker for user: ${user['uid']}. Error: $e');
       }
     }
 

@@ -9,6 +9,8 @@ class MessagesScreen extends StatefulWidget {
   static String routeName = "/messages";
   final String receiverFirstName;
   final String receiverLastName;
+  final String receiverUsername;
+  final String receiverImagePath;
   final String receiverID;
   final String receiverFullName;
   
@@ -16,6 +18,8 @@ class MessagesScreen extends StatefulWidget {
     Key? key,
     required this.receiverFirstName,
     required this.receiverLastName,
+    required this.receiverUsername,
+    required this.receiverImagePath,
     required this.receiverID,
   })  : receiverFullName = '$receiverFirstName $receiverLastName',
         super(key: key);
@@ -60,8 +64,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
       title: Row(
         children: [
           const BackButton(),
-          const CircleAvatar(
-            backgroundImage: AssetImage("assets/images/profile2.png"), // ovde treba slika od korisnika
+          CircleAvatar(
+            backgroundImage: NetworkImage(widget.receiverImagePath),
           ),
           const SizedBox(width: kDefaultPadding * 0.75),
           Column(
@@ -72,7 +76,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 style: const TextStyle(fontSize: 16),
               ),
               Text(
-                widget.receiverID, // ovde treba kad je online bio
+                widget.receiverUsername,
                 style: const TextStyle(fontSize: 12), 
               ),
             ],
