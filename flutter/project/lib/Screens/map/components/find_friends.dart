@@ -126,37 +126,47 @@ class _FindFriendsState extends State<FindFriends> {
             ),
             Positioned(
               top: 20,
-              right: 50,
-              left: 50,
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(24), 
-                ),
-                padding: const EdgeInsets.all(8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    TextButton(
+              right: 0,
+              left: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: showFriends ? secondaryColor : backgroundColor,
+                      borderRadius: BorderRadius.circular(24), 
+                    ),
+                    child: TextButton(
                       onPressed: toggleUserDisplayMode,
                       child: Text(
                         'Prikaži prijatelje',
                         style: TextStyle(
-                          color: showFriends ? secondaryColor : Colors.grey,
+                          color: showFriends ? backgroundColor : secondaryColor,
                         ),
                       ),
                     ),
-                    TextButton(
+                  ),
+
+                  const SizedBox(width: 5),
+
+                  Container(
+                    padding: const EdgeInsets.all(6),
+                    decoration: BoxDecoration(
+                      color: !showFriends ? secondaryColor : backgroundColor,
+                      borderRadius: BorderRadius.circular(24), 
+                    ),
+                    child: TextButton(
                       onPressed: toggleUserDisplayMode,
                       child: Text(
                         'Prikaži sve ljude',
                         style: TextStyle(
-                          color: !showFriends ? secondaryColor : Colors.grey,
+                          color: !showFriends ? backgroundColor : secondaryColor,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
             Positioned(
