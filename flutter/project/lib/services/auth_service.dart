@@ -61,8 +61,23 @@ class AuthService extends ChangeNotifier {
       throw Exception(e.code);
     }
   }
+  //Check if the email already exists
+  Future<bool> doesEmailExist(String email) async {
+    try {
+      // Query the 'users' collection for documents where 'email' field matches the provided email
+      QuerySnapshot querySnapshot = await _firestore.collection('users')
+          .where('email', isEqualTo: email)
+          .limit(1)
+          .get();
 
-
+      // If we find any documents, the email exists
+      return querySnapshot.docs.isNotEmpty;
+    } catch (e) {
+      // Handle any errors here
+      //print('Error checking email existence: $e');
+      return false;
+    }
+  }
   // Sign user out
   Future<void> signOut() async {
     return await FirebaseAuth.instance.signOut();
