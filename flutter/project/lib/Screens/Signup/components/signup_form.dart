@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/models/user_data.dart';
 import 'package:project/screens/setup/setup_screen.dart';
+import 'package:project/services/auth_service.dart';
 
 import '../../../constants.dart';
 
@@ -89,17 +90,57 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ),
             ),
-            onPressed: () {
-              UserData userData = UserData(
-                email: emailController.text,
-                password: passwordController.text,
-              );
-              
-              Navigator.pushNamed(
-                context,
-                SetupScreen.routeName,
-                arguments: userData,
-              );
+            onPressed: () async {
+              String email = emailController.text.trim();
+              String password = passwordController.text.trim();
+
+              // Regular expression to check for forbidden characters
+              RegExp forbiddenChars = RegExp(r'[!#$%^&*(),?":{}|<>]');
+
+              try {
+                // Check for forbidden characters in the email
+                if (forbiddenChars.hasMatch(email)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Imejl sadrži nedozvoljene karaktere.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                  return; // Stop further execution
+                }
+
+                // Check if the email already exists
+                bool emailExists = await AuthService().doesEmailExist(email);
+                if (emailExists) {
+                  // Show a Snackbar if the email already exists
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('Nalog sa tim imejlom već postoji. Molimo Vas koristite drugi imejl.'),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                } else {
+                  // Proceed with the registration if the email doesn't exist
+                  UserData userData = UserData(
+                    email: email,
+                    password: password,
+                  );
+                  
+                  Navigator.pushNamed(
+                    context,
+                    SetupScreen.routeName,
+                    arguments: userData,
+                  );
+                }
+              } catch (e) {
+                // Handle exceptions from AuthService
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('An error occurred: ${e.toString()}'),
+                    backgroundColor: Colors.red,
+                  ),
+                );
+              }
             },
             child: const Text(
               "Registruj se",
