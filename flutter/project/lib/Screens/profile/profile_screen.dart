@@ -1,8 +1,6 @@
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_input/image_input.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:project/backgrounds/background.dart';
 import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
@@ -22,8 +20,6 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   UserData? currentUser;
-  XFile? profileImage; 
-  final bool _isUploading = false;
   Uint8List? imageData;
 
   @override
@@ -40,27 +36,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserData? fetchedUser = await userService.getCurrentUserData();
     setState(() {
       currentUser = fetchedUser;
-      if (currentUser != null) {
-        profileImage = XFile(currentUser!.imageUrl);
-      }
     });
-  }
-
-  Future<void> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    try {
-      final XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        // Read the image file as bytes
-        Uint8List imageBytes = await pickedFile.readAsBytes();
-        setState(() {
-          profileImage = pickedFile;
-          imageData = imageBytes;
-        });
-      }
-    } catch (e) {
-      //print(e.toString());
-    }
   }
   
   @override
@@ -82,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Image.network(
-                    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
+                    currentUser?.imageUrl ?? "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png",
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
@@ -92,13 +68,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                 child: Text(
-                  "${currentUser?.firstName ?? "Ime"} ${currentUser?.lastName ?? "Prezime"}",
+                  currentUser?.userName ?? "Korisnik",
                 ),
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                 child: Text(
-                  currentUser?.email ?? "Mejl",
+                  "${currentUser?.firstName ?? "Ime"} ${currentUser?.lastName ?? "Prezime"}",
                 ),
               ),
               const Divider(
@@ -109,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 color: Color(0xFF757575),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -117,45 +93,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     borderRadius: BorderRadius.circular(24),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.all(2),
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         const Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           child: Icon(
-                            Icons.power_settings_new_rounded,
+                            Icons.email_rounded,
                             color: secondaryColor,
                             size: 24,
                           ),
                         ),
-                        Expanded(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFF0F0F0), // Tile color
-                              borderRadius: BorderRadius.circular(24),
-                            ),
-                            child: SwitchListTile.adaptive(
-                              value: true,
-                              onChanged: (bool value) {
-                                // Your logic here when the switch is toggled
-                              },
-                              title: const Text(
-                                'Active',
-                              ),
-                              // Use a transparent color for the tile, since the Container handles the background
-                              tileColor: Colors.transparent, 
-                              activeColor: secondaryColor, 
-                              activeTrackColor: const Color(0x3439D2C0),
-                              dense: true,
-                              controlAffinity: ListTileControlAffinity.trailing,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
-                            ),
+                        Padding(
+                          padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          child: Text(
+                            currentUser?.email ?? "korisnik@gmail.com",
                           ),
                         ),
-
-                        ],
-                      ),
+                      ],
+                    ),
                   ),
                 )
               ),
@@ -167,23 +124,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     color: const Color(0xFFF0F0F0),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           child: Icon(
-                            Icons.account_circle_outlined,
+                            Icons.calendar_today_rounded,
                             color: secondaryColor,
                             size: 24,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
-                            'Edit Profile',
+                            currentUser?.dateOfBirth ?? "01/01/2000",
                           ),
                         ),
                       ],
@@ -192,30 +149,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 )
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 12),
+                padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 26),
                 child: Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     color: const Color(0xFFF0F0F0),
                     borderRadius: BorderRadius.circular(24),
                   ),
-                  child: const Padding(
-                    padding: EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.fromSTEB(8, 12, 8, 12),
                     child: Row(
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        Padding(
+                        const Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(8, 0, 0, 0),
                           child: Icon(
-                            Icons.settings_outlined,
+                            Icons.phone_rounded,
                             color: secondaryColor,
                             size: 24,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
+                          padding: const EdgeInsetsDirectional.fromSTEB(12, 0, 0, 0),
                           child: Text(
-                            'Account Settings',
+                            currentUser?.phoneNumber ?? "+38161234567",
                           ),
                         ),
                       ],
