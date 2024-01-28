@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:http/http.dart' as http;
 import 'package:project/constants.dart';
 import 'package:project/models/map_style.dart';
@@ -18,6 +17,7 @@ class FindFriends extends StatefulWidget {
 }
 
 class _FindFriendsState extends State<FindFriends> {
+  bool showFriends = true;
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
   late Future<void> friendsFuture;
@@ -106,34 +106,46 @@ class _FindFriendsState extends State<FindFriends> {
                   },
                 );
               },
-            ), 
+            ),
             Positioned(
-              top: 15,
-              left: 40,
-              right: 40,
+              top: 20,
+              right: 50,
+              left: 50,
               child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: 40,
                 decoration: BoxDecoration(
-                  color: backgroundColor, 
-                  borderRadius: BorderRadius.circular(20),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24), 
                 ),
+                padding: const EdgeInsets.all(8),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                      child: SvgPicture.asset(
-                        'assets/icons/searchperson.svg', 
-                        height: 24,
-                        width: 24,
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showFriends = true;
+                        });
+                        // Add your functionality for "Show Friends" here
+                      },
+                      child: Text(
+                        'Prikaži prijatelje',
+                        style: TextStyle(
+                          color: showFriends ? secondaryColor : Colors.grey,
+                        ),
                       ),
                     ),
-                    const Text(
-                      'Pretraži...',
-                      style: TextStyle(
-                      color: Color(0xFF757575),
-                        fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                    TextButton(
+                      onPressed: () {
+                        setState(() {
+                          showFriends = false;
+                        });
+                        // Add your functionality for "Show All People" here
+                      },
+                      child: Text(
+                        'Prikaži sve ljude',
+                        style: TextStyle(
+                          color: !showFriends ? secondaryColor : Colors.grey,
+                        ),
                       ),
                     ),
                   ],
