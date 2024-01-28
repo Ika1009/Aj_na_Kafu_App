@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              const SizedBox(height: 20),
+              const SizedBox(height: 40),
               Card(
                 clipBehavior: Clip.antiAliasWithSaveLayer,
                 color: primaryColor,
@@ -58,7 +58,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(60),
                   child: Image.network(
-                    currentUser?.imageUrl ?? "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png",
+                    'https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8dXNlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=900&q=60',
                     width: 100,
                     height: 100,
                     fit: BoxFit.cover,
@@ -68,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                 child: Text(
-                  currentUser?.userName ?? "Korisnik",
+                  currentUser?.username ?? "Korisnik",
                 ),
               ),
               Padding(
@@ -83,6 +83,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 indent: 24,
                 endIndent: 24,
                 color: Color(0xFF757575),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30, 0, 30, 5), // You can customize the padding values here
+                child: Text(
+                  currentUser?.description ?? "Opis",
+                  textAlign: TextAlign.center,
+                ),
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(16, 12, 16, 0),
