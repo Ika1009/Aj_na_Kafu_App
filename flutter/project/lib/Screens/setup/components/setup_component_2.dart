@@ -34,7 +34,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Zdravo, ${data.userName}!',
+            'Zdravo, ${data.username}!',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,

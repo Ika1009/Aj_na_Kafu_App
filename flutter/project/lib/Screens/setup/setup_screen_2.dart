@@ -39,7 +39,7 @@ class _AccountSetupScreenState extends State<AccountSetupScreen> {
     _userData = UserData(
       email: 'Mejl',
       password: 'Lozinka',
-      userName: 'Korisničko ime',
+      username: 'Korisničko ime',
       firstName: 'Ime',
       lastName: 'Prezime',
       dateOfBirth: 'Datum rođenja',

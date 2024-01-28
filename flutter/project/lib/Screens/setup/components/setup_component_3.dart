@@ -48,7 +48,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
 
     try {
       UserCredential userCredential = await authService.signUpWithEmailAndPassword(
-        data.userName,
+        data.username,
         data.email,
         data.password,
         widget.userData.firstName,
@@ -104,7 +104,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Zdravo, ${data.userName}',
+            'Zdravo, ${data.username}',
             style: const TextStyle(
               color: primaryColor,
               fontSize: 24,

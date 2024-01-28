@@ -7,6 +7,7 @@ import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:project/services/current_user_service.dart';
 import 'package:project/services/users_manager.dart';
 
 class FindFriends extends StatefulWidget {
@@ -18,12 +19,12 @@ class FindFriends extends StatefulWidget {
 
 class _FindFriendsState extends State<FindFriends> {
   bool showFriends = true;
+  bool currentStatus = false;
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
 
   final Set<Marker> _allUserMarkers = {};
   final Set<Marker> _friendMarkers = {};
-  bool _showAllUsers = false; // Flag to track the current mode
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
@@ -49,32 +50,46 @@ class _FindFriendsState extends State<FindFriends> {
 
   void toggleUserDisplayMode() {
     setState(() {
-      _showAllUsers = !_showAllUsers;
-      _markers = _showAllUsers ? _allUserMarkers : _friendMarkers;
+      showFriends = !showFriends;
+      _markers = showFriends ? _friendMarkers : _allUserMarkers;
+      print(_markers);
     });
+  }
+  void changeUsersAvailabilityStatus() {
+    UserService userService = UserService();
+    userService.toggleCurrentUserStatus();
   }
   // Utility function to create markers from a list of user data
   Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, Set<Marker> markersSet) async {
     for (var user in usersData) {
-      final markerIcon = await getNetworkImageAsMarkerIcon(user['marker']);
-      final marker = Marker(
-        markerId: MarkerId(user['name']),
-        position: LatLng(
-          user['location']['latitude'], 
-          user['location']['longitude']
-        ),
-        icon: markerIcon,
-        infoWindow: InfoWindow(
-          title: user['name'],
-          snippet: 'aktivan',
-        ),
-      );
+      try {
+        final markerIcon = await getNetworkImageAsMarkerIcon(user['marker'] as String);
+        final position = LatLng(
+          user['location']['latitude'] as double, 
+          user['location']['longitude'] as double
+        );
 
-      markersSet.add(marker);
+        final marker = Marker(
+          markerId: MarkerId(user['name'] as String),
+          position: position,
+          icon: markerIcon,
+          infoWindow: InfoWindow(
+            title: user['name'] as String,
+            snippet: 'aktivan',
+          ),
+        );
+
+        markersSet.add(marker);
+      } catch (e) {
+        print('Error creating marker for user: ${user.toString()}');
+        print('Error details: $e');
+      }
     }
 
-    // If needed, update the UI to show new markers
-    setState(() {});
+    // Update the UI
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -83,7 +98,7 @@ class _FindFriendsState extends State<FindFriends> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
-        initMarkers();
+    initMarkers();
   }
 
   @override
@@ -123,12 +138,7 @@ class _FindFriendsState extends State<FindFriends> {
                       borderRadius: BorderRadius.circular(24), 
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          showFriends = true;
-                        });
-                        // Add your functionality for "Show Friends" here
-                      },
+                      onPressed: toggleUserDisplayMode,
                       child: Text(
                         'Prikaži prijatelje',
                         style: TextStyle(
@@ -147,12 +157,7 @@ class _FindFriendsState extends State<FindFriends> {
                       borderRadius: BorderRadius.circular(24), 
                     ),
                     child: TextButton(
-                      onPressed: () {
-                        setState(() {
-                          showFriends = false;
-                        });
-                        // Add your functionality for "Show All People" here
-                      },
+                      onPressed: toggleUserDisplayMode,
                       child: Text(
                         'Prikaži sve ljude',
                         style: TextStyle(
@@ -178,7 +183,7 @@ class _FindFriendsState extends State<FindFriends> {
                     ),
                   ),
                 ),
-                onPressed: toggleUserDisplayMode, // Hook up the toggle function here
+                onPressed: changeUsersAvailabilityStatus, // Hook up the toggle function here
                 child: const Text(
                   "Aj Na Kafu",
                   style: TextStyle(
