@@ -120,4 +120,21 @@ class UsersManager {
       'sentRequests': FieldValue.arrayRemove([acceptingUserUid])
     });
   }
+
+  // Method to decline a friend request
+  Future<void> declineFriendRequest(String decliningUserUid, String requestingUserUid) async {
+    if (decliningUserUid.isEmpty || requestingUserUid.isEmpty) {
+      throw Exception('Invalid UIDs provided');
+    }
+
+    // Remove the requesting user from the declining user's received requests
+    await _firestore.collection('users').doc(decliningUserUid).update({
+      'receivedRequests': FieldValue.arrayRemove([requestingUserUid])
+    });
+
+    // Remove the declining user from the requesting user's sent requests
+    await _firestore.collection('users').doc(requestingUserUid).update({
+      'sentRequests': FieldValue.arrayRemove([decliningUserUid])
+    });
+  }
 }
