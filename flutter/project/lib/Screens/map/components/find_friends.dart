@@ -19,10 +19,11 @@ class FindFriends extends StatefulWidget {
 
 class _FindFriendsState extends State<FindFriends> {
   bool showFriends = true;
-  bool currentStatus = false;
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
-
+  Map<String, dynamic> currentUserData = {
+    'status': false,  // Default status value
+  };
   final Set<Marker> _allUserMarkers = {};
   final Set<Marker> _friendMarkers = {};
 
@@ -37,13 +38,13 @@ class _FindFriendsState extends State<FindFriends> {
     try {
       // Fetch all users and create markers for them
       List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
+      var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
       await createMarkersFromUsers(allUsers, _allUserMarkers);
 
       // Fetch friends and create markers for them
       List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
       
       // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
-      var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
       if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
         friends.add(currentUserData);
       }
@@ -66,6 +67,9 @@ class _FindFriendsState extends State<FindFriends> {
   }
 
   void changeUsersAvailabilityStatus() {
+    setState(() {
+      currentUserData['status'] = !currentUserData['status'];
+    });
     UserService userService = UserService();
     userService.toggleCurrentUserStatus();
   }
@@ -203,9 +207,9 @@ class _FindFriendsState extends State<FindFriends> {
                   ),
                 ),
                 onPressed: changeUsersAvailabilityStatus, // Hook up the toggle function here
-                child: const Text(
-                  "Aj Na Kafu",
-                  style: TextStyle(
+                child: Text(
+                  currentUserData['status'] ? "Otkaži izlazak" : "Aj Na Kafu", // Text changes based on `isAvailable`
+                  style: const TextStyle(
                     color: backgroundColor,
                     fontWeight: FontWeight.w600,
                     fontSize: 16,

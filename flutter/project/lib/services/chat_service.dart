@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/message.dart';
-import 'package:project/models/user_data.dart';
+import 'package:project/models/user_model.dart';
 import 'package:project/services/current_user_service.dart';
 
 class ChatService extends ChangeNotifier {
@@ -13,7 +13,7 @@ class ChatService extends ChangeNotifier {
   // SEND MESSAGE
   Future<void> sendMessage(String receiverId, String message) async {
     final UserService userService = UserService();
-    final UserData? currentUserData = await userService.getCurrentUserData();
+    final UserModel? currentUserData = await userService.getCurrentUserModel();
     final String currentUserId = _firebaseAuth.currentUser!.uid;
     if(currentUserData == null) throw Exception("Trenutni korisnik nije pronađen.");
     
