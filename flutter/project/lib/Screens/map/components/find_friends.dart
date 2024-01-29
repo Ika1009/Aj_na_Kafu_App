@@ -7,6 +7,7 @@ import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:project/services/current_user_service.dart';
 import 'package:project/services/users_manager.dart';
 
@@ -23,15 +24,16 @@ class _FindFriendsState extends State<FindFriends> {
   final UsersManager usersManager = UsersManager(); 
   User? currentUser = FirebaseAuth.instance.currentUser;
 
-  final Set<Marker> _allUserMarkers = {};
-  final Set<Marker> _friendMarkers = {};
+  final List<MarkerData> _allUserMarkers = [];
+  final List<MarkerData> _friendMarkers = [];
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
     zoom: 14.4746,
   );
 
-  Set<Marker> _markers = {};
+  List<MarkerData> _customMarkers = [];
+  late List<MarkerData> _customMarkers2;
 
   Future<void> initMarkers() async {
     try {
@@ -51,7 +53,7 @@ class _FindFriendsState extends State<FindFriends> {
 
       // Set initial markers to display friends including the current user
       setState(() {
-        _markers = Set.from(_friendMarkers);
+        _customMarkers = List<MarkerData>.from(_friendMarkers);
       });
     } catch (e) {
       //print('Error initializing markers: $e');
@@ -61,7 +63,7 @@ class _FindFriendsState extends State<FindFriends> {
   void toggleUserDisplayMode() {
     setState(() {
       showFriends = !showFriends;
-      _markers = showFriends ? _friendMarkers : _allUserMarkers;
+      _customMarkers = showFriends ? _friendMarkers : _allUserMarkers;
     });
   }
 
@@ -70,33 +72,48 @@ class _FindFriendsState extends State<FindFriends> {
     userService.toggleCurrentUserStatus();
   }
 
+  _customMarker(String imagePath, Color color) {
+    return Stack(
+      children: [
+        Icon(
+          Icons.add_location,
+          color: color,
+          size: 50,
+        ),
+        Positioned(
+          left: 15,
+          top: 8,
+          child: Container(
+            width: 20,
+            height: 20,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: CircleAvatar(
+                radius: 28,
+                backgroundImage: NetworkImage(imagePath),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   // Utility function to create markers from a list of user data
-  Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, Set<Marker> markersSet) async {
+  Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, List<MarkerData> markersSet) async {
     for (var user in usersData) {
-      BitmapDescriptor markerIcon = BitmapDescriptor.defaultMarker; // Default marker icon
-
-      try {
-        // Attempt to get the custom image for the marker
-        final String markerUrl = user['imageUrl'] ?? ''; // Provide a default or placeholder image URL if necessary
-        markerIcon = await getNetworkImageAsMarkerIcon(markerUrl);
-      } catch (e) {
-        //print('Error fetching image for user: ${user['uid']}. Using default marker icon. Error: $e');
-      }
-
       try {
         // Continue to create the marker with whatever icon we have (custom or default)
         final double latitude = (user['location']['latitude'] as num).toDouble();
         final double longitude = (user['location']['longitude'] as num).toDouble();
-        final String name = "${user['firstName']} ${user['lastName']}";
 
-        final marker = Marker(
-          markerId: MarkerId(name),
-          position: LatLng(latitude, longitude),
-          icon: markerIcon,
-          infoWindow: InfoWindow(
-            title: name,
-            snippet: user['description'], // Use the description or another field
+        final marker = MarkerData(
+          marker: Marker(
+            markerId: const MarkerId('id-5'),
+            position: LatLng(latitude, longitude)
           ),
+          child: _customMarker(user['imageUrl'], Colors.white)
         );
 
         markersSet.add(marker);
@@ -118,6 +135,12 @@ class _FindFriendsState extends State<FindFriends> {
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
     initMarkers();
+    _customMarkers2 = [
+      MarkerData(
+        marker:
+            const Marker(markerId: MarkerId('id-5'), position: LatLng(43.3209, 21.8958)),
+        child: _customMarker("https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png", Colors.white)),
+    ];
   }
 
   @override
@@ -134,13 +157,20 @@ class _FindFriendsState extends State<FindFriends> {
       body: SafeArea(
         child: Stack(
           children: [
-            GoogleMap(
-              initialCameraPosition: _kGooglePlex,
-              markers: _markers,
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              onMapCreated: (GoogleMapController controller) {
-                controller.setMapStyle(MapStyle().retro);
+            CustomGoogleMapMarkerBuilder(
+              customMarkers: _customMarkers2,
+              builder: (BuildContext context, Set<Marker>? markers) {
+                if (markers == null) {
+                  return const Center(child: CircularProgressIndicator(color: secondaryColor));
+                }
+                return GoogleMap(
+                  initialCameraPosition: _kGooglePlex,
+                  markers: markers,
+                  zoomControlsEnabled: false,
+                  onMapCreated: (GoogleMapController controller) {
+                    controller.setMapStyle(MapStyle().retro);
+                  },
+                );
               },
             ),
             Positioned(
@@ -218,21 +248,4 @@ class _FindFriendsState extends State<FindFriends> {
       ),
     );
   }
-  // Function to fetch an image from the network and convert it to a BitmapDescriptor
-  Future<BitmapDescriptor> getNetworkImageAsMarkerIcon(String url, {int width = 120, int height = 120}) async {
-    final http.Response response = await http.get(Uri.parse(url));
-    if (response.statusCode != 200) {
-      throw Exception('Failed to load network image.');
-    }
-    final Uint8List bytes = response.bodyBytes;
-    final Codec codec = await instantiateImageCodec(bytes, targetWidth: width, targetHeight: height);
-    final FrameInfo frameInfo = await codec.getNextFrame();
-    final ByteData? byteData = await frameInfo.image.toByteData(format: ImageByteFormat.png);
-    if (byteData == null) {
-      throw Exception('Failed to convert image to byte data.');
-    }
-    final Uint8List resizedBytes = byteData.buffer.asUint8List();
-    return BitmapDescriptor.fromBytes(resizedBytes);
-  }
-
 }
