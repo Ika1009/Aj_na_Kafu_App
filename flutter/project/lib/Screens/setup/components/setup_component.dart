@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/snackbars.dart';
 import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
@@ -194,12 +195,43 @@ class _AccountSetupState extends State<AccountSetup> {
                 ),
               ),
             ),
-            onPressed: ()  {
-              widget.userData.firstName = firstNameController.text;
-              widget.userData.lastName = lastNameController.text;
-              widget.userData.dateOfBirth = "$selectedDay-$selectedMonth-$selectedYear";
-              widget.onNextPage(widget.userData);
+            onPressed: () {
+              String firstName = firstNameController.text.trim();
+              String lastName = lastNameController.text.trim();
+
+              // Regular expression to check for valid characters (assuming you want letters and spaces)
+              RegExp validChars = RegExp(r'^[a-zA-Z\s]+$');
+
+              try {
+                // Check for valid characters in first name
+                if (!validChars.hasMatch(firstName)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MySnackBars.warningSnackBar("Nevažeći unos", "Ime sadrži nedozvoljene karaktere"),
+                  );
+                  return; // Stop further execution
+                }
+
+                // Check for valid characters in last name
+                if (!validChars.hasMatch(lastName)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MySnackBars.warningSnackBar("Nevažeći unos", "Prezime sadrži nedozvoljene karaktere"),
+                  );
+                  return; // Stop further execution
+                }
+
+                // Proceed with further actions
+                widget.userData.firstName = firstName;
+                widget.userData.lastName = lastName;
+                widget.userData.dateOfBirth = "$selectedDay-$selectedMonth-$selectedYear";
+                widget.onNextPage(widget.userData);
+              } catch (e) {
+                // Handle exceptions if necessary
+                ScaffoldMessenger.of(context).showSnackBar(
+                  MySnackBars.warningSnackBar("Greška", "Došlo je do greške"),
+                );
+              }
             },
+
             child: const Text(
               "Nastavi",
               style: TextStyle(

@@ -102,7 +102,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 // Check for forbidden characters in the email
                 if (forbiddenChars.hasMatch(email)) {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    MySnackBars.warningSnackBar(), // Using custom Snackbar
+                    MySnackBars.warningSnackBar("Nevažeća Imejl Adresa", "Nevažeći karakteri u imejl adresi"),
                   );
                   return; // Stop further execution
                 }
@@ -113,7 +113,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   // Show a custom Snackbar if the email already exists
                   if (!context.mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    MySnackBars.warningSnackBar(), // Using custom Snackbar
+                    MySnackBars.warningSnackBar("Već postoji takva imejl adresa", 
+                    "Molimo vas da koristite drugu imejl adresu ili se prijavite")
                   );
                 } else {
                   // Proceed with the registration if the email doesn't exist
@@ -132,7 +133,7 @@ class _SignUpFormState extends State<SignUpForm> {
               } catch (e) {
                 // Handle exceptions from AuthService
                 ScaffoldMessenger.of(context).showSnackBar(
-                  MySnackBars.warningSnackBar(), // Using custom Snackbar
+                  MySnackBars.warningSnackBar("Greška", "Došlo je do greške"),
                 );
               }
             },
