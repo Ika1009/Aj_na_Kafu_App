@@ -22,13 +22,7 @@ class _HomePageState extends State<HomeScreen> {
   bool locationEnabled = false;
   Position? location;
 
-  void _navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
-  final List _pages = [
+  final List<Widget> _pages = [
     const ChatsScreen(),
     const SearchScreen(),
     const MapScreen(),
@@ -58,7 +52,10 @@ class _HomePageState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           border: Border(
@@ -70,23 +67,26 @@ class _HomePageState extends State<HomeScreen> {
           backgroundColor: backgroundColor,
           elevation: 0,
           currentIndex: _selectedIndex,
-          onTap: _navigateBottomBar,
+          onTap: (index) {
+            if (index != _selectedIndex) {
+              setState(() {
+                _selectedIndex = index;
+              });
+            }
+          },
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.chat),
               label: 'Ćaskanja',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.search),
               label: 'Traži',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.location_pin),
               label: 'Mapa',
             ),
-
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
               label: 'Profil',
