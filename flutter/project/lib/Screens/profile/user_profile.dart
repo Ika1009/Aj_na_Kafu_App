@@ -35,7 +35,8 @@ class UserProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<UserProfileScreen> {
   //Koriscenje konstatni kao pravilo dobre prakse
-  static const String startChat = "Započni ćaskanje";
+  //static const String startChat = "Započni ćaskanje"; da se doda
+  static const String alreadyFriend = "Korisnik je već prijatelj";
   static const String addFriend = "Dodaj prijatelja";
   static const String requestSent = "Poslat zahtev";
   static const String acceptRequest = "Prihvati zahtev";
@@ -69,7 +70,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
     bool areFriends = await usersManager.areUsersFriends(currentUserId, viewedUserId);
     if (areFriends) {
       setState(() {
-        relationshipStatus = startChat;
+        relationshipStatus = alreadyFriend;
       });
       return;
     }
@@ -101,7 +102,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
     String viewedUserId = widget.userID;
 
     switch (relationshipStatus) {
-      case startChat:
+      case alreadyFriend:
         // Code to start chatting
         break;
 
@@ -118,7 +119,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
       case acceptRequest:
         // Accept the friend request
         await usersManager.acceptFriendRequest(viewedUserId, currentUserId);
-        updateRelationshipStatus(startChat);
+        updateRelationshipStatus(alreadyFriend);
         break;
 
       default:
