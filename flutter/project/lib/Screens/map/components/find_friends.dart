@@ -121,7 +121,6 @@ class _FindFriendsState extends State<FindFriends> {
             markerId: MarkerId(user['uid']),
             position: LatLng(latitude, longitude),
             onTap: () {
-              print("tapnutoooo");
               Navigator.push(
                 context,
                 MaterialPageRoute(
