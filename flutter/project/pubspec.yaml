@@ -65,9 +65,9 @@ dev_dependencies:
 # following page: https://dart.dev/tools/pub/pubspec
 
 flutter_launcher_icons: 
-  remove_alpha_ios: true
-  android: true
+  android: "launcher_icon"
   ios: true
+  remove_alpha_ios: true
   image_path: assets/icons/logo.png
 
 flutter_native_splash:
@@ -120,4 +120,3 @@ flutter:
   assets:
     - assets/images/
     - assets/icons/
-    - assets/markers/

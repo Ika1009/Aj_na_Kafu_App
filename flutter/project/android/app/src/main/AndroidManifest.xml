@@ -6,7 +6,7 @@
     <application
         android:label="Aj Na Kafu"
         android:name="androidx.multidex.MultiDexApplication" >
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/launcher_icon">
         <meta-data android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyAajVkMrmllKA94OPKX7A755Y_klu4C68Q"/>
         <activity
