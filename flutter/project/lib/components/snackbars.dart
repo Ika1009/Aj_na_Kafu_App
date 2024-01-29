@@ -9,7 +9,7 @@ class MySnackBars {
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
         title: 'Greška!',
-        message: "Pogrešan unos",
+        message: "Pogrešan unos podataka",
         contentType: ContentType.failure,
       ),
     );
@@ -48,7 +48,7 @@ class MySnackBars {
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
         title: 'Upozorenje!',
-        message: "Proverite unos",
+        message: "Proverite unos podataka",
         contentType: ContentType.warning,
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:project/components/snackbars.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/models/user_data.dart';
 import 'package:image_input/image_input.dart';
@@ -17,7 +18,7 @@ class AccountSetup3 extends StatefulWidget {
 }
 
 class _AccountSetup3State extends State<AccountSetup3> {
-  XFile? profileImage = XFile('assets/images/placeholder-image.png');
+  XFile? profileImage;
   bool _isUploading = false;
   Uint8List? imageData;
 
@@ -73,7 +74,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
         } catch (e) {
           if (!context.mounted) return;
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Image upload failed: ${e.toString()}')),
+            MySnackBars.failureSnackBar(),
           );
         }
       }
@@ -82,7 +83,7 @@ class _AccountSetup3State extends State<AccountSetup3> {
     } 
     catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Registration failed: ${e.toString()}')),
+        MySnackBars.failureSnackBar(),
       );
     } 
     finally {

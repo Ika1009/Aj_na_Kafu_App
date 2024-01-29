@@ -119,31 +119,31 @@ class _MessagesScreenState extends State<MessagesScreen> {
   Widget _buildMessageItem(DocumentSnapshot document) {
     Map<String, dynamic> data = document.data() as Map<String, dynamic>;
 
-    var alignment = (data['senderId'] == _firebaseAuth.currentUser!.uid)
+    bool userOrSender = data['senderId'] == _firebaseAuth.currentUser!.uid;
+
+    var alignment = (userOrSender)
         ? Alignment.centerRight
         : Alignment.centerLeft;
 
     return Container(
       alignment: alignment,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
         child: Column(
           crossAxisAlignment: 
-              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+              (userOrSender)
                   ? CrossAxisAlignment.end
                   : CrossAxisAlignment.start,
           mainAxisAlignment: 
-              (data['senderId'] == _firebaseAuth.currentUser!.uid)
+              (userOrSender)
                   ? MainAxisAlignment.end
                   : MainAxisAlignment.start,
           children: [
-            Text(data['senderName']),
-            const SizedBox(height: 5),
             MessageBubble(
               message: data['message'],
               color: (data['senderId'] == _firebaseAuth.currentUser!.uid)
                   ? secondaryColor
-                  : Colors.grey,
+                  : const Color(0xFFF5F5F5),
             ),
           ],
         ),
@@ -163,10 +163,10 @@ class _MessagesScreenState extends State<MessagesScreen> {
               keyboardType: TextInputType.multiline,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: const Color(0xFFD6E6DA), // dzektor da doda boju i da se zameni
+                fillColor: const Color(0xFFF5F5F5),
                 hintText: "Ukucaj poruku...",
                 hintStyle: const TextStyle(
-                  color: Color(0xFF757575), // dzektor da doda boju i da se zameni
+                  color: Color(0xFF757575),
                   fontWeight: FontWeight.w600,
                 ),
                 border: OutlineInputBorder(

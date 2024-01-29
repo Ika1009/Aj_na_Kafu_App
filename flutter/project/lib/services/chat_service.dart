@@ -20,7 +20,7 @@ class ChatService extends ChangeNotifier {
     // Create a new message
     Message newMessage = Message(
       senderId: currentUserId,
-      senderName: "${currentUserData.firstName} ${currentUserData.lastName}",
+      senderName: currentUserData.firstName,
       receiverId: receiverId,
       timestamp: Timestamp.now(),
       message: message,
