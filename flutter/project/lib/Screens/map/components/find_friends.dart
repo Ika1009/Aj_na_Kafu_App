@@ -1,7 +1,5 @@
 import 'dart:async';
-import 'dart:ui';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:http/http.dart' as http;
 import 'package:project/constants.dart';
 import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
@@ -32,8 +30,7 @@ class _FindFriendsState extends State<FindFriends> {
     zoom: 14.4746,
   );
 
-  List<MarkerData> _customMarkers = [];
-  late List<MarkerData> _customMarkers2;
+  late List<MarkerData> _customMarkers;
 
   // Function to initialize the current user model
   Future<void> initCurrentUserModel() async {
@@ -82,12 +79,12 @@ class _FindFriendsState extends State<FindFriends> {
     userService.toggleCurrentUserStatus();
   }
 
-  _customMarker(String imagePath, Color color) {
+  _customMarker(String imagePath, bool status) {
     return Stack(
       children: [
         Icon(
           Icons.add_location,
-          color: color,
+          color: Colors.white,
           size: 50,
         ),
         Positioned(
@@ -123,7 +120,7 @@ class _FindFriendsState extends State<FindFriends> {
             markerId: const MarkerId('id-5'),
             position: LatLng(latitude, longitude)
           ),
-          child: _customMarker(user['imageUrl'], Colors.white)
+          child: _customMarker(user['imageUrl'], user['status'])
         );
 
         markersSet.add(marker);
@@ -146,12 +143,6 @@ class _FindFriendsState extends State<FindFriends> {
     ));
     initCurrentUserModel();
     initMarkers();
-    _customMarkers2 = [
-      MarkerData(
-        marker:
-            const Marker(markerId: MarkerId('id-5'), position: LatLng(43.3209, 21.8958)),
-        child: _customMarker("https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png", Colors.white)),
-    ];
   }
 
   @override
@@ -169,7 +160,7 @@ class _FindFriendsState extends State<FindFriends> {
         child: Stack(
           children: [
             CustomGoogleMapMarkerBuilder(
-              customMarkers: _customMarkers2,
+              customMarkers: _customMarkers,
               builder: (BuildContext context, Set<Marker>? markers) {
                 if (markers == null) {
                   return const Center(child: CircularProgressIndicator(color: secondaryColor));
