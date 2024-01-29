@@ -81,7 +81,7 @@ class _AccountSetup2State extends State<AccountSetup2> {
           const SizedBox(height: defaultPadding),
           TextFormField(
             controller: descriptionController,
-            maxLines: null,
+            maxLines: 3,
             keyboardType: TextInputType.multiline,
             textInputAction: TextInputAction.next,
             cursorColor: primaryColor,
