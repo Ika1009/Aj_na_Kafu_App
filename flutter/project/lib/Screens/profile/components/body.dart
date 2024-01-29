@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/constants.dart';
-import 'package:project/models/search_tile.dart';
-import 'package:project/screens/profile/user_profile.dart';
-import 'package:project/screens/search/components/search_card.dart';
+import 'package:project/models/request_tile.dart';
+import 'package:project/screens/profile/components/request_card.dart';
 import 'package:project/services/users_manager.dart';
 
 class RequestsBody extends StatefulWidget {
@@ -17,6 +16,7 @@ class _SearchBodyState extends State<RequestsBody> {
   TextEditingController searchController = TextEditingController();
   List<Map<String, dynamic>> allUsers = [];
   List<Map<String, dynamic>> filteredUsers = [];
+  User? currentUser = FirebaseAuth.instance.currentUser;
   bool isLoading = true;
 
   @override
@@ -30,8 +30,8 @@ class _SearchBodyState extends State<RequestsBody> {
 
   Future<void> fetchAllUsers() async {
     try {
-      allUsers = await UsersManager().getAllUsers();
-      filteredUsers = [];
+      allUsers = await UsersManager().getFriendRequests(currentUser!.uid);
+      filteredUsers = allUsers;
     } catch (e) {
       //print('Failed to fetch users: $e');
     } finally {
@@ -44,7 +44,7 @@ class _SearchBodyState extends State<RequestsBody> {
   void filterUsers(String query) {
     if (query.isEmpty) {
       setState(() {
-        filteredUsers = [];
+        filteredUsers = allUsers;
       });
     } else {
       setState(() {
@@ -128,30 +128,14 @@ class _SearchBodyState extends State<RequestsBody> {
   }
 
   Widget _buildUserListItem(BuildContext context, Map<String, dynamic> users, User currentUser) {
-    var searchData = Search(
+    var requestData = FriendRequest(
       username: users['username'],
       fullName: "${users['firstName']} ${users['lastName']}",
       image: "${users['imageUrl']}",
     );
 
-    return SearchCard(
-      search: searchData, 
-      press: () {   
-       Navigator.push(
-         context,
-         MaterialPageRoute(
-           builder: (context) => UserProfileScreen(
-             userFirstName: users['firstName'],
-             userLastName: users['lastName'],
-             userUsername: users['username'],
-             userDescription: users['description'],
-             userDateOfBirth: users['dateOfBirth'],
-             userImage: users['imageUrl'],
-             userID: users['uid'],
-           ),
-         ),
-       );
-      },
+    return RequestCard(
+      request: requestData,
     );
   }
 }

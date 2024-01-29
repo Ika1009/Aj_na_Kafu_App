@@ -80,24 +80,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 12, 0, 0),
                 child: Text(
                   currentUser?.username ?? "Korisnik",
+                  style: const TextStyle(
+                    fontSize: 16,
+                    color: primaryColor,
+                  ),
                 ),
               ),
               Padding(
                 padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 5),
                 child: Text(
                   "${currentUser?.firstName ?? "Ime"} ${currentUser?.lastName ?? "Prezime"}",
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                child: Text(
-                  "8",
-                ),
-              ),
-              const Padding(
-                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
-                child: Text(
-                  "prijatelja",
+                  style: const TextStyle(
+                    fontSize: 18,
+                    color: primaryColor,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
               const Divider(
