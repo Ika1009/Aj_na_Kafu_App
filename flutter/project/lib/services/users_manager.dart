@@ -55,6 +55,36 @@ class UsersManager {
     return usersList;
   }
 
+    // Method to get all friend requests of the current user
+  Future<List<Map<String, dynamic>>> getFriendRequests(String currentUserUid) async {
+    List<Map<String, dynamic>> friendRequests = [];
+
+    // Retrieve the current user's document to get their received requests
+    DocumentSnapshot userDoc = await _firestore.collection('users').doc(currentUserUid).get();
+    if (!userDoc.exists) {
+      throw Exception("Korisnik nije pronadjen");
+    }
+
+    var userData = userDoc.data() as Map<String, dynamic>;
+    List<String> receivedRequestsUids = List<String>.from(userData['receivedRequests'] ?? []);
+
+    // Fetch each user's details who sent a friend request
+    for (String uid in receivedRequestsUids) {
+      try {
+        DocumentSnapshot requestUserDoc = await _firestore.collection('users').doc(uid).get();
+        if (requestUserDoc.exists) {
+          Map<String, dynamic> requestUserData = requestUserDoc.data() as Map<String, dynamic>;
+          friendRequests.add(requestUserData);
+        }
+      } catch (e) {
+        // Handle any errors here
+        //print('Error fetching request user data: $e');
+      }
+    }
+
+    return friendRequests;
+  }
+
   // Method to send a friend request
   Future<void> sendFriendRequest(String requesterUid, String targetUid) async {
     if (requesterUid.isEmpty || targetUid.isEmpty) {
