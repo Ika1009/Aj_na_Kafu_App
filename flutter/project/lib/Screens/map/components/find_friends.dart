@@ -80,80 +80,77 @@ class _FindFriendsState extends State<FindFriends> {
     userService.toggleCurrentUserStatus();
   }
 
-  _customMarker(Map<String, dynamic> user) {
-    return GestureDetector(
-      onTap: () {
-        print("tapnuo");
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => UserProfileScreen(
-              userFirstName: user['firstName'],
-              userLastName: user['lastName'],
-              userUsername: user['username'],
-              userDescription: user['description'],
-              userDateOfBirth: user['dateOfBirth'],
-              userImage: user['imageUrl'],
-              userID: user['uid'],
-            ),
-          ),
-        );
-      },
-      child: Stack(
-        children: [
-          Icon(
-            Icons.add_location,
-            color: user['status'] ? Colors.lightGreen : Colors.red,
-            size: 70,
-          ),
-          Positioned(
-            left: 20,
-            top: 10,
-            child: Container(
-              width: 30,
-              height: 30,
-              decoration: BoxDecoration(
-                  color: user['status'] ? Colors.lightGreen : Colors.red, borderRadius: BorderRadius.circular(10)),
-              child: Center(
-                child: CircleAvatar(
-                  radius: 15,
-                  backgroundImage: NetworkImage(user['imageUrl']),
-                ),
+  Widget _customMarker(Map<String, dynamic> user) {
+    return Stack(
+      children: [
+        Icon(
+          Icons.add_location,
+          color: user['status'] ? Colors.lightGreen : Colors.red,
+          size: 70,
+        ),
+        Positioned(
+          left: 20,
+          top: 10,
+          child: Container(
+            width: 30,
+            height: 30,
+            decoration: BoxDecoration(
+                color: user['status'] ? Colors.lightGreen : Colors.red, borderRadius: BorderRadius.circular(10)),
+            child: Center(
+              child: CircleAvatar(
+                radius: 15,
+                backgroundImage: NetworkImage(user['imageUrl']),
               ),
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
+
 
   // Utility function to create markers from a list of user data
   Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, List<MarkerData> markersSet) async {
     for (var user in usersData) {
       try {
-        // Continue to create the marker with whatever icon we have (custom or default)
         final double latitude = (user['location']['latitude'] as num).toDouble();
         final double longitude = (user['location']['longitude'] as num).toDouble();
-        
+
         final marker = MarkerData(
           marker: Marker(
             markerId: MarkerId(user['uid']),
-            position: LatLng(latitude, longitude)
+            position: LatLng(latitude, longitude),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => UserProfileScreen(
+                    userFirstName: user['firstName'],
+                    userLastName: user['lastName'],
+                    userUsername: user['username'],
+                    userDescription: user['description'],
+                    userDateOfBirth: user['dateOfBirth'],
+                    userImage: user['imageUrl'],
+                    userID: user['uid'],
+                  ),
+                ),
+              );
+            },
           ),
           child: _customMarker(user),
         );
 
         markersSet.add(marker);
       } catch (e) {
-        //print('Error creating marker for user: ${user['uid']}. Error: $e');
+        // Handle exceptions here
       }
     }
 
-    // Update the UI if the widget is still mounted
     if (mounted) {
       setState(() {});
     }
   }
+
 
   @override
   void initState() {
