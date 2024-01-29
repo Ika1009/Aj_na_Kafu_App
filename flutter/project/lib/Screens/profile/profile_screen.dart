@@ -1,10 +1,10 @@
-//import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/backgrounds/background.dart';
 import 'package:project/components/signin_check.dart';
 import 'package:project/constants.dart';
 import 'package:project/models/user_model.dart';
+import 'package:project/screens/profile/friend_requests.dart';
 import 'package:project/services/auth_service.dart';
 import 'package:project/services/current_user_service.dart';
 import 'package:provider/provider.dart';
@@ -42,8 +42,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final authService = Provider.of<AuthService>(context);
-    return Background(
-      child: SafeArea(
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FriendRequests()),
+          );
+        },
+        backgroundColor: primaryColor,
+        child: const Icon(Icons.person_add), 
+      ),
+      body: Background(
+        child: SafeArea(
           top: true,
           child: Column(
             mainAxisSize: MainAxisSize.max,
@@ -72,9 +83,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                padding: const EdgeInsetsDirectional.fromSTEB(0, 4, 0, 5),
                 child: Text(
                   "${currentUser?.firstName ?? "Ime"} ${currentUser?.lastName ?? "Prezime"}",
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                child: Text(
+                  "8",
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                child: Text(
+                  "prijatelja",
                 ),
               ),
               const Divider(
@@ -210,6 +233,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ],
           ),
         ),
-      );
+      ),
+    );
   }
 }

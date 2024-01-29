@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:project/Screens/chats/chats_screen.dart';
 import 'package:project/Screens/map/map_screen.dart';
+import 'package:project/screens/profile/friend_requests.dart';
 import 'package:project/screens/profile/user_profile.dart';
 import 'package:project/screens/search/search_screen.dart';
 import 'package:project/screens/setup/setup_screen_2.dart';
@@ -24,5 +25,6 @@ final Map<String, WidgetBuilder> routes = {
   AccountSetupScreen.routeName: (context) => const AccountSetupScreen(),
   MapScreen.routeName: (context) => const MapScreen(),
   SearchScreen.routeName: (context) => const SearchScreen(),
+  FriendRequests.routeName: (context) => const FriendRequests(),
   UserProfileScreen.routeName:(context) => const UserProfileScreen(userFirstName: "Ime", userLastName: "Prezime", userUsername: "Korisnik", userDescription: "Opis", userDateOfBirth: "01-January-2000", userImage: "https://bonanza.mycpanel.rs/ajnakafu/images/profile_basic.png", userID: "123")
 };
