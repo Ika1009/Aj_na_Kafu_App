@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:project/models/user_data.dart';
+import 'package:project/models/user_model.dart';
 import 'package:project/services/auth_service.dart';
 
 class UserService {
@@ -17,7 +18,7 @@ class UserService {
   }
 
   // Retrieve user data from Firestore and parse it into a UserData object
-  Future<UserData?> getCurrentUserData() async {
+  Future<UserModel?> getCurrentUserModel() async {
     final userId = getCurrentUserId();
     if (userId == null) {
       return null; // User not logged in
@@ -28,18 +29,7 @@ class UserService {
 
       if (userDataSnapshot.exists) {
         final userData = userDataSnapshot.data() as Map<String, dynamic>;
-        return UserData(
-          email: userData['email'] ?? '',
-          username: userData['username'] ?? '',
-          firstName: userData['firstName'] ?? '',
-          lastName: userData['lastName'] ?? '',
-          dateOfBirth: userData['dateOfBirth'] ?? '',
-          phoneNumber: userData['phoneNumber'] ?? '',
-          description: userData['description'] ?? '',
-          uid: userId,
-          imageUrl: userData['imageUrl'] ?? '',
-          friends: List<String>.from(userData['friends'] ?? []),
-        );
+        return UserModel.fromMap(userData);
       } else {
         return null; // User data not found in Firestore
       }

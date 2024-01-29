@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:project/backgrounds/background.dart';
 import 'package:project/constants.dart';
-import 'package:project/models/user_data.dart';
+import 'package:project/models/user_model.dart';
 import 'package:project/services/current_user_service.dart';
 
 class UserProfileScreen extends StatefulWidget {
@@ -33,7 +33,7 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<UserProfileScreen> {
-  UserData? currentUser;
+  UserModel? currentUser;
   Uint8List? imageData;
 
   @override
@@ -47,7 +47,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
 
   Future<void> fetchCurrentUser() async {
     UserService userService = UserService();
-    UserData? fetchedUser = await userService.getCurrentUserData();
+    UserModel? fetchedUser = await userService.getCurrentUserModel();
     setState(() {
       currentUser = fetchedUser;
     });
