@@ -137,4 +137,38 @@ class UsersManager {
       'sentRequests': FieldValue.arrayRemove([decliningUserUid])
     });
   }
+
+  // Method to check if two users are friends
+  Future<bool> areUsersFriends(String userUid1, String userUid2) async {
+    if (userUid1.isEmpty || userUid2.isEmpty) {
+      throw Exception('Invalid UIDs provided');
+    }
+
+    DocumentSnapshot userDoc1 = await _firestore.collection('users').doc(userUid1).get();
+    if (!userDoc1.exists) {
+      throw Exception("User $userUid1 not found");
+    }
+
+    var userData1 = userDoc1.data() as Map<String, dynamic>;
+    List<String> friendsOfUser1 = List<String>.from(userData1['friends'] ?? []);
+
+    return friendsOfUser1.contains(userUid2);
+  }
+
+  // Method to check if a friend request has been sent by a user to another user
+  Future<bool> hasSentFriendRequest(String requestingUserUid, String targetUserUid) async {
+    if (requestingUserUid.isEmpty || targetUserUid.isEmpty) {
+      throw Exception('Invalid UIDs provided');
+    }
+
+    DocumentSnapshot requestingUserDoc = await _firestore.collection('users').doc(requestingUserUid).get();
+    if (!requestingUserDoc.exists) {
+      throw Exception("User $requestingUserUid not found");
+    }
+
+    var requestingUserData = requestingUserDoc.data() as Map<String, dynamic>;
+    List<String> sentRequests = List<String>.from(requestingUserData['sentRequests'] ?? []);
+
+    return sentRequests.contains(targetUserUid);
+  }
 }
