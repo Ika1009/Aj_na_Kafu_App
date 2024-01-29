@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:custom_map_markers/custom_map_markers.dart';
 import 'package:project/models/user_model.dart';
+import 'package:project/screens/profile/user_profile.dart';
 import 'package:project/services/current_user_service.dart';
 import 'package:project/services/users_manager.dart';
 
@@ -30,7 +31,7 @@ class _FindFriendsState extends State<FindFriends> {
     zoom: 14.4746,
   );
 
-  late List<MarkerData> _customMarkers;
+  List<MarkerData> _customMarkers = [];
 
   // Function to initialize the current user model
   Future<void> initCurrentUserModel() async {
@@ -79,31 +80,50 @@ class _FindFriendsState extends State<FindFriends> {
     userService.toggleCurrentUserStatus();
   }
 
-  _customMarker(String imagePath, bool status) {
-    return Stack(
-      children: [
-        Icon(
-          Icons.add_location,
-          color: Colors.white,
-          size: 50,
-        ),
-        Positioned(
-          left: 15,
-          top: 8,
-          child: Container(
-            width: 20,
-            height: 20,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(10)),
-            child: Center(
-              child: CircleAvatar(
-                radius: 28,
-                backgroundImage: NetworkImage(imagePath),
-              ),
+  _customMarker(Map<String, dynamic> user) {
+    return GestureDetector(
+      onTap: () {
+        print("tapnuo");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserProfileScreen(
+              userFirstName: user['firstName'],
+              userLastName: user['lastName'],
+              userUsername: user['username'],
+              userDescription: user['description'],
+              userDateOfBirth: user['dateOfBirth'],
+              userImage: user['imageUrl'],
+              userID: user['uid'],
             ),
           ),
-        )
-      ],
+        );
+      },
+      child: Stack(
+        children: [
+          Icon(
+            Icons.add_location,
+            color: user['status'] ? Colors.lightGreen : Colors.red,
+            size: 70,
+          ),
+          Positioned(
+            left: 20,
+            top: 10,
+            child: Container(
+              width: 30,
+              height: 30,
+              decoration: BoxDecoration(
+                  color: user['status'] ? Colors.lightGreen : Colors.red, borderRadius: BorderRadius.circular(10)),
+              child: Center(
+                child: CircleAvatar(
+                  radius: 15,
+                  backgroundImage: NetworkImage(user['imageUrl']),
+                ),
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -114,13 +134,13 @@ class _FindFriendsState extends State<FindFriends> {
         // Continue to create the marker with whatever icon we have (custom or default)
         final double latitude = (user['location']['latitude'] as num).toDouble();
         final double longitude = (user['location']['longitude'] as num).toDouble();
-
+        
         final marker = MarkerData(
           marker: Marker(
-            markerId: const MarkerId('id-5'),
+            markerId: MarkerId(user['uid']),
             position: LatLng(latitude, longitude)
           ),
-          child: _customMarker(user['imageUrl'], user['status'])
+          child: _customMarker(user),
         );
 
         markersSet.add(marker);
@@ -168,6 +188,7 @@ class _FindFriendsState extends State<FindFriends> {
                 return GoogleMap(
                   initialCameraPosition: _kGooglePlex,
                   markers: markers,
+                  myLocationButtonEnabled: true,
                   zoomControlsEnabled: false,
                   onMapCreated: (GoogleMapController controller) {
                     controller.setMapStyle(MapStyle().retro);
