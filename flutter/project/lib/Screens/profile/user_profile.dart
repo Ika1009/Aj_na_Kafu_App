@@ -4,6 +4,7 @@ import 'package:project/backgrounds/background.dart';
 import 'package:project/constants.dart';
 import 'package:project/models/user_model.dart';
 import 'package:project/services/current_user_service.dart';
+import 'package:project/services/users_manager.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static String routeName = "/user_profile";
@@ -33,14 +34,21 @@ class UserProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<UserProfileScreen> {
+  //Koriscenje konstatni kao pravilo dobre prakse
+  static const String startChat = "Započni ćaskanje";
+  static const String addFriend = "Dodaj prijatelja";
+  static const String requestSent = "Poslat zahtev";
+  static const String acceptRequest = "Prihvati zahtev";
+
   UserModel? currentUser;
-  Uint8List? imageData;
+  String relationshipStatus = "Dodaj prijatelja";
+  UsersManager usersManager = UsersManager();
 
   @override
   void initState() {
     super.initState();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, 
+      statusBarColor: Colors.transparent,
     ));
     fetchCurrentUser();
   }
@@ -48,8 +56,79 @@ class _ProfileScreenState extends State<UserProfileScreen> {
   Future<void> fetchCurrentUser() async {
     UserService userService = UserService();
     UserModel? fetchedUser = await userService.getCurrentUserModel();
+    if (fetchedUser != null) {
+      determineRelationshipStatus(fetchedUser.uid, widget.userID);
+    }
     setState(() {
       currentUser = fetchedUser;
+    });
+  }
+
+  Future<void> determineRelationshipStatus(String currentUserId, String viewedUserId) async {
+    // Check if they are friends
+    bool areFriends = await usersManager.areUsersFriends(currentUserId, viewedUserId);
+    if (areFriends) {
+      setState(() {
+        relationshipStatus = startChat;
+      });
+      return;
+    }
+
+    // Check if current user has sent a friend request
+    bool hasSentRequest = await usersManager.hasSentFriendRequest(currentUserId, viewedUserId);
+    if (hasSentRequest) {
+      setState(() {
+        relationshipStatus = requestSent;
+      });
+      return;
+    }
+
+    // Check if current user has received a friend request
+    bool hasReceivedRequest = await usersManager.hasSentFriendRequest(viewedUserId, currentUserId);
+    if (hasReceivedRequest) {
+      setState(() {
+        relationshipStatus = acceptRequest;
+      });
+      return;
+    }
+
+    setState(() {
+      relationshipStatus = addFriend;
+    });
+  }
+  void handleRelationshipAction() async {
+    String currentUserId = currentUser?.uid ?? "";
+    String viewedUserId = widget.userID;
+
+    switch (relationshipStatus) {
+      case startChat:
+        // Code to start chatting
+        break;
+
+      case addFriend:
+        // Send a friend request
+        await usersManager.sendFriendRequest(currentUserId, viewedUserId);
+        updateRelationshipStatus(requestSent);
+        break;
+
+      case requestSent:
+        // Handle already sent request (maybe cancel request)
+        break;
+
+      case acceptRequest:
+        // Accept the friend request
+        await usersManager.acceptFriendRequest(viewedUserId, currentUserId);
+        updateRelationshipStatus(startChat);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  void updateRelationshipStatus(String newStatus) {
+    setState(() {
+      relationshipStatus = newStatus;
     });
   }
   
@@ -146,10 +225,10 @@ class _ProfileScreenState extends State<UserProfileScreen> {
                   MaterialPageRoute(builder: (context) => const SignInCheck()),
                 );*/
               },
-              child: const Text.rich(
+              child:  Text.rich(
                 TextSpan(
-                  text: "Dodaj prijatelja", // ovde treba u zavisnosti da li ste prijatlji da pise : dodaj prijatelja, poslat zahtev, prijatelji
-                  style: TextStyle(
+                    text: relationshipStatus, // ovde treba u zavisnosti da li ste prijatlji da pise : dodaj prijatelja, poslat zahtev, prijatelji
+                    style: const TextStyle(
                     color: primaryColor,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
