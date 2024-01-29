@@ -41,14 +41,14 @@ class MySnackBars {
     );
   }
 
-  static SnackBar warningSnackBar() {
+  static SnackBar warningSnackBar(String title, String message) {
     return SnackBar(
       elevation: 0,
       behavior: SnackBarBehavior.floating,
       backgroundColor: Colors.transparent,
       content: AwesomeSnackbarContent(
-        title: 'Upozorenje!',
-        message: "Proverite unos podataka",
+        title: title,
+        message: message,
         contentType: ContentType.warning,
       ),
     );

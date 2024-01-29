@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/components/snackbars.dart';
 import 'package:project/models/user_data.dart';
 
 import '../../../constants.dart';
@@ -119,11 +120,51 @@ class _AccountSetup2State extends State<AccountSetup2> {
                 ),
               ),
             ),
-            onPressed: ()  {
-              widget.userData.phoneNumber = phoneNumberController.text;
-              widget.userData.description = descriptionController.text;
-              widget.onNextPage(widget.userData);
+            onPressed: () {
+              String phoneNumber = phoneNumberController.text.trim();
+              String description = descriptionController.text.trim();
+
+              // Regular expression to check for valid phone number format
+              RegExp validPhoneNumber = RegExp(r'^(?:\+381|381|06)\d{6,}$');
+
+              try {
+                // Check for valid phone number format and prefix
+                if (!validPhoneNumber.hasMatch(phoneNumber)) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MySnackBars.warningSnackBar(
+                      "Nevažeći broj telefona",
+                      "Broj telefona mora početi sa '+381', '381' ili '06', i sadržati barem 7 cifara.",
+                    ),
+                  );
+                  return; // Stop further execution
+                }
+
+                // Check for a valid description (you can customize this check based on your requirements)
+                if (description.isEmpty) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    MySnackBars.warningSnackBar(
+                      "Opis je obavezan",
+                      "Molimo vas da unesete opis",
+                    ),
+                  );
+                  return; // Stop further execution
+                }
+
+                // Proceed with further actions
+                widget.userData.phoneNumber = phoneNumber;
+                widget.userData.description = description;
+                widget.onNextPage(widget.userData);
+              } catch (e) {
+                // Handle exceptions if necessary
+                ScaffoldMessenger.of(context).showSnackBar(
+                  MySnackBars.warningSnackBar(
+                    "Došlo je do greške",
+                    "Molimo vas da pokušate ponovo kasnije",
+                  ),
+                );
+              }
             },
+
             child: const Text(
               "Nastavi",
               style: TextStyle(
