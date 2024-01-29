@@ -132,6 +132,7 @@ class _SearchBodyState extends State<RequestsBody> {
       username: users['username'],
       fullName: "${users['firstName']} ${users['lastName']}",
       image: "${users['imageUrl']}",
+      id: users['uid'],
     );
 
     return RequestCard(
