@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:project/models/request_tile.dart';
+import 'package:project/services/users_manager.dart';
 
 import '../../../constants.dart';
 
@@ -13,6 +15,7 @@ class RequestCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    User? currentUser = FirebaseAuth.instance.currentUser;
     return InkWell(
       child: Column(
         children: [
@@ -58,7 +61,7 @@ class RequestCard extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-
+                    UsersManager().declineFriendRequest(currentUser!.uid, request.id);
                   },
                   child: const Icon(
                     Icons.close,
@@ -69,7 +72,7 @@ class RequestCard extends StatelessWidget {
                 const SizedBox(width: 15),
                 GestureDetector(
                   onTap: () {
-                    
+                    UsersManager().acceptFriendRequest(currentUser!.uid, request.id);
                   },
                   child: const Icon(
                     Icons.check,
