@@ -7,6 +7,7 @@ import 'package:project/models/map_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:project/models/user_model.dart';
 import 'package:project/services/current_user_service.dart';
 import 'package:project/services/users_manager.dart';
 
@@ -20,10 +21,8 @@ class FindFriends extends StatefulWidget {
 class _FindFriendsState extends State<FindFriends> {
   bool showFriends = true;
   final UsersManager usersManager = UsersManager(); 
-  User? currentUser = FirebaseAuth.instance.currentUser;
-  Map<String, dynamic> currentUserData = {
-    'status': false,  // Default status value
-  };
+  UserModel? currentUserModel;
+
   final Set<Marker> _allUserMarkers = {};
   final Set<Marker> _friendMarkers = {};
 
@@ -34,18 +33,25 @@ class _FindFriendsState extends State<FindFriends> {
 
   Set<Marker> _markers = {};
 
+  // Function to initialize the current user model
+  Future<void> initCurrentUserModel() async {
+    UserService userService = UserService();
+    currentUserModel = await userService.getCurrentUserModel();
+    setState(() {
+    });
+  }
   Future<void> initMarkers() async {
     try {
       // Fetch all users and create markers for them
       List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
-      var currentUserData = allUsers.firstWhere((user) => user['uid'] == currentUser?.uid);
+      var currentUserData = currentUserModel!.toMap();
       await createMarkersFromUsers(allUsers, _allUserMarkers);
 
       // Fetch friends and create markers for them
-      List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(currentUser!.uid);
+      List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(FirebaseAuth.instance.currentUser!.uid);
       
       // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
-      if (!friends.any((friend) => friend['uid'] == currentUser?.uid)) {
+      if (!friends.any((friend) => friend['uid'] == FirebaseAuth.instance.currentUser?.uid)) {
         friends.add(currentUserData);
       }
       await createMarkersFromUsers(friends, _friendMarkers);
@@ -68,7 +74,7 @@ class _FindFriendsState extends State<FindFriends> {
 
   void changeUsersAvailabilityStatus() {
     setState(() {
-      currentUserData['status'] = !currentUserData['status'];
+      currentUserModel!.status = !currentUserModel!.status;
     });
     UserService userService = UserService();
     userService.toggleCurrentUserStatus();
@@ -121,13 +127,14 @@ class _FindFriendsState extends State<FindFriends> {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent, // Transparent status bar
     ));
+    initCurrentUserModel();
     initMarkers();
   }
 
   @override
   Widget build(BuildContext context) {
     // Check if currentUser is null and handle accordingly
-    if (currentUser == null) {
+    if (FirebaseAuth.instance.currentUser == null || currentUserModel == null){
       // Return a widget that handles this case, like a login prompt or an error message
       return const Center(
         child: Text('Korisnik nije prijavljen'),
@@ -208,7 +215,7 @@ class _FindFriendsState extends State<FindFriends> {
                 ),
                 onPressed: changeUsersAvailabilityStatus, // Hook up the toggle function here
                 child: Text(
-                  currentUserData['status'] ? "Otkaži izlazak" : "Aj Na Kafu", // Text changes based on `isAvailable`
+                  currentUserModel!.status ? "Otkaži izlazak" : "Aj Na Kafu", // Text changes based on `isAvailable`
                   style: const TextStyle(
                     color: backgroundColor,
                     fontWeight: FontWeight.w600,
