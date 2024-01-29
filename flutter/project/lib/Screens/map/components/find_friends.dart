@@ -215,7 +215,7 @@ class _FindFriendsState extends State<FindFriends> {
                 ),
                 onPressed: changeUsersAvailabilityStatus, // Hook up the toggle function here
                 child: Text(
-                  currentUserModel!.status ? "Otkaži izlazak" : "Aj Na Kafu", // Text changes based on `isAvailable`
+                  currentUserModel!.status ? "Završi izlazak" : "Aj Na Kafu", // Tekst se menja na osnovu statusa
                   style: const TextStyle(
                     color: backgroundColor,
                     fontWeight: FontWeight.w600,
