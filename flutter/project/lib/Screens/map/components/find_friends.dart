@@ -25,6 +25,7 @@ class _FindFriendsState extends State<FindFriends> {
 
   final List<MarkerData> _allUserMarkers = [];
   final List<MarkerData> _friendMarkers = [];
+  late MarkerData currentUserMarker;
 
   static const CameraPosition _kGooglePlex = CameraPosition(
     target: LatLng(43.3209, 21.8958),
@@ -42,19 +43,20 @@ class _FindFriendsState extends State<FindFriends> {
   }
   Future<void> initMarkers() async {
     try {
+      var currentUserData = currentUserModel!.toMap();
+      await createMarkerForCurrentUser(currentUserData);
+
       // Fetch all users and create markers for them
       List<Map<String, dynamic>> allUsers = await usersManager.getAllUsers();
-      var currentUserData = currentUserModel!.toMap();
       await createMarkersFromUsers(allUsers, _allUserMarkers);
 
       // Fetch friends and create markers for them
       List<Map<String, dynamic>> friends = await usersManager.getFriendsOfUser(FirebaseAuth.instance.currentUser!.uid);
       
-      // Add the current user's UID to the friends list if it's not already there to ensure their marker is created
-      if (!friends.any((friend) => friend['uid'] == FirebaseAuth.instance.currentUser?.uid)) {
-        friends.add(currentUserData);
-      }
       await createMarkersFromUsers(friends, _friendMarkers);
+      
+      _allUserMarkers.add(currentUserMarker);
+      _friendMarkers.add(currentUserMarker);
 
       // Set initial markers to display friends including the current user
       setState(() {
@@ -108,10 +110,50 @@ class _FindFriendsState extends State<FindFriends> {
     );
   }
 
+  // Utility function to create and append a marker for the current user
+  Future<void> createMarkerForCurrentUser(Map<String, dynamic> currentUser) async {
+    try {
+      final double latitude = (currentUser['location']['latitude'] as num).toDouble();
+      final double longitude = (currentUser['location']['longitude'] as num).toDouble();
+
+      currentUserMarker = MarkerData(
+        marker: Marker(
+          markerId: MarkerId(currentUser['uid']),
+          position: LatLng(latitude, longitude),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => UserProfileScreen(
+                  userFirstName: currentUser['firstName'],
+                  userLastName: currentUser['lastName'],
+                  userUsername: currentUser['username'],
+                  userDescription: currentUser['description'],
+                  userDateOfBirth: currentUser['dateOfBirth'],
+                  userImage: currentUser['imageUrl'],
+                  userID: currentUser['uid'],
+                ),
+              ),
+            );
+          },
+        ),
+        child: _customMarker(currentUser),
+      );
+
+      _allUserMarkers.add(currentUserMarker);
+
+      if (mounted) {
+        setState(() {});
+      }
+    } catch (e) {
+      // Handle exceptions here
+    }
+  }
 
   // Utility function to create markers from a list of user data
   Future<void> createMarkersFromUsers(List<Map<String, dynamic>> usersData, List<MarkerData> markersSet) async {
     for (var user in usersData) {
+      if(user['uid'] == FirebaseAuth.instance.currentUser!.uid) continue; // Skip the current user
       try {
         final double latitude = (user['location']['latitude'] as num).toDouble();
         final double longitude = (user['location']['longitude'] as num).toDouble();
