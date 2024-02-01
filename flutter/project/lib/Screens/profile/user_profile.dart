@@ -219,7 +219,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
             ),
             GestureDetector(
               onTap: () {
-                handleRelationshipAction()
+                handleRelationshipAction();
               },
               child:  Text.rich(
                 TextSpan(
