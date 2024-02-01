@@ -219,12 +219,7 @@ class _ProfileScreenState extends State<UserProfileScreen> {
             ),
             GestureDetector(
               onTap: () {
-                /*authService.signOut(); // umesto sign out treba send friend request
-                if (!context.mounted) return;
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const SignInCheck()),
-                );*/
+                handleRelationshipAction()
               },
               child:  Text.rich(
                 TextSpan(
