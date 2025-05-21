@@ -2,9 +2,13 @@
 
 **Aj na Kafu** is a dynamic, user-friendly app built with Flutter for the front-end and Firebase for most of the backend functionalities, supplemented by a PHP endpoint specifically for image handling. It's designed to foster social connections in a novel way: by simplifying the process of organizing spontaneous coffee meetups and outdoor adventures. Our mission is to make socializing effortless and safe, helping users create lasting memories. 🚀
 
+![Promo Image](./promo0.png)
+
 ## App Description
 
 "Aj na Kafu" translates to "Let's go for coffee", embodying the spirit of easy, spontaneous planning. This app is perfect for those looking to quickly catch up with friends or meet new people in a relaxed setting. Whether it's a leisurely coffee chat or an impromptu outdoor excursion, Aj na Kafu is your go-to for casual socializing.
+
+![Promo Image](./promo1.png)
 
 ### Key Features 🚀
 
@@ -28,12 +32,16 @@
 
 #### Efficient Image Handling 🖼️
 - **PHP Endpoint for Images:** A dedicated PHP endpoint efficiently manages image uploads and processing, seamlessly integrating with the Firebase database for storage and retrieval.
+- 
+![Promo Image](./promo2.png)
 
 ## Development Stack 🛠️
 
 - **Flutter:** A robust framework for sleek, responsive front-end design.
 - **Firebase:** A comprehensive suite for backend services including authentication, database, and location tracking.
 - **PHP:** A single endpoint for specialized image handling tasks, ensuring optimal performance and scalability.
+
+![Promo Image](./promo3.png)
 
 ## Join Our Community 🤝
 
